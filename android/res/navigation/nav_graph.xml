@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/FirstFragment">
+
+    <fragment
+        android:id="@+id/FirstFragment"
+        android:name="com.newgbaxl.blastmaze.FirstFragment"
+        android:label="@string/first_fragment_label"
+        tools:layout="@layout/fragment_first">
+
+        <action
+            android:id="@+id/action_FirstFragment_to_store"
+            app:destination="@id/store" />
+        <action
+            android:id="@+id/action_FirstFragment_to_settings"
+            app:destination="@id/settings" />
+        <action
+            android:id="@+id/action_FirstFragment_to_gameView"
+            app:destination="@id/gameView" />
+    </fragment>
+    <fragment
+        android:id="@+id/SecondFragment"
+        android:name="com.newgbaxl.blastmaze.SecondFragment"
+        android:label="@string/second_fragment_label"
+        tools:layout="@layout/fragment_second"/>
+    <fragment android:id="@+id/placeholder" />
+    <fragment
+        android:id="@+id/store"
+        android:name="com.newgbaxl.blastmaze.Store"
+        android:label="fragment_store"
+        tools:layout="@layout/fragment_store" >
+        <action
+            android:id="@+id/action_store_to_FirstFragment"
+            app:destination="@id/FirstFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/settings"
+        android:name="com.newgbaxl.blastmaze.Settings"
+        android:label="fragment_settings"
+        tools:layout="@layout/fragment_settings" >
+        <action
+            android:id="@+id/action_settings_to_FirstFragment"
+            app:destination="@id/FirstFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/gameView"
+        android:name="com.newgbaxl.blastmaze.GameView"
+        android:label="fragment_game_view"
+        tools:layout="@layout/fragment_game_view" >
+        <action
+            android:id="@+id/action_gameView_to_FirstFragment"
+            app:destination="@id/FirstFragment" />
+    </fragment>
+</navigation>
