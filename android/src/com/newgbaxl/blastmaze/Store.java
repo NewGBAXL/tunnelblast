@@ -5,11 +5,14 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
+import androidx.viewbinding.ViewBinding;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
+import com.newgbaxl.blastmaze.Objects.CarSkin;
 import com.newgbaxl.blastmaze.databinding.FragmentSettingsBinding;
 import com.newgbaxl.blastmaze.databinding.FragmentStoreBinding;
 
@@ -30,6 +33,11 @@ public class Store extends Fragment {
     private String mParam2;
 
     private FragmentStoreBinding binding;
+
+    //move these to Persistant Storage!
+    public int currencyAmnt = 0;
+    public CarSkin carSkins[] = new CarSkin[5];
+    public int selectedSkin = 0;
 
     public Store() {
         // Required empty public constructor
@@ -60,6 +68,11 @@ public class Store extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
+        //binding.displayCurrency.setText();
+        for (int i = 0; i < carSkins.length; ++i){
+            carSkins[i] = new CarSkin(i*10, true);
+        }
     }
 
     @Override
@@ -80,5 +93,93 @@ public class Store extends Fragment {
 
             }
         });
+
+        binding.addCurrency.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //add currency
+                ++currencyAmnt;
+                binding.displayCurrency.setText("$" + currencyAmnt);
+            }
+        });
+
+        binding.arrowLeftStore.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                selectedSkin = (selectedSkin>0)?selectedSkin-1:carSkins.length-1;
+                if (carSkins[selectedSkin].unlocked){
+                    displaySkin();
+                }
+                else{
+                    onClick(view);
+                }
+            }
+        });
+
+        binding.arrowRightStore.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                selectedSkin = (selectedSkin<carSkins.length-1)?selectedSkin+1: 0;
+                if (carSkins[selectedSkin].unlocked){
+                    displaySkin();
+                }
+                else{
+                    onClick(view);
+                }
+            }
+        });
+
+        binding.purchaseStore.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (carSkins[selectedSkin].purchased){
+                    binding.purchaseStore.setText("EQUIPPED");
+                }
+                else{
+                    if (currencyAmnt >= carSkins[selectedSkin].price){
+                        currencyAmnt-=carSkins[selectedSkin].price;
+                        //binding.displayCurrency.setText(currencyAmnt);
+                        binding.purchaseStore.setText("EQUIP");
+                        carSkins[selectedSkin].purchased = true;
+                    }
+                }
+            }
+        });
+
+    }
+
+    public void displaySkin(){
+        binding.purchaseStore.setText(carSkins[selectedSkin].purchased?"PURCHASED":"PURCHASE");
+        binding.priceStore.setText("Price: $" + String.valueOf(carSkins[selectedSkin].price));
+
+        switch (selectedSkin) {
+            case 0:
+                binding.carSkinView.setImageResource(R.drawable.car1);
+                break;
+            case 1:
+                binding.carSkinView.setImageResource(R.drawable.car2);
+                break;
+            case 2:
+                binding.carSkinView.setImageResource(R.drawable.car3);
+                break;
+            case 3:
+                binding.carSkinView.setImageResource(R.drawable.car4);
+                break;
+            case 4:
+                binding.carSkinView.setImageResource(R.drawable.car5);
+                break;
+            case 5:
+                binding.carSkinView.setImageResource(R.drawable.car6);
+                break;
+            case 6:
+                binding.carSkinView.setImageResource(R.drawable.car7);
+                break;
+            case 7:
+                binding.carSkinView.setImageResource(R.drawable.car8);
+                break;
+            case 8:
+                binding.carSkinView.setImageResource(R.drawable.car9);
+                break;
+        }
     }
 }
