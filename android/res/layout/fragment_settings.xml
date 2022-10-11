@@ -7,72 +7,288 @@
     android:layout_height="match_parent"
     tools:context=".Settings">
 
-    <!-- TODO: Update blank fragment layout -->
-
-    <TextView
-        android:id="@+id/textView"
+    <ImageView
+        android:id="@+id/imageView5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="129dp"
-        android:text="@string/settings"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteX="161dp" />
-
-    <Switch
-        android:id="@+id/switch1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="208dp"
-        android:text="DebugTest"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteX="161dp" />
-
-    <Switch
-        android:id="@+id/switch2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="364dp"
-        android:text="Num cars"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteX="161dp" />
+        android:src="@drawable/icon_settings"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/button_settingsback"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="161dp"
-        android:layout_marginTop="495dp"
+        android:layout_marginTop="592dp"
         android:layout_marginEnd="162dp"
         android:text="@string/go_back"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Switch
-        android:id="@+id/switch3"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="404dp"
-        android:text="Show HUD"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteX="162dp" />
+        android:layout_marginTop="230dp"
+        android:orientation="vertical"
+        android:paddingLeft="30dp"
+        android:paddingRight="0dp"
+        app:layout_constraintTop_toTopOf="parent">
 
-    <Switch
-        android:id="@+id/switch4"
+        <TextView
+            android:id="@+id/setting1_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="17dp"
+            android:text="Timer"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/setting2_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="38dp"
+            android:text="DebugTest"
+            tools:layout_editor_absoluteX="35dp"
+            tools:layout_editor_absoluteY="345dp" />
+
+        <TextView
+            android:id="@+id/setting3_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="38dp"
+            android:text="Num cars"
+            tools:layout_editor_absoluteX="35dp"
+            tools:layout_editor_absoluteY="287dp" />
+
+        <TextView
+            android:id="@+id/setting4_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="38dp"
+            android:text="Show HUD"
+            tools:layout_editor_absoluteX="35dp"
+            tools:layout_editor_absoluteY="403dp" />
+
+        <TextView
+            android:id="@+id/setting5_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="38dp"
+            android:text="Show Store"
+            tools:layout_editor_absoluteX="35dp"
+            tools:layout_editor_absoluteY="462dp" />
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="440dp"
-        android:text="Show Store"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteX="161dp" />
+        android:layout_marginTop="230dp"
+        android:orientation="vertical"
+        android:paddingLeft="0dp"
+        android:paddingRight="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-    <Switch
-        android:id="@+id/switch5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="173dp"
-        android:text="Timer"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteX="161dp" />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="0dp"
+            android:orientation="horizontal"
+            android:paddingLeft="0dp"
+            android:paddingRight="0dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
+            <ImageButton
+                android:id="@+id/setting1_left"
+                android:layout_width="45dp"
+                android:layout_height="58dp"
+                android:scaleType="centerInside"
+                android:src="@drawable/arrow_left"
+                tools:layout_editor_absoluteX="205dp"
+                tools:layout_editor_absoluteY="229dp" />
+
+            <ImageView
+                android:id="@+id/setting1_onoff"
+                android:layout_width="117dp"
+                android:layout_height="41dp"
+                android:scaleType="centerInside"
+                android:layout_marginTop="8dp"
+                android:src="@drawable/onselected"
+                tools:layout_editor_absoluteX="250dp"
+                tools:layout_editor_absoluteY="229dp" />
+
+            <ImageButton
+                android:id="@+id/setting1_right"
+                android:layout_width="45dp"
+                android:layout_height="58dp"
+                android:scaleType="centerInside"
+                android:src="@drawable/arrow_right" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="0dp"
+            android:orientation="horizontal"
+            android:paddingLeft="0dp"
+            android:paddingRight="0dp"
+            app:layout_constraintEnd_toStartOf="@+id/imageView5"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageButton
+                android:id="@+id/setting2_left"
+                android:layout_width="45dp"
+                android:layout_height="58dp"
+                android:scaleType="centerInside"
+                android:src="@drawable/arrow_left"
+                tools:layout_editor_absoluteX="205dp"
+                tools:layout_editor_absoluteY="287dp" />
+
+            <ImageView
+                android:id="@+id/setting2_onoff"
+                android:layout_width="117dp"
+                android:layout_height="41dp"
+                android:scaleType="centerInside"
+                android:layout_marginTop="8dp"
+                android:src="@drawable/onselected"
+                tools:layout_editor_absoluteX="250dp"
+                tools:layout_editor_absoluteY="287dp" />
+
+            <ImageButton
+                android:id="@+id/setting2_right"
+                android:layout_width="45dp"
+                android:layout_height="58dp"
+                android:scaleType="centerInside"
+                android:src="@drawable/arrow_right"
+                tools:layout_editor_absoluteX="367dp"
+                tools:layout_editor_absoluteY="287dp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="0dp"
+            android:orientation="horizontal"
+            android:paddingLeft="0dp"
+            android:paddingRight="0dp"
+            app:layout_constraintEnd_toStartOf="@+id/imageView5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageButton
+                android:id="@+id/setting3_left"
+                android:layout_width="45dp"
+                android:layout_height="58dp"
+                android:scaleType="centerInside"
+                android:src="@drawable/arrow_left"
+                tools:layout_editor_absoluteX="205dp"
+                tools:layout_editor_absoluteY="345dp" />
+
+            <ImageView
+                android:id="@+id/setting3_onoff"
+                android:layout_width="117dp"
+                android:layout_height="41dp"
+                android:scaleType="centerInside"
+                android:layout_marginTop="8dp"
+                android:src="@drawable/onselected"
+                tools:layout_editor_absoluteX="250dp"
+                tools:layout_editor_absoluteY="345dp" />
+
+            <ImageButton
+                android:id="@+id/setting3_right"
+                android:layout_width="45dp"
+                android:layout_height="58dp"
+                android:scaleType="centerInside"
+                android:src="@drawable/arrow_right"
+                tools:layout_editor_absoluteX="367dp"
+                tools:layout_editor_absoluteY="345dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="0dp"
+            android:orientation="horizontal"
+            android:paddingLeft="0dp"
+            android:paddingRight="0dp"
+            app:layout_constraintEnd_toStartOf="@+id/LinearLayout"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageButton
+                android:id="@+id/setting4_left"
+                android:layout_width="45dp"
+                android:layout_height="58dp"
+                android:scaleType="centerInside"
+                android:src="@drawable/arrow_left"
+                tools:layout_editor_absoluteX="205dp"
+                tools:layout_editor_absoluteY="404dp" />
+
+            <ImageView
+                android:id="@+id/setting4_onoff"
+                android:layout_width="117dp"
+                android:layout_height="41dp"
+                android:scaleType="centerInside"
+                android:layout_marginTop="8dp"
+                android:src="@drawable/onselected"
+                tools:layout_editor_absoluteX="250dp"
+                tools:layout_editor_absoluteY="403dp" />
+
+            <ImageButton
+                android:id="@+id/setting4_right"
+                android:layout_width="45dp"
+                android:layout_height="58dp"
+                android:scaleType="centerInside"
+                android:src="@drawable/arrow_right"
+                tools:layout_editor_absoluteX="367dp"
+                tools:layout_editor_absoluteY="403dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/LinearLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="0dp"
+            android:orientation="horizontal"
+            android:paddingLeft="0dp"
+            android:paddingRight="0dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageButton
+                android:id="@+id/setting5_left"
+                android:layout_width="45dp"
+                android:layout_height="58dp"
+                android:scaleType="centerInside"
+                android:src="@drawable/arrow_left"
+                tools:layout_editor_absoluteX="205dp"
+                tools:layout_editor_absoluteY="462dp" />
+
+            <ImageView
+                android:id="@+id/setting5_onoff"
+                android:layout_width="117dp"
+                android:layout_height="41dp"
+                android:scaleType="centerInside"
+                android:layout_marginTop="8dp"
+                android:src="@drawable/onselected" />
+
+            <ImageButton
+                android:id="@+id/setting5_right"
+                android:layout_width="45dp"
+                android:layout_height="58dp"
+                android:scaleType="centerInside"
+                android:src="@drawable/arrow_right"
+                tools:layout_editor_absoluteX="367dp"
+                tools:layout_editor_absoluteY="462dp" />
+
+        </LinearLayout>
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

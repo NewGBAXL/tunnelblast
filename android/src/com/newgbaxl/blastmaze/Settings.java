@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.newgbaxl.blastmaze.Objects.ArrowSwitch;
 import com.newgbaxl.blastmaze.databinding.FragmentFirstBinding;
 import com.newgbaxl.blastmaze.databinding.FragmentSettingsBinding;
 
@@ -28,6 +29,11 @@ public class Settings extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    public boolean setting1;
+    public boolean setting2;
+    public boolean setting3;
+    public boolean setting4;
+    public boolean setting5;
 
     private FragmentSettingsBinding binding;
 
@@ -50,6 +56,7 @@ public class Settings extends Fragment {
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
+
         return fragment;
     }
 
@@ -60,6 +67,13 @@ public class Settings extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        //causes app to crash
+        setting1 = true;
+        setting2 = true;
+        setting3 = true;
+        setting4 = true;
+        setting5 = true;
+
     }
 
     @Override
@@ -80,6 +94,86 @@ public class Settings extends Fragment {
                 NavHostFragment.findNavController(Settings.this)
                         .navigate(R.id.action_settings_to_FirstFragment);
 
+            }
+        });
+
+        binding.setting1Left.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                    binding.setting1Onoff.setImageResource(R.drawable.onselected);
+                    setting1 = true;
+            }
+        });
+
+        binding.setting1Right.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                binding.setting1Onoff.setImageResource(R.drawable.offselected);
+                setting1 = true;
+            }
+        });
+
+        binding.setting2Left.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                binding.setting2Onoff.setImageResource(R.drawable.onselected);
+                setting2 = true;
+            }
+        });
+
+        binding.setting2Right.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                binding.setting2Onoff.setImageResource(R.drawable.offselected);
+                setting2 = true;
+            }
+        });
+
+        binding.setting3Left.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                binding.setting3Onoff.setImageResource(R.drawable.onselected);
+                setting3 = true;
+            }
+        });
+
+        binding.setting3Right.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                binding.setting3Onoff.setImageResource(R.drawable.offselected);
+                setting3 = true;
+            }
+        });
+
+        binding.setting4Left.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                binding.setting4Onoff.setImageResource(R.drawable.onselected);
+                setting4 = true;
+            }
+        });
+
+        binding.setting4Right.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                binding.setting4Onoff.setImageResource(R.drawable.offselected);
+                setting4 = true;
+            }
+        });
+
+        binding.setting5Left.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                binding.setting5Onoff.setImageResource(R.drawable.onselected);
+                setting5 = true;
+            }
+        });
+
+        binding.setting5Right.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                binding.setting5Onoff.setImageResource(R.drawable.offselected);
+                setting5 = true;
             }
         });
     }

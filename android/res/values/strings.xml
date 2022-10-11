@@ -14,7 +14,7 @@
 
     <string name="hello_first_fragment">Welcome to our new game</string>
     <string name="hello_second_fragment">This will be the settings Arg: %1$s</string>
-    <string name="store_main_text">todo: add store data once custom buttons/switches work</string>
+    <string name="store_main_text">todo: add HorizontalSlidingPane</string>
     <string name="title_activity_usercar">usercar</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
