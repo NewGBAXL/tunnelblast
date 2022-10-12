@@ -33,9 +33,6 @@ public class Maze {
 
 
 
-
-
-
 	//provided
 	public enum PLACE {wall, empty, visited};
 	private PLACE maze[][] = new PLACE[Const.MAZE_HEIGHT][Const.MAZE_WIDTH];
