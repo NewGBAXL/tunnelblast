@@ -10,7 +10,7 @@ import com.badlogic.gdx.math.Vector2;
 public class MazeUtil {
 
 
-	//move Android Map functions here
+	//move Android Map functions here?
 
 
 

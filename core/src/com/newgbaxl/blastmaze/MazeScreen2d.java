@@ -32,6 +32,9 @@ public class MazeScreen2d implements Screen {
 
 	private TiledMapRenderer mapRenderer;
 
+
+
+
 	public MazeScreen2d() {
 		super();
 		Maze maze = (new MazeCreator()).getMaze();

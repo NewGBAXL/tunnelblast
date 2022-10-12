@@ -6,6 +6,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ScreenUtils;
 
 public class BlastMazeGame extends ApplicationAdapter {
+	//remove after successful merge
+
 	SpriteBatch batch;
 	Texture img;
 	
