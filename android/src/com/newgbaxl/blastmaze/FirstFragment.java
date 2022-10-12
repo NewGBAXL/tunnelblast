@@ -1,5 +1,7 @@
 package com.newgbaxl.blastmaze;
 
+import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,9 +13,15 @@ import androidx.navigation.fragment.NavHostFragment;
 
 import com.newgbaxl.blastmaze.databinding.FragmentFirstBinding;
 
+import com.badlogic.gdx.backends.android.AndroidApplication;
+import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
+import com.newgbaxl.blastmaze.MazeGame;
+
 public class FirstFragment extends Fragment {
 
     private FragmentFirstBinding binding;
+
+    Bundle workaround;
 
     @Override
     public View onCreateView(
@@ -27,13 +35,19 @@ public class FirstFragment extends Fragment {
     }
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
+        workaround = savedInstanceState;
         super.onViewCreated(view, savedInstanceState);
 
+        binding.buttonGameStart.setBackgroundColor(Color.TRANSPARENT);
+        binding.buttonGameStart.setTextColor(Color.TRANSPARENT);
         binding.buttonGameStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                NavHostFragment.findNavController(FirstFragment.this)
-                        .navigate(R.id.action_FirstFragment_to_gameView);
+                Intent i3 = new Intent(getActivity(), AndroidLauncher.class);
+                startActivity(i3);
+                //getApplication().initialize(new MazeGame(), workaround);
+                /*NavHostFragment.findNavController(FirstFragment.this)
+                        .navigate(R.id.action_FirstFragment_to_gameView);*/
 
             }
         });

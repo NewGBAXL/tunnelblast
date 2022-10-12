@@ -8,18 +8,23 @@ import android.widget.Button;
 
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
-import com.newgbaxl.blastmaze.BlastMazeGame;
+import com.newgbaxl.blastmaze.MazeGame;
 
 public class AndroidLauncher extends AndroidApplication {
 	@Override
 
+	//todo: store global variables here
+	//NewGBAXL
+
 	protected void onCreate (Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
+
+		//comment this out run app normally
+		initialize(new MazeGame(), config);
+
 		//initialize(new BlastMazeGame(), config); //this loads the "game" screen in core
-
 		//create splash screen & credits
-
 		//loads MainActivity after delay
 		/*Handler handler = new Handler();
 		handler.postDelayed(new Runnable() {
@@ -34,5 +39,11 @@ public class AndroidLauncher extends AndroidApplication {
 	public void goToAnActivity(View view) {
 		Intent intent = new Intent(this, MainActivity.class);
 		startActivity(intent);
+	}
+
+	public void startGame(Bundle savedInstanceState){
+		super.onCreate(savedInstanceState);
+		AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
+		initialize(new MazeGame(), config);
 	}
 }

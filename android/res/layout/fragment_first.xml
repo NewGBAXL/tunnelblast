@@ -8,16 +8,16 @@
 
     <Button
         android:id="@+id/button_game_start"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="160dp"
-        android:layout_marginEnd="160dp"
-        android:layout_marginBottom="372dp"
+        android:layout_width="239dp"
+        android:layout_height="113dp"
+        android:layout_marginStart="81dp"
+        android:layout_marginTop="273dp"
+        android:layout_marginEnd="91dp"
         android:text="@string/start_game"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.333"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/imageView"
