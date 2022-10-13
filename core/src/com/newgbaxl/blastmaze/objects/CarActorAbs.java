@@ -46,13 +46,17 @@ public class CarActorAbs extends Actor
 
         renderer.setProjectionMatrix(batch.getProjectionMatrix());
         renderer.setTransformMatrix(batch.getTransformMatrix());
-        renderer.translate(getX(), getY(), 0);
+        renderer.translate(position.X, position.Y, 0);
 
         renderer.begin(ShapeType.Filled);
-        renderer.setColor(color);
+        renderer.setColor(Color.BLACK);
         renderer.ellipse(0, 0, getWidth(), getHeight());
         renderer.end();
 
         batch.begin();
+
+        //batch.begin();
+        //batch.draw(sprite, position.X, position.Y);
+        //batch.end();
     }
 }

@@ -1,8 +1,10 @@
 package com.newgbaxl.blastmaze.objects;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.newgbaxl.blastmaze.Coordinates;
 import com.newgbaxl.blastmaze.HeadsUpDisplay;
 import com.newgbaxl.blastmaze.Maze;
 import com.newgbaxl.blastmaze.objects.Car;
@@ -14,7 +16,9 @@ public class UserCar extends Car {
     public UserCar(int width, int height, Color nSkin, float delay, byte nBaseSpd, byte nPwrRate) {
         super(width, height, nSkin, delay, nBaseSpd, nPwrRate);
         nSkin = Color.GREEN;
-        //sprite = new Texture("car");
+        position = new Coordinates(64, 64);
+        position.gridX = 12;
+        position.gridY = 12;
     }
 
     //@Override
@@ -31,23 +35,43 @@ public class UserCar extends Car {
     @Override
     public void act(float delta) {
         super.act(delta);
-        switch(moveState) {
-            case RIGHT :
+        //switch(moveState) {
+        //    case RIGHT :
+//
+        //        // Move right by using whatever method you want.
+        //        // Directly increasing x
+        //        // Increase x according to velocity you have defined.
+        //        // Use actions, little bit dangerous.
+        //        break;
+        //    case LEFT :
+        //        // Move left by using whatever method you want.
+        //        break;
+        //    case IDLE :
+        //        // Don't change x coordinate of your player.
+        //        break;
+        //    default :
+//
+        //        break;
+        //}
 
-                // Move right by using whatever method you want.
-                // Directly increasing x
-                // Increase x according to velocity you have defined.
-                // Use actions, little bit dangerous.
-                break;
-            case LEFT :
-                // Move left by using whatever method you want.
-                break;
-            case IDLE :
-                // Don't change x coordinate of your player.
-                break;
-            default :
+        if(Gdx.input.isKeyJustPressed(Input.Keys.LEFT)) {
+            //if (Gdx.input.isKeyPressed(Input.Keys.CONTROL_LEFT))
+            moveTo((byte)3);
+        }
 
-                break;
+        if(Gdx.input.isKeyJustPressed(Input.Keys.RIGHT)) {
+            //if (Gdx.input.isKeyPressed(Input.Keys.CONTROL_LEFT))
+            moveTo((byte)1);
+        }
+
+        if(Gdx.input.isKeyJustPressed(Input.Keys.UP)) {
+            //if (Gdx.input.isKeyPressed(Input.Keys.CONTROL_LEFT))
+            moveTo((byte)0);
+        }
+
+        if(Gdx.input.isKeyJustPressed(Input.Keys.DOWN)) {
+            //if (Gdx.input.isKeyPressed(Input.Keys.CONTROL_LEFT))
+            moveTo((byte)2);
         }
     }
 

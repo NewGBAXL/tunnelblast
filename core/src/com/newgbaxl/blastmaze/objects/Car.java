@@ -2,6 +2,8 @@ package com.newgbaxl.blastmaze.objects;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.math.MathUtils;
+import com.newgbaxl.blastmaze.Const;
 import com.newgbaxl.blastmaze.Coordinates;
 import com.newgbaxl.blastmaze.Maze;
 
@@ -40,9 +42,16 @@ public class Car extends CarActorAbs
         //color = ?? //is color separate from skin?
     }
 
+    @Override
+    public void act(float delta) {
+        super.act(delta);
+        position.X = MathUtils.lerp(position.X, position.gridX * Const.TILE_SIZE, 0.25f);
+        position.Y = MathUtils.lerp(position.Y, position.gridY * Const.TILE_SIZE, 0.25f);
+    }
+
     public boolean destroy(byte cardinal, int str)
     {
-        boolean returnBool = Maze.cells[position.gridX()][position.gridY()].breakWall(cardinal, str);
+        boolean returnBool = Maze.cells[position.gridX][position.gridY].breakWall(cardinal, str);
         --bombs;
         return returnBool;
     }
@@ -52,24 +61,26 @@ public class Car extends CarActorAbs
         if (!isValidMove(cardinal))
             return false;
 
-        boolean returnBool = Maze.cells[position.gridX()][position.gridY()].buildWall(cardinal);
+        boolean returnBool = Maze.cells[position.gridX][position.gridY].buildWall(cardinal);
         --blocks;
         return returnBool;
     }
 
     public boolean isValidMove(byte dir)
     {
-        if (lastPos == dir)
-            return false;
-        if (dir==0 && Maze.cells[position.gridX()][position.gridY()].nWall == 0)
-            return true;
-        if (dir==1 && Maze.cells[position.gridX()][position.gridY()].eWall == 0)
-            return true;
-        if (dir==2 && Maze.cells[position.gridX()][position.gridY()].sWall == 0)
-            return true;
-        if (dir==3 && Maze.cells[position.gridX()][position.gridY()].wWall == 0)
-            return true;
-        return false;
+        //if (lastPos == dir)
+        //    return false;
+        //if (dir==0 && Maze.cells[position.gridX()][position.gridY()].nWall == 0)
+        //    return true;
+        //if (dir==1 && Maze.cells[position.gridX()][position.gridY()].eWall == 0)
+        //    return true;
+        //if (dir==2 && Maze.cells[position.gridX()][position.gridY()].sWall == 0)
+        //    return true;
+        //if (dir==3 && Maze.cells[position.gridX()][position.gridY()].wWall == 0)
+        //    return true;
+        //return false;
+
+        return true;
     }
 
     public void moveTo(byte newDir){
@@ -82,15 +93,15 @@ public class Car extends CarActorAbs
         //(if counter >=4)
         //Map.loseUI()?
 
-        if (newDir == 0)
-            --position.Y;
-        else if (newDir == 1)
-            ++position.X;
-        else if (newDir == 2)
-            ++position.Y;
-        else if (newDir == 3)
-            --position.X;
         lastPos = (byte)((newDir+2)%4); //update lastPos, cycles 0-3
+        if (newDir == 0)
+            position.gridY++;
+        else if (newDir == 1)
+            position.gridX++;
+        else if (newDir == 2)
+            position.gridY--;
+        else if (newDir == 3)
+            position.gridX--;
         return;
     }
 

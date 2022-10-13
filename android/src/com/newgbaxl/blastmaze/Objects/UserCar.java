@@ -23,7 +23,7 @@ public class UserCar extends Car {
         super(game, x, y, nSkin, nBaseSpd, nPwrRate);
         nSkin.setColor(Color.GREEN);
         dpad = new Dpad();
-        sprite = ResourcesCompat.getDrawable(Resources.getSystem(), R.drawable.car2, null);
+        sprite = ResourcesCompat.getDrawable(game.getResources(), R.drawable.car2, null);
     }
 
     @Override

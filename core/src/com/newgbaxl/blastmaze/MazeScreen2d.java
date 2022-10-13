@@ -67,19 +67,18 @@ public class MazeScreen2d implements Screen {
 
 		stage = new Stage(svp);
 		stage.addActor(cameraActor);
-		Gdx.app.log("MazeScreen2d","bob is adding to stage");
-		stage.addActor(bobActor);
-		Gdx.app.log("MazeScreen2d","bob adding done");
-		Actor bouncers[] = new Actor[10];
-		for (int i = 0; i < bouncers.length; i+= 2) {
-			bouncers[i] = new Bouncer(32, 32, getRandomColor(), (float)(Math.random() * 0.6) + 0.1f, tiledMap);
-			bouncers[i + 1] = new Fly(32, 32, getRandomColor(), (float)(Math.random() * 0.6) + 0.1f, tiledMap);
-			stage.addActor(bouncers[i]);
-			stage.addActor(bouncers[i + 1]);
-		}
+		//Actor bouncers[] = new Actor[10];
+		//for (int i = 0; i < bouncers.length; i+= 2) {
+		//	bouncers[i] = new Bouncer(32, 32, getRandomColor(), (float)(Math.random() * 0.6) + 0.1f, tiledMap);
+		//	bouncers[i + 1] = new Fly(32, 32, getRandomColor(), (float)(Math.random() * 0.6) + 0.1f, tiledMap);
+		//	stage.addActor(bouncers[i]);
+		//	stage.addActor(bouncers[i + 1]);
+		//}
 
 		user = new UserCar(32,32, getRandomColor(),
 				(float)(Math.random() * 0.6) + 0.1f, (byte)1, (byte)1);
+
+		stage.addActor(user);
 	}
 
 	private Color getRandomColor() {
@@ -123,26 +122,6 @@ public class MazeScreen2d implements Screen {
 		mapViewport.apply();
 		mapRenderer.setView((OrthographicCamera)mapViewport.getCamera());
 		mapRenderer.render();
-
-		if(Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-			//if (Gdx.input.isKeyPressed(Input.Keys.CONTROL_LEFT))
-				user.moveTo((byte)3);
-		}
-
-		if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-			//if (Gdx.input.isKeyPressed(Input.Keys.CONTROL_LEFT))
-				user.moveTo((byte)1);
-		}
-
-		if(Gdx.input.isKeyPressed(Input.Keys.UP)) {
-			//if (Gdx.input.isKeyPressed(Input.Keys.CONTROL_LEFT))
-				user.moveTo((byte)0);
-		}
-
-		if(Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
-			//if (Gdx.input.isKeyPressed(Input.Keys.CONTROL_LEFT))
-				user.moveTo((byte)2);
-		}
 
 		//batch.begin();
 		//user.draw(batch, 1);

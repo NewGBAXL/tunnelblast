@@ -1,5 +1,6 @@
 package com.newgbaxl.blastmaze;
 
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.Paint;
 
@@ -109,12 +110,11 @@ public class Map extends View {
         dpad = new Dpad();
 
         objects = new ArrayList<>();
-        //player = new UserCar(this, 32, 32, carPaint, (byte)10, (byte)10);
-        //objects.add(player);
+        player = new UserCar(this, 32, 32, carPaint, (byte)10, (byte)10);
+        objects.add(player);
         objects.add(new Car(this, 352, 352, carPaint, (byte)10, (byte)10));
 
-        batch = new SpriteBatch();
-        prepareHUD();
+        //prepareHUD();
     }
 
     private void createMaze() {
@@ -141,8 +141,9 @@ public class Map extends View {
 
     //libGDX uses render(float deltaTime) instead
     @Override
-    protected void onDraw(Canvas canvas) {
-        batch.begin(); //updates map???
+    protected void onDraw(Canvas canvas)
+    {
+        prepareHUD();
         UpdateObjects();
 
         canvas.drawColor(Color.GREEN);
