@@ -24,15 +24,15 @@ public class Bouncer extends CircleActorAbs {
 		dx = direction.dx();
 		dy = direction.dy();
 
-		int row = MathUtils.random(Const.MAZE_MAGNIFY_TO_WORDL - 2) + 1;
+		int row = MathUtils.random(Const.MAZE_MAGNIFY_TO_WORLD - 2) + 1;
 
-		if (row == Const.MAZE_MAGNIFY_TO_WORDL / 2) {
+		if (row == Const.MAZE_MAGNIFY_TO_WORLD / 2) {
 			row++;
 		}
 
-		int col = MathUtils.random(Const.MAZE_MAGNIFY_TO_WORDL - 2) + 1;
+		int col = MathUtils.random(Const.MAZE_MAGNIFY_TO_WORLD - 2) + 1;
 
-		if (col == Const.MAZE_MAGNIFY_TO_WORDL / 2) {
+		if (col == Const.MAZE_MAGNIFY_TO_WORLD / 2) {
 			col++;
 		}
 

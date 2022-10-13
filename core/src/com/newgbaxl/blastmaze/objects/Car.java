@@ -4,9 +4,8 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.newgbaxl.blastmaze.Coordinates;
 import com.newgbaxl.blastmaze.Maze;
-import com.newgbaxl.blastmaze.objects.GameObject;
 
-public class Car extends GameObject
+public class Car extends CarActorAbs
 {
     //private AppBarConfiguration appBarConfiguration;
     //private ActivityUsercarBinding binding;
@@ -20,13 +19,20 @@ public class Car extends GameObject
     public int timer;
     byte lastPos = 0;
 
-    public Car(Maze game, int x, int y, Color nSkin, byte nBaseSpd, byte nPwrRate)
+    public enum PlayerMoveState {
+        RIGHT,
+        LEFT,
+        IDLE
+    }
+    PlayerMoveState moveState;
+
+    public Car(int width, int height, Color nSkin, float delay, byte nBaseSpd, byte nPwrRate)
     {
-        super(game);
+        super(width, height, nSkin, delay);
         power = 10;
         timer = 10;
         skin = nSkin;
-        position = new Coordinates(x, y);
+        //position = new Coordinates(x, y);
         baseSpd = nBaseSpd;
         pwrRate = nPwrRate;
         bombs = 10;

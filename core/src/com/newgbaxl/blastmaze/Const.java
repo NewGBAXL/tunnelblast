@@ -23,11 +23,11 @@ public class Const {
 	 * 1 room in the maze will be nXn in tiles
 	 * but walls and doors remain 1 tile
 	 */
-	public static final int MAZE_MAGNIFY_TO_WORDL = 16;
+	public static final int MAZE_MAGNIFY_TO_WORLD = 16;
 
 	public static final int ROOM_OUTER_HEIGHT =
-		TILE_SIZE * (MAZE_MAGNIFY_TO_WORDL + 1);
+		TILE_SIZE * (MAZE_MAGNIFY_TO_WORLD + 1);
 
 	public static final int ROOM_OUTER_WIDTH =
-		TILE_SIZE * (MAZE_MAGNIFY_TO_WORDL + 1);
+		TILE_SIZE * (MAZE_MAGNIFY_TO_WORLD + 1);
 }
