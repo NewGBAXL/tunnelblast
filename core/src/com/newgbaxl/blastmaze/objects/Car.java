@@ -36,7 +36,7 @@ public class Car extends CarActorAbs
         baseSpd = nBaseSpd;
         pwrRate = nPwrRate;
         bombs = 10;
-        sprite = new Texture("car");
+        //sprite = new Texture("car");
         //color = ?? //is color separate from skin?
     }
 

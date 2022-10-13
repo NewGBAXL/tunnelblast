@@ -56,7 +56,7 @@ public class MazeUtil {
 	}
 
 	public static int getRoomOuterHeight() {
-		return Const.TILE_SIZE * (Const.MAZE_MAGNIFY_TO_WORDL + 1);
+		return Const.TILE_SIZE * (Const.MAZE_MAGNIFY_TO_WORLD + 1);
 	}
 
 	public static Vector2 getRoomOuterLeftBottom(float x, float y) {
@@ -75,7 +75,7 @@ public class MazeUtil {
 	}
 
 	public static int getRoomOuterWidth() {
-		return Const.TILE_SIZE * (Const.MAZE_MAGNIFY_TO_WORDL + 1);
+		return Const.TILE_SIZE * (Const.MAZE_MAGNIFY_TO_WORLD + 1);
 	}
 
 	/**
@@ -120,8 +120,8 @@ public class MazeUtil {
 		}
 
 		boolean onWall =
-			((place.row % Const.MAZE_MAGNIFY_TO_WORDL) == 0) ||
-			((place.col % Const.MAZE_MAGNIFY_TO_WORDL) == 0);
+			((place.row % Const.MAZE_MAGNIFY_TO_WORLD) == 0) ||
+			((place.col % Const.MAZE_MAGNIFY_TO_WORLD) == 0);
 
 		Gdx.app.log("MazeUtil", "isDoor:" + place + "," + onWall);
 
@@ -143,13 +143,13 @@ public class MazeUtil {
 	}
 
 	public static Vector2 getRoomCameraPosition(Place goal) {
-		int row = (goal.row / Const.MAZE_MAGNIFY_TO_WORDL) * Const.MAZE_MAGNIFY_TO_WORDL;
-		int col = (goal.col / Const.MAZE_MAGNIFY_TO_WORDL) * Const.MAZE_MAGNIFY_TO_WORDL;
+		int row = (goal.row / Const.MAZE_MAGNIFY_TO_WORLD) * Const.MAZE_MAGNIFY_TO_WORLD;
+		int col = (goal.col / Const.MAZE_MAGNIFY_TO_WORLD) * Const.MAZE_MAGNIFY_TO_WORLD;
 
 		Vector2 v =
 			getTileCoordinate(
-				(int)(row + Const.MAZE_MAGNIFY_TO_WORDL / 2) ,
-				(int)(col + Const.MAZE_MAGNIFY_TO_WORDL / 2));
+				(int)(row + Const.MAZE_MAGNIFY_TO_WORLD / 2) ,
+				(int)(col + Const.MAZE_MAGNIFY_TO_WORLD / 2));
 
 		//Camera should be in the center, not at the bottom-left corner of
 		//the center tile

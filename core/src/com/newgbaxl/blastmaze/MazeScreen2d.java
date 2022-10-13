@@ -144,9 +144,9 @@ public class MazeScreen2d implements Screen {
 				user.moveTo((byte)2);
 		}
 
-		batch.begin();
-		user.draw(batch, 1);
-		batch.end();
+		//batch.begin();
+		//user.draw(batch, 1);
+		//batch.end();
 	}
 
 	@Override

@@ -14,7 +14,7 @@ public class UserCar extends Car {
     public UserCar(int width, int height, Color nSkin, float delay, byte nBaseSpd, byte nPwrRate) {
         super(width, height, nSkin, delay, nBaseSpd, nPwrRate);
         nSkin = Color.GREEN;
-        sprite = new Texture("car");
+        //sprite = new Texture("car");
     }
 
     //@Override
