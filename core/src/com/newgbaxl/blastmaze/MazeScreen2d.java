@@ -38,8 +38,14 @@ public class MazeScreen2d implements Screen {
 	private TiledMapRenderer mapRenderer;
 	UserCar user;
 
+	public short[][] mazeGrid;
+	public Texture mazeWall = new Texture("brickWallDirectional.png");
+
+	public static MazeScreen2d getInstance;
+
 	public MazeScreen2d() {
 		super();
+		getInstance = this;
 		Maze maze = (new MazeCreator()).getMaze();
 	
 		MazeTileRenderer mTileRenderer =
@@ -79,6 +85,14 @@ public class MazeScreen2d implements Screen {
 				(float)(Math.random() * 0.6) + 0.1f, (byte)1, (byte)1);
 
 		stage.addActor(user);
+
+		mazeGrid = new short[Const.MAZE_WIDTH][Const.MAZE_WIDTH];
+		mazeGrid[5][5] = 0x1010;
+		mazeGrid[6][5] = 0x1010;
+		mazeGrid[7][5] = 0x0011;
+		mazeGrid[7][6] = 0x0101;
+
+		batch = new SpriteBatch();
 	}
 
 	private Color getRandomColor() {
@@ -116,16 +130,29 @@ public class MazeScreen2d implements Screen {
 
 		OrthographicCamera cam = (OrthographicCamera) stage.getCamera();
 
-		mazeRenderer.setView(cam);
-		mazeRenderer.render();
+		//mazeRenderer.setView(cam);
+		//mazeRenderer.render();
 
-		mapViewport.apply();
-		mapRenderer.setView((OrthographicCamera)mapViewport.getCamera());
-		mapRenderer.render();
+		//mapViewport.apply();
+		//mapRenderer.setView((OrthographicCamera)mapViewport.getCamera());
+		//mapRenderer.render();
 
 		//batch.begin();
 		//user.draw(batch, 1);
 		//batch.end();
+
+		batch.begin();
+		for (int x = 0; x < Const.MAZE_WIDTH; x++)
+		{
+			for (int y = 0; y < Const.MAZE_HEIGHT; y++)
+			{
+				if ((mazeGrid[x][y] & 0x1000) > 0) batch.draw(mazeWall, x * Const.TILE_SIZE - 16, (y + 0.5f) * Const.TILE_SIZE - 16, 0, 0, Const.TILE_SIZE, Const.TILE_SIZE, 1, 1, 0, 0, 0, 48, 32, false, false);
+				if ((mazeGrid[x][y] & 0x0100) > 0) batch.draw(mazeWall, (x + 0.5f) * Const.TILE_SIZE - 16, y * Const.TILE_SIZE - 16, 0, 0, Const.TILE_SIZE, Const.TILE_SIZE, 1, 1, 90, 0, 0, 48, 32, false, false);
+				if ((mazeGrid[x][y] & 0x0010) > 0) batch.draw(mazeWall, x * Const.TILE_SIZE - 16, (y - 0.5f) * Const.TILE_SIZE - 16, 0, 0, Const.TILE_SIZE, Const.TILE_SIZE, 1, 1, 0, 0, 0, 48, 32, false, false);
+				if ((mazeGrid[x][y] & 0x0001) > 0) batch.draw(mazeWall, (x + 1.5f) * Const.TILE_SIZE - 16, y * Const.TILE_SIZE - 16, 0, 0, Const.TILE_SIZE, Const.TILE_SIZE, 1, 1, 90, 0, 0, 48, 32, false, false);
+			}
+		}
+		batch.end();
 	}
 
 	@Override

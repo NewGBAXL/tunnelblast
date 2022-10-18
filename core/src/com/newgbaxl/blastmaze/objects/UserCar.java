@@ -2,23 +2,24 @@ package com.newgbaxl.blastmaze.objects;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.newgbaxl.blastmaze.Coordinates;
 import com.newgbaxl.blastmaze.HeadsUpDisplay;
-import com.newgbaxl.blastmaze.Maze;
-import com.newgbaxl.blastmaze.objects.Car;
 
 public class UserCar extends Car {
     int xPos = 0;
     int yPos = 0;
+
+    final int MoveCooldown = 4;
+    int moveCooldownTimer;
+
     //public boolean moving = false;
     public UserCar(int width, int height, Color nSkin, float delay, byte nBaseSpd, byte nPwrRate) {
         super(width, height, nSkin, delay, nBaseSpd, nPwrRate);
         nSkin = Color.GREEN;
         position = new Coordinates(64, 64);
-        position.gridX = 12;
-        position.gridY = 12;
+        position.gridX = 8;
+        position.gridY = 8;
     }
 
     //@Override
@@ -54,25 +55,31 @@ public class UserCar extends Car {
         //        break;
         //}
 
-        if(Gdx.input.isKeyJustPressed(Input.Keys.LEFT)) {
+        if(Gdx.input.isKeyJustPressed(Input.Keys.LEFT) && moveCooldownTimer <= 0) {
             //if (Gdx.input.isKeyPressed(Input.Keys.CONTROL_LEFT))
             moveTo((byte)3);
+            moveCooldownTimer = MoveCooldown;
         }
 
-        if(Gdx.input.isKeyJustPressed(Input.Keys.RIGHT)) {
+        if(Gdx.input.isKeyJustPressed(Input.Keys.RIGHT) && moveCooldownTimer <= 0) {
             //if (Gdx.input.isKeyPressed(Input.Keys.CONTROL_LEFT))
             moveTo((byte)1);
+            moveCooldownTimer = MoveCooldown;
         }
 
-        if(Gdx.input.isKeyJustPressed(Input.Keys.UP)) {
+        if(Gdx.input.isKeyJustPressed(Input.Keys.UP) && moveCooldownTimer <= 0) {
             //if (Gdx.input.isKeyPressed(Input.Keys.CONTROL_LEFT))
             moveTo((byte)0);
+            moveCooldownTimer = MoveCooldown;
         }
 
-        if(Gdx.input.isKeyJustPressed(Input.Keys.DOWN)) {
+        if(Gdx.input.isKeyJustPressed(Input.Keys.DOWN) && moveCooldownTimer <= 0) {
             //if (Gdx.input.isKeyPressed(Input.Keys.CONTROL_LEFT))
             moveTo((byte)2);
+            moveCooldownTimer = MoveCooldown;
         }
+
+        if (moveCooldownTimer > 0) moveCooldownTimer--;
     }
 
     /*@Override

@@ -80,13 +80,38 @@ public class Car extends CarActorAbs
         //    return true;
         //return false;
 
+        //Check in bounds
+        if (position.gridX < 0 || position.gridX >= Const.MAZE_WIDTH - 1 || position.gridY < 0 || position.gridY >= Const.MAZE_HEIGHT - 1) return true;
+
+        //Check current tile sides
+        if ((game.mazeGrid[position.gridX][position.gridY] & (int)(Math.pow(2, dir * 4))) > 0) return false;
+
+        //Check adjacent tile
+        if (dir == 0 && (game.mazeGrid[position.gridX + 1][position.gridY] & 0x0100) > 0) return false;
+        if (dir == 1 && (game.mazeGrid[position.gridX][position.gridY - 1] & 0x1000) > 0) return false;
+        if (dir == 2 && (game.mazeGrid[position.gridX - 1][position.gridY] & 0x0001) > 0) return false;
+        if (dir == 3 && (game.mazeGrid[position.gridX][position.gridY + 1] & 0x0010) > 0) return false;
+
         return true;
     }
 
     public void moveTo(byte newDir){
         //check all routes clockwise for valid move
-        for (int counter = 0; !isValidMove(newDir) && counter < 4; ++counter){
-            newDir = (byte)((newDir+1)%4); //cycles 0-3
+        //for (int counter = 0; !isValidMove(newDir) && counter < 4; ++counter){
+        //    newDir = (byte)((newDir+1)%4); //cycles 0-3
+        //}
+        if (!isValidMove(newDir))
+        {
+            if (newDir == 0)
+                position.X = position.gridX * Const.TILE_SIZE + 16;
+            else if (newDir == 1)
+                position.Y = position.gridY * Const.TILE_SIZE - 16;
+            else if (newDir == 2)
+                position.X = position.gridX * Const.TILE_SIZE - 16;
+            else if (newDir == 3)
+                position.Y = position.gridY * Const.TILE_SIZE + 16;
+
+            return;
         }
 
         //if is still invalid turn around or game over?
@@ -95,13 +120,13 @@ public class Car extends CarActorAbs
 
         lastPos = (byte)((newDir+2)%4); //update lastPos, cycles 0-3
         if (newDir == 0)
-            position.gridY++;
-        else if (newDir == 1)
             position.gridX++;
-        else if (newDir == 2)
+        else if (newDir == 1)
             position.gridY--;
-        else if (newDir == 3)
+        else if (newDir == 2)
             position.gridX--;
+        else if (newDir == 3)
+            position.gridY++;
         return;
     }
 

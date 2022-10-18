@@ -12,13 +12,14 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.newgbaxl.blastmaze.Coordinates;
 import com.newgbaxl.blastmaze.Maze;
+import com.newgbaxl.blastmaze.MazeScreen2d;
 
 import java.io.IOException;
 import java.io.InputStream;
 
 public class CarActorAbs extends Actor
 {
-    protected Maze game;
+    protected MazeScreen2d game;
     protected Color color;
 
     public Coordinates position;
@@ -33,6 +34,7 @@ public class CarActorAbs extends Actor
         this.setPosition(0, 0);
         this.color = color;
         init();
+        game = MazeScreen2d.getInstance;
     }
 
     public void init() {};

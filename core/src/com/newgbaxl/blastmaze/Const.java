@@ -6,7 +6,7 @@ public class Const {
 	 * Also the size ff the enemies, but use it with care for sprites,
 	 * because sprites can be resized
 	 */
-	public static final int TILE_SIZE = 32;
+	public static final int TILE_SIZE = 64;
 	/**
 	 * Screen size in tiles. Screen is a square, nxn
 	 */
@@ -14,11 +14,11 @@ public class Const {
 	/**
 	 * Maze height, unitless, should be odd (2*n + 1)
 	 */
-	public static final int MAZE_HEIGHT = 11;
+	public static final int MAZE_HEIGHT = 20;
 	/**
 	 * Maze width, unitless, should be odd (2*n + 1)
 	 */
-	public static final int MAZE_WIDTH = 11;
+	public static final int MAZE_WIDTH = 20;
 	/**
 	 * 1 room in the maze will be nXn in tiles
 	 * but walls and doors remain 1 tile
