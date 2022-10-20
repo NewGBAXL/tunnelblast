@@ -9,6 +9,50 @@ import com.badlogic.gdx.math.Vector2;
 
 public class MazeUtil {
 
+	public static int GetWall(int x, int y, int direction)
+	{
+		short[][] grid = MazeScreen2d.getInstance.mazeGrid;
+
+		//Prioritize the bottom right of any cell
+		if (direction == 0 && y > 0)
+		{
+			y--;
+			direction = 2;
+		}
+		if (direction == 3 && x > 0)
+		{
+			x--;
+			direction = 1;
+		}
+
+		if (direction == 0) return grid[x][y] & 0x000F;
+		if (direction == 1) return grid[x][y] & 0x00F0;
+		if (direction == 2) return grid[x][y] & 0x0F00;
+		if (direction == 3) return grid[x][y] & 0xF000;
+		return 0;
+	}
+
+	public static void SetWall(int x, int y, int direction, int value)
+	{
+		short[][] grid = MazeScreen2d.getInstance.mazeGrid;
+
+		//Prioritize the bottom right of any cell
+		if (direction == 0 && y > 0)
+		{
+			y--;
+			direction = 2;
+		}
+		if (direction == 3 && x > 0)
+		{
+			x--;
+			direction = 1;
+		}
+
+		if (direction == 0) grid[x][y] = (short)((grid[x][y] & 0xFFF0) + (value * 0x0010));
+		if (direction == 1) grid[x][y] = (short)((grid[x][y] & 0xFF0F) + (value * 0x0100));
+		if (direction == 2) grid[x][y] = (short)((grid[x][y] & 0xF0FF) + (value * 0x1000));
+		if (direction == 3) grid[x][y] = (short)((grid[x][y] & 0x0FFF) + (value * 0x10000));
+	}
 
 	//move Android Map functions here?
 

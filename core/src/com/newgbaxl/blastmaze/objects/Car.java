@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.newgbaxl.blastmaze.Const;
 import com.newgbaxl.blastmaze.Coordinates;
 import com.newgbaxl.blastmaze.Maze;
+import com.newgbaxl.blastmaze.MazeUtil;
 
 public class Car extends CarActorAbs
 {
@@ -84,13 +85,7 @@ public class Car extends CarActorAbs
         if (position.gridX < 0 || position.gridX >= Const.MAZE_WIDTH - 1 || position.gridY < 0 || position.gridY >= Const.MAZE_HEIGHT - 1) return true;
 
         //Check current tile sides
-        if ((game.mazeGrid[position.gridX][position.gridY] & (int)(Math.pow(2, dir * 4))) > 0) return false;
-
-        //Check adjacent tile
-        if (dir == 0 && (game.mazeGrid[position.gridX + 1][position.gridY] & 0x0100) > 0) return false;
-        if (dir == 1 && (game.mazeGrid[position.gridX][position.gridY - 1] & 0x1000) > 0) return false;
-        if (dir == 2 && (game.mazeGrid[position.gridX - 1][position.gridY] & 0x0001) > 0) return false;
-        if (dir == 3 && (game.mazeGrid[position.gridX][position.gridY + 1] & 0x0010) > 0) return false;
+        if (MazeUtil.GetWall(position.gridX, position.gridY, dir) != 0) return false;
 
         return true;
     }

@@ -38,6 +38,7 @@ public class MazeScreen2d implements Screen {
 	private TiledMapRenderer mapRenderer;
 	UserCar user;
 
+	//Array of grid spaces, walls defined by digits in hexadecimal format
 	public short[][] mazeGrid;
 	public Texture mazeWall = new Texture("brickWallDirectional.png");
 
@@ -86,6 +87,7 @@ public class MazeScreen2d implements Screen {
 
 		stage.addActor(user);
 
+		//Sample map grid
 		mazeGrid = new short[Const.MAZE_WIDTH][Const.MAZE_WIDTH];
 		mazeGrid[5][5] = 0x1010;
 		mazeGrid[6][5] = 0x1010;
