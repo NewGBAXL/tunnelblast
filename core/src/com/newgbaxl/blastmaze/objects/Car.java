@@ -50,22 +50,22 @@ public class Car extends CarActorAbs
         position.Y = MathUtils.lerp(position.Y, position.gridY * Const.TILE_SIZE, 0.25f);
     }
 
-    public boolean destroy(byte cardinal, int str)
-    {
-        boolean returnBool = Maze.cells[position.gridX][position.gridY].breakWall(cardinal, str);
-        --bombs;
-        return returnBool;
-    }
-
-    public boolean build(byte cardinal)
-    {
-        if (!isValidMove(cardinal))
-            return false;
-
-        boolean returnBool = Maze.cells[position.gridX][position.gridY].buildWall(cardinal);
-        --blocks;
-        return returnBool;
-    }
+    //public boolean destroy(byte cardinal, int str)
+    //{
+    //    boolean returnBool = Maze.cells[position.gridX][position.gridY].breakWall(cardinal, str);
+    //    --bombs;
+    //    return returnBool;
+    //}
+//
+    //public boolean build(byte cardinal)
+    //{
+    //    if (!isValidMove(cardinal))
+    //        return false;
+//
+    //    boolean returnBool = Maze.cells[position.gridX][position.gridY].buildWall(cardinal);
+    //    --blocks;
+    //    return returnBool;
+    //}
 
     public boolean isValidMove(byte dir)
     {
@@ -85,7 +85,7 @@ public class Car extends CarActorAbs
         if (position.gridX < 0 || position.gridX >= Const.MAZE_WIDTH - 1 || position.gridY < 0 || position.gridY >= Const.MAZE_HEIGHT - 1) return true;
 
         //Check current tile sides
-        if (MazeUtil.GetWall(position.gridX, position.gridY, dir) != 0) return false;
+        if (MazeUtil.GetWallStrength(position.gridX, position.gridY, dir) != 0) return false;
 
         return true;
     }
@@ -98,13 +98,13 @@ public class Car extends CarActorAbs
         if (!isValidMove(newDir))
         {
             if (newDir == 0)
-                position.X = position.gridX * Const.TILE_SIZE + 16;
-            else if (newDir == 1)
-                position.Y = position.gridY * Const.TILE_SIZE - 16;
-            else if (newDir == 2)
-                position.X = position.gridX * Const.TILE_SIZE - 16;
-            else if (newDir == 3)
                 position.Y = position.gridY * Const.TILE_SIZE + 16;
+            else if (newDir == 1)
+                position.X = position.gridX * Const.TILE_SIZE + 16;
+            else if (newDir == 2)
+                position.Y = position.gridY * Const.TILE_SIZE - 16;
+            else if (newDir == 3)
+                position.X = position.gridX * Const.TILE_SIZE - 16;
 
             return;
         }
@@ -115,13 +115,13 @@ public class Car extends CarActorAbs
 
         lastPos = (byte)((newDir+2)%4); //update lastPos, cycles 0-3
         if (newDir == 0)
-            position.gridX++;
-        else if (newDir == 1)
-            position.gridY--;
-        else if (newDir == 2)
-            position.gridX--;
-        else if (newDir == 3)
             position.gridY++;
+        else if (newDir == 1)
+            position.gridX++;
+        else if (newDir == 2)
+            position.gridY--;
+        else if (newDir == 3)
+            position.gridX--;
         return;
     }
 

@@ -48,9 +48,9 @@ public class Car extends GameObject
 
     public boolean destroy(byte cardinal, int str)
     {
-        boolean returnBool = Map.cells[position.gridX()][position.gridY()].breakWall(cardinal, str);
+        //boolean returnBool = Map.cells[position.gridX()][position.gridY()].breakWall(cardinal, str);
         --bombs;
-        return returnBool;
+        return false;
     }
 
     public boolean build(byte cardinal)
@@ -58,9 +58,9 @@ public class Car extends GameObject
         if (!isValidMove(cardinal))
             return false;
 
-        boolean returnBool = Map.cells[position.gridX()][position.gridY()].buildWall(cardinal);
+        //boolean returnBool = Map.cells[position.gridX()][position.gridY()].buildWall(cardinal);
         --blocks;
-        return returnBool;
+        return false;
     }
 
     public boolean isValidMove(byte dir)

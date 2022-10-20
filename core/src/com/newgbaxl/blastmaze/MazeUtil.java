@@ -3,21 +3,21 @@ package com.newgbaxl.blastmaze;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
-import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
 public class MazeUtil {
 
-	public static int GetWall(int x, int y, int direction)
+	public static int GetWallStrength(int x, int y, int direction)
 	{
-		short[][] grid = MazeScreen2d.getInstance.mazeGrid;
+		GridCell[][] grid = MazeScreen2d.getInstance.mazeGrid;
+		if (x < 0 || y < 0 || x > Const.MAZE_WIDTH || y > Const.MAZE_HEIGHT) return 0;
 
-		//Prioritize the bottom right of any cell
-		if (direction == 0 && y > 0)
+		//Prioritize the top right of any cell
+		if (direction == 2 && y > 0)
 		{
 			y--;
-			direction = 2;
+			direction = 0;
 		}
 		if (direction == 3 && x > 0)
 		{
@@ -25,22 +25,23 @@ public class MazeUtil {
 			direction = 1;
 		}
 
-		if (direction == 0) return grid[x][y] & 0x000F;
-		if (direction == 1) return grid[x][y] & 0x00F0;
-		if (direction == 2) return grid[x][y] & 0x0F00;
-		if (direction == 3) return grid[x][y] & 0xF000;
+		if (direction == 0) return grid[x][y].nWall;
+		if (direction == 1) return grid[x][y].eWall;
+		if (direction == 2) return grid[x][y].sWall;
+		if (direction == 3) return grid[x][y].wWall;
 		return 0;
 	}
 
-	public static void SetWall(int x, int y, int direction, int value)
+	public static void SetWallStrength(int x, int y, int direction, int value)
 	{
-		short[][] grid = MazeScreen2d.getInstance.mazeGrid;
+		GridCell[][] grid = MazeScreen2d.getInstance.mazeGrid;
+		if (x < 0 || y < 0 || x > Const.MAZE_WIDTH || y > Const.MAZE_HEIGHT) return;
 
-		//Prioritize the bottom right of any cell
-		if (direction == 0 && y > 0)
+		//Prioritize the top right of any cell
+		if (direction == 2 && y > 0)
 		{
 			y--;
-			direction = 2;
+			direction = 0;
 		}
 		if (direction == 3 && x > 0)
 		{
@@ -48,10 +49,10 @@ public class MazeUtil {
 			direction = 1;
 		}
 
-		if (direction == 0) grid[x][y] = (short)((grid[x][y] & 0xFFF0) + (value * 0x0010));
-		if (direction == 1) grid[x][y] = (short)((grid[x][y] & 0xFF0F) + (value * 0x0100));
-		if (direction == 2) grid[x][y] = (short)((grid[x][y] & 0xF0FF) + (value * 0x1000));
-		if (direction == 3) grid[x][y] = (short)((grid[x][y] & 0x0FFF) + (value * 0x10000));
+		if (direction == 0) grid[x][y].nWall = (byte)value;
+		if (direction == 1) grid[x][y].eWall = (byte)value;
+		if (direction == 2) grid[x][y].sWall = (byte)value;
+		if (direction == 3) grid[x][y].wWall = (byte)value;
 	}
 
 	//move Android Map functions here?
@@ -175,9 +176,10 @@ public class MazeUtil {
 
 	public static boolean isEmptyCell(TiledMap map, Place place) {
 		TiledMapTileLayer layer = (TiledMapTileLayer) map.getLayers().get(0);
-		Cell cell = layer.getCell(place.col, place.row);
+		//Cell cell = layer.getCell(place.col, place.row);
 
-		return (cell == null);
+		//return (cell == null);
+		return false;
 	}
 
 	public static boolean isEmptyCell(TiledMap map, float worldX, float worldY) {

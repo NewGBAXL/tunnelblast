@@ -10,7 +10,7 @@ import java.util.LinkedList;
 public class Maze {
 
 	//World parameters
-	public static Cell[][] cells;
+	public static GridCell[][] cells;
 	int xWidth = 15;
 	int yHeight = 15;
 	public static float cellSize, hMargin, vMargin;

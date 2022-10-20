@@ -1,11 +1,7 @@
 package com.newgbaxl.blastmaze;
 
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.newgbaxl.blastmaze.actors.Bouncer;
-import com.newgbaxl.blastmaze.actors.Fly;
 import com.newgbaxl.blastmaze.camera.MapViewport;
 
 import com.badlogic.gdx.Gdx;
@@ -17,7 +13,6 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
@@ -39,7 +34,7 @@ public class MazeScreen2d implements Screen {
 	UserCar user;
 
 	//Array of grid spaces, walls defined by digits in hexadecimal format
-	public short[][] mazeGrid;
+	public GridCell[][] mazeGrid;
 	public Texture mazeWall = new Texture("brickWallDirectional.png");
 
 	public static MazeScreen2d getInstance;
@@ -88,11 +83,13 @@ public class MazeScreen2d implements Screen {
 		stage.addActor(user);
 
 		//Sample map grid
-		mazeGrid = new short[Const.MAZE_WIDTH][Const.MAZE_WIDTH];
-		mazeGrid[5][5] = 0x1010;
-		mazeGrid[6][5] = 0x1010;
-		mazeGrid[7][5] = 0x0011;
-		mazeGrid[7][6] = 0x0101;
+		mazeGrid = new GridCell[Const.MAZE_WIDTH][Const.MAZE_WIDTH];
+		for (int x = 0; x < Const.MAZE_WIDTH; x++) for (int y = 0; y < Const.MAZE_HEIGHT; y++) mazeGrid[x][y] = new GridCell();
+
+		MazeUtil.SetWallStrength(5, 5, 0, 1);
+		MazeUtil.SetWallStrength(5, 5, 1, 1);
+		MazeUtil.SetWallStrength(5, 5, 2, 1);
+		MazeUtil.SetWallStrength(5, 5, 3, 1);
 
 		batch = new SpriteBatch();
 	}
@@ -143,15 +140,18 @@ public class MazeScreen2d implements Screen {
 		//user.draw(batch, 1);
 		//batch.end();
 
+		//Draw walls
 		batch.begin();
-		for (int x = 0; x < Const.MAZE_WIDTH; x++)
-		{
-			for (int y = 0; y < Const.MAZE_HEIGHT; y++)
-			{
-				if ((mazeGrid[x][y] & 0x1000) > 0) batch.draw(mazeWall, x * Const.TILE_SIZE - 16, (y + 0.5f) * Const.TILE_SIZE - 16, 0, 0, Const.TILE_SIZE, Const.TILE_SIZE, 1, 1, 0, 0, 0, 48, 32, false, false);
-				if ((mazeGrid[x][y] & 0x0100) > 0) batch.draw(mazeWall, (x + 0.5f) * Const.TILE_SIZE - 16, y * Const.TILE_SIZE - 16, 0, 0, Const.TILE_SIZE, Const.TILE_SIZE, 1, 1, 90, 0, 0, 48, 32, false, false);
-				if ((mazeGrid[x][y] & 0x0010) > 0) batch.draw(mazeWall, x * Const.TILE_SIZE - 16, (y - 0.5f) * Const.TILE_SIZE - 16, 0, 0, Const.TILE_SIZE, Const.TILE_SIZE, 1, 1, 0, 0, 0, 48, 32, false, false);
-				if ((mazeGrid[x][y] & 0x0001) > 0) batch.draw(mazeWall, (x + 1.5f) * Const.TILE_SIZE - 16, y * Const.TILE_SIZE - 16, 0, 0, Const.TILE_SIZE, Const.TILE_SIZE, 1, 1, 90, 0, 0, 48, 32, false, false);
+		for (int x = 0; x < Const.MAZE_WIDTH; x++) {
+			for (int y = 0; y < Const.MAZE_HEIGHT; y++) {
+				if (mazeGrid[x][y].nWall > 0)
+					batch.draw(mazeWall, x * Const.TILE_SIZE - 16, (y + 0.5f) * Const.TILE_SIZE - 16, 0, 0, Const.TILE_SIZE, Const.TILE_SIZE, 1, 1, 0, 0, 0, 48, 32, false, false);
+				if (mazeGrid[x][y].eWall > 0)
+					batch.draw(mazeWall, (x + 1.5f) * Const.TILE_SIZE - 16, y * Const.TILE_SIZE - 16, 0, 0, Const.TILE_SIZE, Const.TILE_SIZE, 1, 1, 90, 0, 0, 48, 32, false, false);
+				if (mazeGrid[x][y].sWall > 0)
+					batch.draw(mazeWall, x * Const.TILE_SIZE - 16, (y - 0.5f) * Const.TILE_SIZE - 16, 0, 0, Const.TILE_SIZE, Const.TILE_SIZE, 1, 1, 0, 0, 0, 48, 32, false, false);
+				if (mazeGrid[x][y].wWall > 0)
+					batch.draw(mazeWall, (x + 0.5f) * Const.TILE_SIZE - 16, y * Const.TILE_SIZE - 16, 0, 0, Const.TILE_SIZE, Const.TILE_SIZE, 1, 1, 90, 0, 0, 48, 32, false, false);
 			}
 		}
 		batch.end();

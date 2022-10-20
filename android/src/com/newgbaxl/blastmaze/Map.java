@@ -1,18 +1,14 @@
 package com.newgbaxl.blastmaze;
 
-import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.Paint;
 
 import androidx.annotation.Nullable;
 
-import android.icu.util.TimeUnit;
-import android.util.TimeUtils;
 import android.view.InputDevice;
 import android.view.MotionEvent;
 import android.view.View;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -31,16 +27,10 @@ import android.graphics.Canvas;
 import android.util.AttributeSet;
 import android.widget.Toast;
 
-import java.sql.Time;
-import java.time.Clock;
-import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
-import java.util.Random;
 
 public class Map extends View {
     private Paint wallPaint, wallPaintGhost;
@@ -48,7 +38,7 @@ public class Map extends View {
     private Paint carPaint = new Paint();
 
     private static final float WALL_THICKNESS = 4;
-    private Cell exitSpace;
+    private GridCell exitSpace;
     public static boolean inv = false;
     public static FragmentGameViewBinding UIBinding;
     Dpad dpad;
@@ -71,7 +61,7 @@ public class Map extends View {
     private float enemySpawnTimer = 20;
 
     //World parameters
-    public static Cell[][] cells;
+    public static GridCell[][] cells;
     int xWidth = 15;
     int yHeight = 15;
     public static float cellSize, hMargin, vMargin;
@@ -91,7 +81,7 @@ public class Map extends View {
 
     public Map(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
-        cells = new Cell[xWidth][yHeight];
+        cells = new GridCell[xWidth][yHeight];
         carPaint.setColor(Color.GRAY);
         wallPaint = new Paint();
         wallPaint.setColor(Color.BLACK);
@@ -99,7 +89,7 @@ public class Map extends View {
         wallPaintGhost = new Paint();
         wallPaintGhost.setColor(Color.BLUE);
         wallPaintGhost.setStrokeWidth(WALL_THICKNESS);
-        createMaze();
+        //createMaze();
         playerTestPaint = new Paint();
         playerTestPaint.setColor(Color.RED);
         exitPaint = new Paint();
@@ -118,20 +108,20 @@ public class Map extends View {
     }
 
     private void createMaze() {
-        for (int x = 0; x < xWidth; ++x) {
-            for (int y = 0; y < yHeight; ++y) {
-                cells[x][y] = new Cell(x, y);
-            }
-        }
-
-        for (int x = 0; x < xWidth; ++x) {
-            cells[x][0].buildWall((byte)0, -1); //sets first nWall to -1
-            cells[x][yHeight - 1].buildWall((byte)2, -1); //sets last sWall to -1
-        }
-        for (int y = 0; y < yHeight; ++y) {
-            cells[0][y].buildWall((byte)3, -1); //sets first wWall to -1
-            cells[xWidth - 1][y].buildWall((byte)1, -1); //sets last eWall to -1
-        }
+        //for (int x = 0; x < xWidth; ++x) {
+        //    for (int y = 0; y < yHeight; ++y) {
+        //        cells[x][y] = new Cell(x, y);
+        //    }
+        //}
+//
+        //for (int x = 0; x < xWidth; ++x) {
+        //    cells[x][0].buildWall((byte)0, -1); //sets first nWall to -1
+        //    cells[x][yHeight - 1].buildWall((byte)2, -1); //sets last sWall to -1
+        //}
+        //for (int y = 0; y < yHeight; ++y) {
+        //    cells[0][y].buildWall((byte)3, -1); //sets first wWall to -1
+        //    cells[xWidth - 1][y].buildWall((byte)1, -1); //sets last eWall to -1
+        //}
     }
 
     private void UpdateObjects()
@@ -204,32 +194,32 @@ public class Map extends View {
 
     void breakWall(int x, int y, byte wallId, int str) {
         //if cell method return true, destroy adj wall on adj cell
-        if (cells[x][y].breakWall(wallId, str)) {
-            if (wallId == 0)
-                cells[x][y - 1].breakWall((byte)2, str);
-            else if (wallId == 1)
-                cells[x + 1][y].breakWall((byte)3, str);
-            else if (wallId == 2)
-                cells[x][y + 1].breakWall((byte)0, str);
-            else if (wallId == 3)
-                cells[x - 1][y].breakWall((byte)1, str);
-            invalidate(); //inefficient, fix later
-        }
+        //if (cells[x][y].breakWall(wallId, str)) {
+        //    if (wallId == 0)
+        //        cells[x][y - 1].breakWall((byte)2, str);
+        //    else if (wallId == 1)
+        //        cells[x + 1][y].breakWall((byte)3, str);
+        //    else if (wallId == 2)
+        //        cells[x][y + 1].breakWall((byte)0, str);
+        //    else if (wallId == 3)
+        //        cells[x - 1][y].breakWall((byte)1, str);
+        //    invalidate(); //inefficient, fix later
+        //}
     }
 
     void buildWall(int x, int y, byte wallId, int str) {
         //if cell method return true, build adj wall on adj cell
-        if (cells[x][y].buildWall(wallId, str)) {
-            if (wallId == 0)
-                cells[x][y - 1].buildWall((byte)2, str);
-            else if (wallId == 1)
-                cells[x + 1][y].buildWall((byte)3, str);
-            else if (wallId == 2)
-                cells[x][y + 1].buildWall((byte)0, str);
-            else if (wallId == 3)
-                cells[x - 1][y].buildWall((byte)1, str);
-            invalidate(); //inefficient, fix later
-        }
+        //if (cells[x][y].buildWall(wallId, str)) {
+        //    if (wallId == 0)
+        //        cells[x][y - 1].buildWall((byte)2, str);
+        //    else if (wallId == 1)
+        //        cells[x + 1][y].buildWall((byte)3, str);
+        //    else if (wallId == 2)
+        //        cells[x][y + 1].buildWall((byte)0, str);
+        //    else if (wallId == 3)
+        //        cells[x - 1][y].buildWall((byte)1, str);
+        //    invalidate(); //inefficient, fix later
+        //}
     }
 
     @Override
