@@ -190,7 +190,7 @@ public class MazeScreen2d implements Screen {
 		Gdx.gl.glClearColor(1, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-		if (Gdx.input.isKeyJustPressed(Input.Keys.CONTROL_RIGHT)) GenerateMaze();
+		if (Gdx.input.isKeyJustPressed(Input.Keys.R)) GenerateMaze();
 
 		stage.act(delta);
 		stage.getViewport().apply();
@@ -283,24 +283,26 @@ public class MazeScreen2d implements Screen {
 				if (c2 != null && !used[c2.x][c2.y]) directions.add(i);
 			}
 
-			if (!directions.isEmpty())
-			{
-				//Pick a direction to extend the maze
-				int dir = directions.get(rand.nextInt(directions.size()));
-				directions.remove((Object) dir);
+			boolean done = false;
+			while (!done) {
+				if (!directions.isEmpty()) {
+					//Pick a direction to extend the maze
+					int dir = directions.get(rand.nextInt(directions.size()));
+					directions.remove((Object) dir);
 
-				//Add new direction to the cell list
-				cells.add(MazeUtil.GetCellFromDirection(c.x, c.y, dir));
-
-				//Place walls on remaining sides
-				for (int i : directions) MazeUtil.SetWallStrength(c.x, c.y, i, 1);
+					//Add new direction to the cell list
+					cells.add(MazeUtil.GetCellFromDirection(c.x, c.y, dir));
+				}
+				if (directions.isEmpty() || rand.nextInt(6) != 0) done = true;
 			}
+			//Place walls on remaining sides
+			for (int i : directions) MazeUtil.SetWallStrength(c.x, c.y, i, 1);
 
 			cells.remove(0);
 			used[c.x][c.y] = true;
 
 			iteration++;
-			if (iteration > 20) break;
+			if (iteration > Const.MAZE_WIDTH * Const.MAZE_HEIGHT * 2) break;
 		}
 	}
 }

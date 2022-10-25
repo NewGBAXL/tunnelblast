@@ -18,7 +18,7 @@ public class Const {
 	/**
 	 * Maze width, unitless, should be odd (2*n + 1)
 	 */
-	public static final int MAZE_WIDTH = 10;
+	public static final int MAZE_WIDTH = 20;
 
 	public static final int SPAWN_CELL_X = 5;
 	public static final int SPAWN_CELL_Y = 5;
