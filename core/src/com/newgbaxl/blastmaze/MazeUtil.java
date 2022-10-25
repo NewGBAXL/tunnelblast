@@ -55,6 +55,33 @@ public class MazeUtil {
 		if (direction == 3) grid[x][y].wWall = (byte)value;
 	}
 
+	public static GridCell GetCellFromDirection(int x, int y, int direction)
+	{
+		GridCell[][] mazeGrid = MazeScreen2d.getInstance.mazeGrid;
+
+		if (direction == 0)
+		{
+			if (y >= Const.MAZE_HEIGHT - 1) return null;
+			else return mazeGrid[x][y + 1];
+		}
+		if (direction == 1)
+		{
+			if (x >= Const.MAZE_WIDTH - 1) return null;
+			else return mazeGrid[x + 1][y];
+		}
+		if (direction == 2)
+		{
+			if (y <= 0) return null;
+			else return mazeGrid[x][y - 1];
+		}
+		if (direction == 3)
+		{
+			if (x <= 0) return null;
+			else return mazeGrid[x - 1][y];
+		}
+		return null;
+	}
+
 	//move Android Map functions here?
 
 

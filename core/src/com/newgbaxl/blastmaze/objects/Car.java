@@ -19,7 +19,7 @@ public class Car extends CarActorAbs
     byte pwrRate; //pwr regeneration rate
     byte spd;
     public int power;
-    public int timer;
+    public float timer;
     byte lastPos = 0;
 
     public enum PlayerMoveState {
@@ -82,7 +82,7 @@ public class Car extends CarActorAbs
         //return false;
 
         //Check in bounds
-        if (position.gridX < 0 || position.gridX >= Const.MAZE_WIDTH - 1 || position.gridY < 0 || position.gridY >= Const.MAZE_HEIGHT - 1) return true;
+        if (position.gridX < 0 || position.gridX > Const.MAZE_WIDTH - 1 || position.gridY < 0 || position.gridY > Const.MAZE_HEIGHT - 1) return true;
 
         //Check current tile sides
         if (MazeUtil.GetWallStrength(position.gridX, position.gridY, dir) != 0) return false;

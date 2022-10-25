@@ -3,6 +3,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.newgbaxl.blastmaze.Const;
 import com.newgbaxl.blastmaze.Coordinates;
 import com.newgbaxl.blastmaze.HeadsUpDisplay;
 
@@ -17,9 +18,9 @@ public class UserCar extends Car {
     public UserCar(int width, int height, Color nSkin, float delay, byte nBaseSpd, byte nPwrRate) {
         super(width, height, nSkin, delay, nBaseSpd, nPwrRate);
         nSkin = Color.GREEN;
-        position = new Coordinates(64, 64);
-        position.gridX = 8;
-        position.gridY = 8;
+        position = new Coordinates(Const.SPAWN_CELL_X * Const.TILE_SIZE, Const.SPAWN_CELL_Y * Const.TILE_SIZE);
+        position.gridX = Const.SPAWN_CELL_X;
+        position.gridY = Const.SPAWN_CELL_Y;
     }
 
     //@Override
