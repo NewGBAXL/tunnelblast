@@ -50,36 +50,58 @@ public class Car extends CarActorAbs
         position.Y = MathUtils.lerp(position.Y, position.gridY * Const.TILE_SIZE, 0.25f);
     }
 
-    //public boolean destroy(byte cardinal, int str)
-    //{
-    //    boolean returnBool = Maze.cells[position.gridX][position.gridY].breakWall(cardinal, str);
-    //    --bombs;
-    //    return returnBool;
-    //}
-//
-    //public boolean build(byte cardinal)
-    //{
-    //    if (!isValidMove(cardinal))
-    //        return false;
-//
-    //    boolean returnBool = Maze.cells[position.gridX][position.gridY].buildWall(cardinal);
-    //    --blocks;
-    //    return returnBool;
-    //}
+    public boolean destroy(byte cardinal, int str)
+    {
+        if (bombs <= 0)
+        {
+            bombs = 0;
+            return false;
+        }
+
+        if (str > 0)
+            --bombs;
+        str = Math.abs(str);
+
+        int currentStr = MazeUtil.GetWallStrength(position.gridX, position.gridY, cardinal);
+        if (str > currentStr)
+            MazeUtil.SetWallStrength(position.gridX, position.gridY, cardinal, 0);
+        else
+            MazeUtil.SetWallStrength(position.gridX, position.gridY, cardinal, currentStr - str);
+
+
+        return true;
+    }
+
+    public boolean destroyAll(int str)
+    {
+        if (bombs <= 0){
+            bombs = 0;
+            return false;
+        }
+
+        boolean returnBool = false;
+
+        for (int i = 0; i <= 3; ++i)
+            if (destroy((byte)i, -str))
+                returnBool = true;
+        --bombs;
+        return returnBool;
+    }
+
+    public boolean build(byte cardinal)
+    {
+        if (!isValidMove(cardinal))
+            return false;
+
+        MazeUtil.SetWallStrength(position.gridX, position.gridY, cardinal, 1);
+        --blocks;
+        return true;
+    }
 
     public boolean isValidMove(byte dir)
     {
         //if (lastPos == dir)
         //    return false;
-        //if (dir==0 && Maze.cells[position.gridX()][position.gridY()].nWall == 0)
-        //    return true;
-        //if (dir==1 && Maze.cells[position.gridX()][position.gridY()].eWall == 0)
-        //    return true;
-        //if (dir==2 && Maze.cells[position.gridX()][position.gridY()].sWall == 0)
-        //    return true;
-        //if (dir==3 && Maze.cells[position.gridX()][position.gridY()].wWall == 0)
-        //    return true;
-        //return false;
 
         //Check in bounds
         if (position.gridX < 0 || position.gridX > Const.MAZE_WIDTH - 1 || position.gridY < 0 || position.gridY > Const.MAZE_HEIGHT - 1) return true;

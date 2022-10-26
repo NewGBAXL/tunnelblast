@@ -36,7 +36,7 @@ public class Store extends Fragment {
 
     //move these to Persistant Storage!
     public int currencyAmnt = 0;
-    public CarSkin carSkins[] = new CarSkin[5];
+    public CarSkin carSkins[] = new CarSkin[9];
     public int selectedSkin = 0;
 
     public Store() {
@@ -68,6 +68,8 @@ public class Store extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
+
 
         //binding.displayCurrency.setText();
         for (int i = 0; i < carSkins.length; ++i){

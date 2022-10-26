@@ -58,29 +58,35 @@ public class UserCar extends Car {
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.LEFT) && moveCooldownTimer <= 0) {
             //if (Gdx.input.isKeyPressed(Input.Keys.CONTROL_LEFT))
-            moveTo((byte)0);
+            moveTo((byte)3);
             Gdx.app.log("tag", "Left");
             moveCooldownTimer = MoveCooldown;
         }
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.RIGHT) && moveCooldownTimer <= 0) {
             //if (Gdx.input.isKeyPressed(Input.Keys.CONTROL_LEFT))
-            moveTo((byte)2);
+            moveTo((byte)1);
             Gdx.app.log("tag", "Right");
             moveCooldownTimer = MoveCooldown;
         }
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.UP) && moveCooldownTimer <= 0) {
             //if (Gdx.input.isKeyPressed(Input.Keys.CONTROL_LEFT))
-            moveTo((byte)1);
+            moveTo((byte)0);
             Gdx.app.log("tag", "Up");
             moveCooldownTimer = MoveCooldown;
         }
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.DOWN) && moveCooldownTimer <= 0) {
             //if (Gdx.input.isKeyPressed(Input.Keys.CONTROL_LEFT))
-            moveTo((byte)3);
+            moveTo((byte)2);
             Gdx.app.log("tag", "Down");
+            moveCooldownTimer = MoveCooldown;
+        }
+
+        if(Gdx.input.isKeyJustPressed(Input.Keys.BUTTON_X) && moveCooldownTimer <= 0) {
+            destroyAll(1);
+            Gdx.app.log("tag", "Button X");
             moveCooldownTimer = MoveCooldown;
         }
 
