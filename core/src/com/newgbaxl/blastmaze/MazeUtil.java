@@ -82,9 +82,21 @@ public class MazeUtil {
 		return null;
 	}
 
-	//move Android Map functions here?
+	public static byte GetCellData(int x, int y)
+	{
+		GridCell[][] grid = MazeScreen2d.getInstance.mazeGrid;
+		if (x < 0 || y < 0 || x > Const.MAZE_WIDTH || y > Const.MAZE_HEIGHT) return (byte)0;
 
+		return grid[x][y].cellData;
+	}
 
+	public static void SetCellData(int x, int y, byte value)
+	{
+		GridCell[][] grid = MazeScreen2d.getInstance.mazeGrid;
+		if (x < 0 || y < 0 || x > Const.MAZE_WIDTH || y > Const.MAZE_HEIGHT) return;
+
+		grid[x][y].cellData = value;
+	}
 
 
 

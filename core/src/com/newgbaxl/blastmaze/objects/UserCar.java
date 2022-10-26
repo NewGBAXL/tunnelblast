@@ -84,8 +84,32 @@ public class UserCar extends Car {
             moveCooldownTimer = MoveCooldown;
         }
 
-        if(Gdx.input.isKeyJustPressed(Input.Keys.BUTTON_X) && moveCooldownTimer <= 0) {
+        if((Gdx.input.isKeyJustPressed(Input.Keys.BUTTON_X) || Gdx.input.isKeyJustPressed(Input.Keys.X)) && moveCooldownTimer <= 0) {
             destroyAll(1);
+            Gdx.app.log("tag", "Button X");
+            moveCooldownTimer = MoveCooldown;
+        }
+
+        if(Gdx.input.isKeyJustPressed(Input.Keys.BUTTON_Z) || Gdx.input.isKeyJustPressed(Input.Keys.W) && moveCooldownTimer <= 0) {
+            build((byte)0);
+            Gdx.app.log("tag", "Button X");
+            moveCooldownTimer = MoveCooldown;
+        }
+
+        if(Gdx.input.isKeyJustPressed(Input.Keys.D) && moveCooldownTimer <= 0) {
+            build((byte)1);
+            Gdx.app.log("tag", "Button X");
+            moveCooldownTimer = MoveCooldown;
+        }
+
+        if(Gdx.input.isKeyJustPressed(Input.Keys.S) && moveCooldownTimer <= 0) {
+            build((byte)2);
+            Gdx.app.log("tag", "Button X");
+            moveCooldownTimer = MoveCooldown;
+        }
+
+        if(Gdx.input.isKeyJustPressed(Input.Keys.A) && moveCooldownTimer <= 0) {
+            build((byte)3);
             Gdx.app.log("tag", "Button X");
             moveCooldownTimer = MoveCooldown;
         }

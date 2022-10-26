@@ -63,7 +63,9 @@ public class Car extends CarActorAbs
         str = Math.abs(str);
 
         int currentStr = MazeUtil.GetWallStrength(position.gridX, position.gridY, cardinal);
-        if (str > currentStr)
+        if (currentStr <= 0)
+            return false;
+        else if (str > currentStr)
             MazeUtil.SetWallStrength(position.gridX, position.gridY, cardinal, 0);
         else
             MazeUtil.SetWallStrength(position.gridX, position.gridY, cardinal, currentStr - str);
@@ -84,7 +86,9 @@ public class Car extends CarActorAbs
         for (int i = 0; i <= 3; ++i)
             if (destroy((byte)i, -str))
                 returnBool = true;
-        --bombs;
+
+        if (returnBool)
+            --bombs;
         return returnBool;
     }
 
@@ -144,6 +148,28 @@ public class Car extends CarActorAbs
             position.gridY--;
         else if (newDir == 3)
             position.gridX--;
+
+        switch (MazeUtil.GetCellData(position.gridX,position.gridY))
+        {
+            case -2:
+                ++blocks;
+                break;
+            case -3:
+                ++bombs;
+                break;
+            case -4:
+                ++power;
+                break;
+            case -5:
+                ++timer;
+                break;
+            default:
+                //oilSlick(MazeUtil.GetCellData(position.gridX,position.gridY));
+                //use intensity to change speed in cell
+                break;
+        }
+
+        MazeUtil.SetCellData(position.gridX,position.gridY, (byte)0);
         return;
     }
 
