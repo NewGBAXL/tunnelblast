@@ -273,7 +273,7 @@ public class MazeScreen2d implements Screen {
 		int iteration = 0;
 		while (!cells.isEmpty())
 		{
-			GridCell c = cells.get(0);
+			GridCell c = cells.get(cells.size() - 1);
 
 			//Get possible directions for the cell to go
 			ArrayList<Integer> directions = new ArrayList<>();
@@ -293,13 +293,32 @@ public class MazeScreen2d implements Screen {
 					//Add new direction to the cell list
 					cells.add(MazeUtil.GetCellFromDirection(c.x, c.y, dir));
 				}
-				if (directions.isEmpty() || rand.nextInt(6) != 0) done = true;
+				if (directions.isEmpty() || (rand.nextInt(32) != 0 && cells.indexOf(c) != 0)) done = true;
 			}
 			//Place walls on remaining sides
 			for (int i : directions) MazeUtil.SetWallStrength(c.x, c.y, i, 1);
 
-			cells.remove(0);
+			cells.remove(c);
 			used[c.x][c.y] = true;
+
+			//Try to readd cells that were missed
+			if (cells.isEmpty())
+			{
+				boolean found = false;
+				for (int x = 0; x < Const.MAZE_WIDTH; x++)
+				{
+					if (found) break;
+					for (int y = 0; y < Const.MAZE_HEIGHT; y++)
+					{
+						if (!used[x][y])
+						{
+							cells.add(mazeGrid[x][y]);
+							found = true;
+							break;
+						}
+					}
+				}
+			}
 
 			iteration++;
 			if (iteration > Const.MAZE_WIDTH * Const.MAZE_HEIGHT * 2) break;
