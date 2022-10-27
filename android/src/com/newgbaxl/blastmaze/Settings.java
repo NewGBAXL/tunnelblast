@@ -23,12 +23,13 @@ public class Settings extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private static final boolean ARG_PARAM1 = true;
+    private static final boolean ARG_PARAM2 = true;
+    private static final boolean ARG_PARAM3 = true;
+    private static final boolean ARG_PARAM4 = true;
+    private static final boolean ARG_PARAM5 = true;
 
     // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
     public boolean setting1;
     public boolean setting2;
     public boolean setting3;
@@ -45,17 +46,24 @@ public class Settings extends Fragment {
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
      * @return A new instance of fragment Settings.
      */
     // TODO: Rename and change types and number of parameters
-    public static Settings newInstance(String param1, String param2) {
+    public static Settings newInstance(boolean settingInt[]) {
         Settings fragment = new Settings();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+        args.putBoolean(String.valueOf(ARG_PARAM1), settingInt[0]);
+        args.putBoolean(String.valueOf(ARG_PARAM2), settingInt[1]);
+        args.putBoolean(String.valueOf(ARG_PARAM3), settingInt[2]);
+        args.putBoolean(String.valueOf(ARG_PARAM4), settingInt[3]);
+        args.putBoolean(String.valueOf(ARG_PARAM5), settingInt[4]);
         fragment.setArguments(args);
+
+        /*SharedPreferences settings = getActivity().getSharedPreferences("UserInfo", 0);
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putString("Username",txtUname.getText().toString());
+        editor.putString("Password",txtPWD.getText().toString());
+        editor.commit();*/
 
         return fragment;
     }
@@ -63,10 +71,13 @@ public class Settings extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+        /*if (getArguments() != null) {
+            setting1 = getArguments().getBoolean(String.valueOf(ARG_PARAM1));
+            setting2 = getArguments().getBoolean(String.valueOf(ARG_PARAM2));
+            setting3 = getArguments().getBoolean(String.valueOf(ARG_PARAM3));
+            setting4 = getArguments().getBoolean(String.valueOf(ARG_PARAM4));
+            setting5 = getArguments().getBoolean(String.valueOf(ARG_PARAM5));
+        }*/
         //causes app to crash
         setting1 = true;
         setting2 = true;

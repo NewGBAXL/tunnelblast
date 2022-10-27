@@ -12,7 +12,13 @@ public class GridCell {
     public int x;
     public int y;
 
-    //int cellSpd=10; //planned feature; works with "oilSlick"
+    public byte cellData = -1;
+    //-1 is empty
+    //+n is cellSpd
+    //-2 is block
+    //-3 is bomb
+    //-4 is power
+    //-5 is clock (extra time)
 
     public GridCell(int x, int y)
     {

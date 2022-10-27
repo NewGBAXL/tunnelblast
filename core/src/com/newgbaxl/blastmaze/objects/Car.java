@@ -50,36 +50,62 @@ public class Car extends CarActorAbs
         position.Y = MathUtils.lerp(position.Y, position.gridY * Const.TILE_SIZE, 0.25f);
     }
 
-    //public boolean destroy(byte cardinal, int str)
-    //{
-    //    boolean returnBool = Maze.cells[position.gridX][position.gridY].breakWall(cardinal, str);
-    //    --bombs;
-    //    return returnBool;
-    //}
-//
-    //public boolean build(byte cardinal)
-    //{
-    //    if (!isValidMove(cardinal))
-    //        return false;
-//
-    //    boolean returnBool = Maze.cells[position.gridX][position.gridY].buildWall(cardinal);
-    //    --blocks;
-    //    return returnBool;
-    //}
+    public boolean destroy(byte cardinal, int str)
+    {
+        if (bombs <= 0)
+        {
+            bombs = 0;
+            return false;
+        }
+
+        if (str > 0)
+            --bombs;
+        str = Math.abs(str);
+
+        int currentStr = MazeUtil.GetWallStrength(position.gridX, position.gridY, cardinal);
+        if (currentStr <= 0)
+            return false;
+        else if (str > currentStr)
+            MazeUtil.SetWallStrength(position.gridX, position.gridY, cardinal, 0);
+        else
+            MazeUtil.SetWallStrength(position.gridX, position.gridY, cardinal, currentStr - str);
+
+
+        return true;
+    }
+
+    public boolean destroyAll(int str)
+    {
+        if (bombs <= 0){
+            bombs = 0;
+            return false;
+        }
+
+        boolean returnBool = false;
+
+        for (int i = 0; i <= 3; ++i)
+            if (destroy((byte)i, -str))
+                returnBool = true;
+
+        if (returnBool)
+            --bombs;
+        return returnBool;
+    }
+
+    public boolean build(byte cardinal)
+    {
+        if (!isValidMove(cardinal))
+            return false;
+
+        MazeUtil.SetWallStrength(position.gridX, position.gridY, cardinal, 1);
+        --blocks;
+        return true;
+    }
 
     public boolean isValidMove(byte dir)
     {
         //if (lastPos == dir)
         //    return false;
-        //if (dir==0 && Maze.cells[position.gridX()][position.gridY()].nWall == 0)
-        //    return true;
-        //if (dir==1 && Maze.cells[position.gridX()][position.gridY()].eWall == 0)
-        //    return true;
-        //if (dir==2 && Maze.cells[position.gridX()][position.gridY()].sWall == 0)
-        //    return true;
-        //if (dir==3 && Maze.cells[position.gridX()][position.gridY()].wWall == 0)
-        //    return true;
-        //return false;
 
         //Check in bounds
         if (position.gridX < 0 || position.gridX > Const.MAZE_WIDTH - 1 || position.gridY < 0 || position.gridY > Const.MAZE_HEIGHT - 1) return true;
@@ -122,6 +148,28 @@ public class Car extends CarActorAbs
             position.gridY--;
         else if (newDir == 3)
             position.gridX--;
+
+        switch (MazeUtil.GetCellData(position.gridX,position.gridY))
+        {
+            case -2:
+                ++blocks;
+                break;
+            case -3:
+                ++bombs;
+                break;
+            case -4:
+                ++power;
+                break;
+            case -5:
+                ++timer;
+                break;
+            default:
+                //oilSlick(MazeUtil.GetCellData(position.gridX,position.gridY));
+                //use intensity to change speed in cell
+                break;
+        }
+
+        MazeUtil.SetCellData(position.gridX,position.gridY, (byte)0);
         return;
     }
 
