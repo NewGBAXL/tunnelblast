@@ -45,7 +45,7 @@ public class FirstFragment extends Fragment {
             public void onClick(View view) {
                 Intent i3 = new Intent(getActivity(), AndroidLauncher.class);
                 startActivity(i3);
-                //getApplication().initialize(new MazeGame(), workaround);
+                //getApplication().initialize(new MazeGame(), wo    rkaround);
                 /*NavHostFragment.findNavController(FirstFragment.this)
                         .navigate(R.id.action_FirstFragment_to_gameView);*/
 

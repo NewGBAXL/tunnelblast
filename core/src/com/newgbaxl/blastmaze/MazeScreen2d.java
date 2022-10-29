@@ -21,10 +21,12 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.newgbaxl.blastmaze.objects.EnemyCar;
 import com.newgbaxl.blastmaze.objects.UserCar;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Random;
@@ -43,6 +45,8 @@ public class MazeScreen2d implements Screen {
 
 	private TiledMapRenderer mapRenderer;
 	UserCar user;
+	LinkedList<EnemyCar> enemies;
+	EnemyCar enemyTestOnly;
 
 	//Array of grid spaces, walls defined by digits in hexadecimal format
 	public GridCell[][] mazeGrid;
@@ -96,7 +100,21 @@ public class MazeScreen2d implements Screen {
 		user = new UserCar(32,32, getRandomColor(),
 				(float)(Math.random() * 0.6) + 0.1f, (byte)1, (byte)1);
 
+		enemyTestOnly = (new EnemyCar(32,32, getRandomColor(),
+				(float)(Math.random() * 0.6) + 0.1f, (byte)1, (byte)1,1));
+		stage.addActor(enemyTestOnly);
+
+		int startingCars = 1;
+		for (int i = 1; i < startingCars; ++i)
+		{
+			enemies.add(new EnemyCar(32,32, getRandomColor(),
+					(float)(Math.random() * 0.6) + 0.1f, (byte)1, (byte)1,1));
+
+			stage.addActor(enemies.peekLast());
+		}
+
 		stage.addActor(user);
+		stage.addActor(enemyTestOnly);
 
 		GenerateMaze();
 
@@ -164,6 +182,17 @@ public class MazeScreen2d implements Screen {
 
 		font.draw(batch, "FPS", 50, 480, hudSectionWidth, Align.right, false);
 		font.draw(batch, String.valueOf(Gdx.graphics.getFramesPerSecond()), 110, 480);
+
+		//for testing
+		font.draw(batch, "UpPriority", 40, 200, hudSectionWidth, Align.right, false);
+		font.draw(batch, String.format(Locale.getDefault(), "%02d", enemyTestOnly.up), 40, 100);
+		font.draw(batch, "RightPriority", 440, 200, hudSectionWidth, Align.right, false);
+		font.draw(batch, String.format(Locale.getDefault(), "%02d", enemyTestOnly.rp), 440, 100);
+		font.draw(batch, "DownPriority", 840, 200, hudSectionWidth, Align.right, false);
+		font.draw(batch, String.format(Locale.getDefault(), "%02d", enemyTestOnly.dp), 840, 100);
+		font.draw(batch, "LeftPriority", 1200, 200, hudSectionWidth, Align.right, false);
+		font.draw(batch, String.format(Locale.getDefault(), "%02d", enemyTestOnly.lp), 1200, 100);
+
 		batch.end();
 	}
 
@@ -184,6 +213,7 @@ public class MazeScreen2d implements Screen {
 		batch = new SpriteBatch();
 
 		user.setPosition(w/2 -user.getWidth()/2, h/2 - user.getHeight()/2);
+		enemyTestOnly.setPosition(w/2 -enemyTestOnly.getWidth()/2, h/2 - enemyTestOnly.getHeight()/2);
 	}
 
 	@Override
@@ -310,7 +340,7 @@ public class MazeScreen2d implements Screen {
 			cells.remove(c);
 			used[c.x][c.y] = true;
 
-			//Try to readd cells that were missed
+			//Try to read cells that were missed
 			if (cells.isEmpty())
 			{
 				boolean found = false;
