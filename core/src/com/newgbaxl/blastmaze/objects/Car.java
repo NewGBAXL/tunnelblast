@@ -94,7 +94,7 @@ public class Car extends CarActorAbs
 
     public boolean build(byte cardinal)
     {
-        if (!isValidMove(cardinal))
+        if (!isValidMove(cardinal) || blocks <= 0)
             return false;
 
         MazeUtil.SetWallStrength(position.gridX, position.gridY, cardinal, 1);

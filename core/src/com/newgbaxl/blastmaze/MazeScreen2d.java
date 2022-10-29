@@ -47,6 +47,7 @@ public class MazeScreen2d implements Screen {
 	//Array of grid spaces, walls defined by digits in hexadecimal format
 	public GridCell[][] mazeGrid;
 	public Texture mazeWall = new Texture("brickWallDirectional.png");
+	public Texture cellThing = new Texture("Circle_question_mark.png");
 
 	public static MazeScreen2d getInstance;
 
@@ -187,14 +188,18 @@ public class MazeScreen2d implements Screen {
 
 	@Override
 	public void render(float delta) {
-		Gdx.gl.glClearColor(1, 0, 0, 1);
+		Gdx.gl.glClearColor(0.5f, 0.5f, 0.5f, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
 		if (Gdx.input.isKeyJustPressed(Input.Keys.R)) GenerateMaze();
 
+		Gdx.input.setOnscreenKeyboardVisible(false);
+
 		stage.act(delta);
 		stage.getViewport().apply();
 		stage.draw();
+
+		//stage.getCamera().position.x = 100;
 
 		OrthographicCamera cam = (OrthographicCamera) stage.getCamera();
 
@@ -213,6 +218,8 @@ public class MazeScreen2d implements Screen {
 		batch.begin();
 		for (int x = 0; x < Const.MAZE_WIDTH; x++) {
 			for (int y = 0; y < Const.MAZE_HEIGHT; y++) {
+				if (MazeUtil.GetCellData(x, y) <= -2)
+					batch.draw(cellThing, x * Const.TILE_SIZE, y * Const.TILE_SIZE, 0, 0, Const.TILE_SIZE, Const.TILE_SIZE, 0.5f, 0.5f, 0, 0, 0, 196, 199, false, false);
 				if (mazeGrid[x][y].nWall != 0)
 					batch.draw(mazeWall, x * Const.TILE_SIZE - 16, (y + 0.5f) * Const.TILE_SIZE - 16, 0, 0, Const.TILE_SIZE, Const.TILE_SIZE, 1, 1, 0, 0, 0, 48, 32, false, false);
 				if (mazeGrid[x][y].eWall != 0)
@@ -297,6 +304,8 @@ public class MazeScreen2d implements Screen {
 			}
 			//Place walls on remaining sides
 			for (int i : directions) MazeUtil.SetWallStrength(c.x, c.y, i, 1);
+
+			if (rand.nextInt(32) == 0) c.cellData = (byte)((rand.nextInt(4) + 2) * -1);
 
 			cells.remove(c);
 			used[c.x][c.y] = true;
