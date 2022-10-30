@@ -41,7 +41,6 @@ public class Map extends View {
     private GridCell exitSpace;
     public static boolean inv = false;
     public static FragmentGameViewBinding UIBinding;
-    Dpad dpad;
     public Counter bombsCounter;
     public Counter blocksCounter;
 
@@ -97,7 +96,6 @@ public class Map extends View {
 
         //playerTest = cells[0][0];
         exitSpace = cells[xWidth - 1][yHeight - 1];
-        dpad = new Dpad();
 
         objects = new ArrayList<>();
         player = new UserCar(this, 32, 32, carPaint, (byte)10, (byte)10);
@@ -225,12 +223,6 @@ public class Map extends View {
     @Override
     public boolean onGenericMotionEvent(MotionEvent event) {
         // Check if this event if from a D-pad and process accordingly.
-        if (Dpad.isDpadDevice(event)) {
-            int press = dpad.getDirectionPressed(event);
-            player.moveTo((byte) press);
-            invalidate();
-            return true;
-        }
 
         // Check if this event is from a joystick movement and process accordingly.
 

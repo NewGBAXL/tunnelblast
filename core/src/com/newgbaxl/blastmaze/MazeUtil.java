@@ -5,6 +5,7 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.newgbaxl.blastmaze.objects.UserCar;
 
 public class MazeUtil {
 
@@ -55,9 +56,54 @@ public class MazeUtil {
 		if (direction == 3) grid[x][y].wWall = (byte)value;
 	}
 
-	//move Android Map functions here?
+	public static GridCell GetCellFromDirection(int x, int y, int direction)
+	{
+		GridCell[][] mazeGrid = MazeScreen2d.getInstance.mazeGrid;
 
+		if (direction == 0)
+		{
+			if (y >= Const.MAZE_HEIGHT - 1) return null;
+			else return mazeGrid[x][y + 1];
+		}
+		if (direction == 1)
+		{
+			if (x >= Const.MAZE_WIDTH - 1) return null;
+			else return mazeGrid[x + 1][y];
+		}
+		if (direction == 2)
+		{
+			if (y <= 0) return null;
+			else return mazeGrid[x][y - 1];
+		}
+		if (direction == 3)
+		{
+			if (x <= 0) return null;
+			else return mazeGrid[x - 1][y];
+		}
+		return null;
+	}
 
+	public static byte GetCellData(int x, int y)
+	{
+		GridCell[][] grid = MazeScreen2d.getInstance.mazeGrid;
+		if (x < 0 || y < 0 || x > Const.MAZE_WIDTH || y > Const.MAZE_HEIGHT) return (byte)0;
+
+		return grid[x][y].cellData;
+	}
+
+	public static void SetCellData(int x, int y, byte value)
+	{
+		GridCell[][] grid = MazeScreen2d.getInstance.mazeGrid;
+		if (x < 0 || y < 0 || x > Const.MAZE_WIDTH || y > Const.MAZE_HEIGHT) return;
+
+		grid[x][y].cellData = value;
+	}
+
+	public static Coordinates getPlayerPosition()
+	{
+		UserCar user = MazeScreen2d.getInstance.user;
+		return user.position;
+	}
 
 
 

@@ -3,6 +3,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.newgbaxl.blastmaze.Const;
 import com.newgbaxl.blastmaze.Coordinates;
 import com.newgbaxl.blastmaze.HeadsUpDisplay;
 
@@ -17,9 +18,9 @@ public class UserCar extends Car {
     public UserCar(int width, int height, Color nSkin, float delay, byte nBaseSpd, byte nPwrRate) {
         super(width, height, nSkin, delay, nBaseSpd, nPwrRate);
         nSkin = Color.GREEN;
-        position = new Coordinates(64, 64);
-        position.gridX = 8;
-        position.gridY = 8;
+        position = new Coordinates(Const.SPAWN_CELL_X * Const.TILE_SIZE, Const.SPAWN_CELL_Y * Const.TILE_SIZE);
+        position.gridX = Const.SPAWN_CELL_X;
+        position.gridY = Const.SPAWN_CELL_Y;
     }
 
     //@Override
@@ -55,31 +56,61 @@ public class UserCar extends Car {
         //        break;
         //}
 
-        if(Gdx.input.isKeyJustPressed(Input.Keys.LEFT) && moveCooldownTimer <= 0) {
+        if(Gdx.input.isKeyJustPressed(Input.Keys.A) || Gdx.input.isKeyJustPressed(Input.Keys.LEFT) && moveCooldownTimer <= 0) {
             //if (Gdx.input.isKeyPressed(Input.Keys.CONTROL_LEFT))
-            moveTo((byte)0);
+            moveTo((byte)3);
             Gdx.app.log("tag", "Left");
             moveCooldownTimer = MoveCooldown;
         }
 
-        if(Gdx.input.isKeyJustPressed(Input.Keys.RIGHT) && moveCooldownTimer <= 0) {
+        if(Gdx.input.isKeyJustPressed(Input.Keys.D) || Gdx.input.isKeyJustPressed(Input.Keys.RIGHT) && moveCooldownTimer <= 0) {
             //if (Gdx.input.isKeyPressed(Input.Keys.CONTROL_LEFT))
-            moveTo((byte)2);
+            moveTo((byte)1);
             Gdx.app.log("tag", "Right");
             moveCooldownTimer = MoveCooldown;
         }
 
-        if(Gdx.input.isKeyJustPressed(Input.Keys.UP) && moveCooldownTimer <= 0) {
+        if(Gdx.input.isKeyJustPressed(Input.Keys.W) || Gdx.input.isKeyJustPressed(Input.Keys.UP) && moveCooldownTimer <= 0) {
             //if (Gdx.input.isKeyPressed(Input.Keys.CONTROL_LEFT))
-            moveTo((byte)1);
+            moveTo((byte)0);
             Gdx.app.log("tag", "Up");
             moveCooldownTimer = MoveCooldown;
         }
 
-        if(Gdx.input.isKeyJustPressed(Input.Keys.DOWN) && moveCooldownTimer <= 0) {
+        if(Gdx.input.isKeyJustPressed(Input.Keys.S) || Gdx.input.isKeyJustPressed(Input.Keys.DOWN) && moveCooldownTimer <= 0) {
             //if (Gdx.input.isKeyPressed(Input.Keys.CONTROL_LEFT))
-            moveTo((byte)3);
+            moveTo((byte)2);
             Gdx.app.log("tag", "Down");
+            moveCooldownTimer = MoveCooldown;
+        }
+
+        if((Gdx.input.isKeyJustPressed(Input.Keys.BUTTON_X) || Gdx.input.isKeyJustPressed(Input.Keys.X)) && moveCooldownTimer <= 0) {
+            destroyAll(1);
+            Gdx.app.log("tag", "Button X");
+            moveCooldownTimer = MoveCooldown;
+        }
+
+        if(Gdx.input.isKeyJustPressed(Input.Keys.BUTTON_Z) || Gdx.input.isKeyJustPressed(Input.Keys.I) && moveCooldownTimer <= 0) {
+            build((byte)0);
+            Gdx.app.log("tag", "Button X");
+            moveCooldownTimer = MoveCooldown;
+        }
+
+        if(Gdx.input.isKeyJustPressed(Input.Keys.L) && moveCooldownTimer <= 0) {
+            build((byte)1);
+            Gdx.app.log("tag", "Button X");
+            moveCooldownTimer = MoveCooldown;
+        }
+
+        if(Gdx.input.isKeyJustPressed(Input.Keys.K) && moveCooldownTimer <= 0) {
+            build((byte)2);
+            Gdx.app.log("tag", "Button X");
+            moveCooldownTimer = MoveCooldown;
+        }
+
+        if(Gdx.input.isKeyJustPressed(Input.Keys.J) && moveCooldownTimer <= 0) {
+            build((byte)3);
+            Gdx.app.log("tag", "Button X");
             moveCooldownTimer = MoveCooldown;
         }
 

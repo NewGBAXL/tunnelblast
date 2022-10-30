@@ -1,6 +1,5 @@
 package com.newgbaxl.blastmaze.Objects;
 
-import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.view.InputDevice;
@@ -8,8 +7,6 @@ import android.view.MotionEvent;
 
 import androidx.core.content.res.ResourcesCompat;
 
-import com.newgbaxl.blastmaze.Objects.Car;
-import com.newgbaxl.blastmaze.Dpad;
 import com.newgbaxl.blastmaze.Map;
 import com.newgbaxl.blastmaze.R;
 
@@ -17,12 +14,10 @@ public class UserCar extends Car {
     //we might not even need this class
     int xPos = 0;
     int yPos = 0;
-    Dpad dpad;
     //public boolean moving = false;
     public UserCar(Map game, int x, int y, Paint nSkin, byte nBaseSpd, byte nPwrRate) {
         super(game, x, y, nSkin, nBaseSpd, nPwrRate);
         nSkin.setColor(Color.GREEN);
-        dpad = new Dpad();
         sprite = ResourcesCompat.getDrawable(game.getResources(), R.drawable.car2, null);
     }
 

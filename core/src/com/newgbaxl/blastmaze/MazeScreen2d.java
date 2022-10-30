@@ -1,7 +1,12 @@
 package com.newgbaxl.blastmaze;
 
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.utils.Align;
 import com.newgbaxl.blastmaze.camera.MapViewport;
 
 import com.badlogic.gdx.Gdx;
@@ -16,7 +21,15 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.newgbaxl.blastmaze.objects.EnemyCar;
 import com.newgbaxl.blastmaze.objects.UserCar;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Locale;
+import java.util.Random;
 
 public class MazeScreen2d implements Screen {
 
@@ -32,12 +45,19 @@ public class MazeScreen2d implements Screen {
 
 	private TiledMapRenderer mapRenderer;
 	UserCar user;
+	LinkedList<EnemyCar> enemies;
+	EnemyCar enemyTestOnly;
 
 	//Array of grid spaces, walls defined by digits in hexadecimal format
 	public GridCell[][] mazeGrid;
 	public Texture mazeWall = new Texture("brickWallDirectional.png");
+	public Texture cellThing = new Texture("Circle_question_mark.png");
 
 	public static MazeScreen2d getInstance;
+
+	//Heads-Up Display
+	BitmapFont font;
+	float hudVerticalMargin, hudLeftX, hudRightX, hudCenterX, hudRow1Y, hudRow2Y, hudSectionWidth;
 
 	public MazeScreen2d() {
 		super();
@@ -80,16 +100,25 @@ public class MazeScreen2d implements Screen {
 		user = new UserCar(32,32, getRandomColor(),
 				(float)(Math.random() * 0.6) + 0.1f, (byte)1, (byte)1);
 
+		enemyTestOnly = (new EnemyCar(32,32, getRandomColor(),
+				(float)(Math.random() * 0.6) + 0.1f, (byte)1, (byte)1,1));
+		stage.addActor(enemyTestOnly);
+
+		int startingCars = 1;
+		for (int i = 1; i < startingCars; ++i)
+		{
+			enemies.add(new EnemyCar(32,32, getRandomColor(),
+					(float)(Math.random() * 0.6) + 0.1f, (byte)1, (byte)1,1));
+
+			stage.addActor(enemies.peekLast());
+		}
+
 		stage.addActor(user);
+		stage.addActor(enemyTestOnly);
 
-		//Sample map grid
-		mazeGrid = new GridCell[Const.MAZE_WIDTH][Const.MAZE_WIDTH];
-		for (int x = 0; x < Const.MAZE_WIDTH; x++) for (int y = 0; y < Const.MAZE_HEIGHT; y++) mazeGrid[x][y] = new GridCell();
+		GenerateMaze();
 
-		MazeUtil.SetWallStrength(5, 5, 0, 1);
-		MazeUtil.SetWallStrength(5, 5, 1, 1);
-		MazeUtil.SetWallStrength(5, 5, 2, 1);
-		MazeUtil.SetWallStrength(5, 5, 3, 1);
+		prepareHUD(115, 32);
 
 		batch = new SpriteBatch();
 	}
@@ -97,6 +126,74 @@ public class MazeScreen2d implements Screen {
 	private Color getRandomColor() {
 		Color colors[] = {Color.BLACK, Color.BLUE, Color.CYAN, Color.GRAY, Color.GREEN, Color.MAGENTA};
 		return colors[MathUtils.random(colors.length - 1)];
+	}
+
+	public void prepareHUD(int width, int height) {
+		//Create a BitmapFont from our font file
+		FreeTypeFontGenerator fontGenerator = new FreeTypeFontGenerator(Gdx.files.internal("EdgeOfTheGalaxyRegular-OVEa6.otf"));
+		FreeTypeFontGenerator.FreeTypeFontParameter fontParameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+
+		fontParameter.size = 72;
+		fontParameter.borderWidth = 3.6f;
+		fontParameter.color = new Color(1, 1, 1, 0.3f);
+		fontParameter.borderColor = new Color(0, 0, 0, 0.3f);
+
+		font = fontGenerator.generateFont(fontParameter);
+
+		//scale the font to fit world
+		font.getData().setScale(0.8f);
+
+		//calculate hud margins, etc.
+		hudVerticalMargin = font.getCapHeight() / 2;
+		hudLeftX = hudVerticalMargin;
+		hudRightX = width * 2 / 3 - hudLeftX;
+		hudCenterX = height / 3;
+		hudRow1Y = 700; //height - hudVerticalMargin;
+		hudRow2Y = 630; //hudRow1Y - hudVerticalMargin - font.getCapHeight();
+		hudSectionWidth = width / 3;
+	}
+
+	private void updateAndRenderHUD() {
+		//For potentially rendering in portrait mode
+		/*//render top row labels
+		font.draw(batch, "Bombs", 100, hudRow1Y, hudSectionWidth, Align.center, false);
+		font.draw(batch, "Blocks", 500, hudRow1Y, hudSectionWidth, Align.center, false);
+		font.draw(batch, "Power", 900, hudRow1Y, hudSectionWidth, Align.center, false);
+		font.draw(batch, "Timer", 1300, hudRow1Y, hudSectionWidth, Align.center, false);
+
+		//render second row values
+		font.draw(batch, String.format(Locale.getDefault(), "%02d", user.bombs), 100, hudRow2Y, hudSectionWidth, Align.center, false);//hudLeftX, hudRow2Y, hudSectionWidth, Align.left, false);
+		font.draw(batch, String.format(Locale.getDefault(), "%02d", user.blocks), 500, hudRow2Y, hudSectionWidth, Align.center, false);;//hudCenterX, hudRow2Y, hudSectionWidth, Align.center, false);
+		font.draw(batch, String.format(Locale.getDefault(), "%02d", user.power), 900, hudRow2Y, hudSectionWidth, Align.center, false);//hudRightX, hudRow2Y, hudSectionWidth, Align.right, false);
+		font.draw(batch, String.format(Locale.getDefault(), "%.2f", timer), 1300, hudRow2Y, hudSectionWidth, Align.center, false);//hudRightX, hudRow2Y, hudSectionWidth, Align.right, false);
+		*/
+
+		batch.begin();
+		font.draw(batch, "Bombs", 10, hudRow1Y, hudSectionWidth, Align.left, false);
+		font.draw(batch, "Blocks", 400, hudRow1Y, hudSectionWidth, Align.left, false);
+		font.draw(batch, "Power", 800, hudRow1Y, hudSectionWidth, Align.left, false);
+		font.draw(batch, "Timer", 1150, hudRow1Y, hudSectionWidth, Align.left, false);
+
+		font.draw(batch, String.format(Locale.getDefault(), "%02d", user.bombs), 200, hudRow1Y, hudSectionWidth, Align.right, false);//hudLeftX, hudRow2Y, hudSectionWidth, Align.left, false);
+		font.draw(batch, String.format(Locale.getDefault(), "%02d", user.blocks), 600, hudRow1Y, hudSectionWidth, Align.right, false);;//hudCenterX, hudRow2Y, hudSectionWidth, Align.center, false);
+		font.draw(batch, String.format(Locale.getDefault(), "%02d", user.power), 1000, hudRow1Y, hudSectionWidth, Align.right, false);//hudRightX, hudRow2Y, hudSectionWidth, Align.right, false);
+		font.draw(batch, String.format(Locale.getDefault(), "%6.2f", user.timer), 1400, hudRow1Y, hudSectionWidth, Align.right, false);//hudRightX, hudRow2Y, hudSectionWidth, Align.right, false);
+
+
+		font.draw(batch, "FPS", 50, 480, hudSectionWidth, Align.right, false);
+		font.draw(batch, String.valueOf(Gdx.graphics.getFramesPerSecond()), 110, 480);
+
+		//for testing
+		font.draw(batch, "UpPriority", 40, 200, hudSectionWidth, Align.right, false);
+		font.draw(batch, String.format(Locale.getDefault(), "%02d", enemyTestOnly.up), 40, 100);
+		font.draw(batch, "RightPriority", 440, 200, hudSectionWidth, Align.right, false);
+		font.draw(batch, String.format(Locale.getDefault(), "%02d", enemyTestOnly.rp), 440, 100);
+		font.draw(batch, "DownPriority", 840, 200, hudSectionWidth, Align.right, false);
+		font.draw(batch, String.format(Locale.getDefault(), "%02d", enemyTestOnly.dp), 840, 100);
+		font.draw(batch, "LeftPriority", 1200, 200, hudSectionWidth, Align.right, false);
+		font.draw(batch, String.format(Locale.getDefault(), "%02d", enemyTestOnly.lp), 1200, 100);
+
+		batch.end();
 	}
 
 	@Override
@@ -116,16 +213,23 @@ public class MazeScreen2d implements Screen {
 		batch = new SpriteBatch();
 
 		user.setPosition(w/2 -user.getWidth()/2, h/2 - user.getHeight()/2);
+		enemyTestOnly.setPosition(w/2 -enemyTestOnly.getWidth()/2, h/2 - enemyTestOnly.getHeight()/2);
 	}
 
 	@Override
 	public void render(float delta) {
-		Gdx.gl.glClearColor(1, 0, 0, 1);
+		Gdx.gl.glClearColor(0.5f, 0.5f, 0.5f, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+		if (Gdx.input.isKeyJustPressed(Input.Keys.R)) GenerateMaze();
+
+		Gdx.input.setOnscreenKeyboardVisible(false);
 
 		stage.act(delta);
 		stage.getViewport().apply();
 		stage.draw();
+
+		//stage.getCamera().position.x = 100;
 
 		OrthographicCamera cam = (OrthographicCamera) stage.getCamera();
 
@@ -144,17 +248,21 @@ public class MazeScreen2d implements Screen {
 		batch.begin();
 		for (int x = 0; x < Const.MAZE_WIDTH; x++) {
 			for (int y = 0; y < Const.MAZE_HEIGHT; y++) {
-				if (mazeGrid[x][y].nWall > 0)
+				if (MazeUtil.GetCellData(x, y) <= -2)
+					batch.draw(cellThing, x * Const.TILE_SIZE, y * Const.TILE_SIZE, 0, 0, Const.TILE_SIZE, Const.TILE_SIZE, 0.5f, 0.5f, 0, 0, 0, 196, 199, false, false);
+				if (mazeGrid[x][y].nWall != 0)
 					batch.draw(mazeWall, x * Const.TILE_SIZE - 16, (y + 0.5f) * Const.TILE_SIZE - 16, 0, 0, Const.TILE_SIZE, Const.TILE_SIZE, 1, 1, 0, 0, 0, 48, 32, false, false);
-				if (mazeGrid[x][y].eWall > 0)
+				if (mazeGrid[x][y].eWall != 0)
 					batch.draw(mazeWall, (x + 1.5f) * Const.TILE_SIZE - 16, y * Const.TILE_SIZE - 16, 0, 0, Const.TILE_SIZE, Const.TILE_SIZE, 1, 1, 90, 0, 0, 48, 32, false, false);
-				if (mazeGrid[x][y].sWall > 0)
+				if (mazeGrid[x][y].sWall != 0)
 					batch.draw(mazeWall, x * Const.TILE_SIZE - 16, (y - 0.5f) * Const.TILE_SIZE - 16, 0, 0, Const.TILE_SIZE, Const.TILE_SIZE, 1, 1, 0, 0, 0, 48, 32, false, false);
-				if (mazeGrid[x][y].wWall > 0)
+				if (mazeGrid[x][y].wWall != 0)
 					batch.draw(mazeWall, (x + 0.5f) * Const.TILE_SIZE - 16, y * Const.TILE_SIZE - 16, 0, 0, Const.TILE_SIZE, Const.TILE_SIZE, 1, 1, 90, 0, 0, 48, 32, false, false);
 			}
 		}
 		batch.end();
+
+		updateAndRenderHUD();
 	}
 
 	@Override
@@ -179,4 +287,80 @@ public class MazeScreen2d implements Screen {
 	public void dispose() {
 	}
 
+	public void GenerateMaze()
+	{
+		mazeGrid = new GridCell[Const.MAZE_WIDTH][Const.MAZE_WIDTH];
+		Random rand = new Random();
+
+		boolean[][] used = new boolean[Const.MAZE_WIDTH][Const.MAZE_HEIGHT];
+		for (int x = 0; x < Const.MAZE_WIDTH; x++) for (int y = 0; y < Const.MAZE_HEIGHT; y++)
+		{
+			mazeGrid[x][y] = new GridCell(x, y);
+			if (x == 0) mazeGrid[x][y].wWall = -2;
+			if (x == Const.MAZE_WIDTH - 1) mazeGrid[x][y].eWall = -2;
+			if (y == 0) mazeGrid[x][y].sWall = -2;
+			if (y == Const.MAZE_HEIGHT - 1) mazeGrid[x][y].nWall = -2;
+
+			used[x][y] = false;
+		}
+
+		ArrayList<GridCell> cells = new ArrayList<>();
+		cells.add(mazeGrid[Const.SPAWN_CELL_X][Const.SPAWN_CELL_Y]);
+
+		int iteration = 0;
+		while (!cells.isEmpty())
+		{
+			GridCell c = cells.get(cells.size() - 1);
+
+			//Get possible directions for the cell to go
+			ArrayList<Integer> directions = new ArrayList<>();
+			for (int i = 0; i <= 3; i++)
+			{
+				GridCell c2 = MazeUtil.GetCellFromDirection(c.x, c.y, i);
+				if (c2 != null && !used[c2.x][c2.y]) directions.add(i);
+			}
+
+			boolean done = false;
+			while (!done) {
+				if (!directions.isEmpty()) {
+					//Pick a direction to extend the maze
+					int dir = directions.get(rand.nextInt(directions.size()));
+					directions.remove((Object) dir);
+
+					//Add new direction to the cell list
+					cells.add(MazeUtil.GetCellFromDirection(c.x, c.y, dir));
+				}
+				if (directions.isEmpty() || (rand.nextInt(32) != 0 && cells.indexOf(c) != 0)) done = true;
+			}
+			//Place walls on remaining sides
+			for (int i : directions) MazeUtil.SetWallStrength(c.x, c.y, i, 1);
+
+			if (rand.nextInt(32) == 0) c.cellData = (byte)((rand.nextInt(4) + 2) * -1);
+
+			cells.remove(c);
+			used[c.x][c.y] = true;
+
+			//Try to read cells that were missed
+			if (cells.isEmpty())
+			{
+				boolean found = false;
+				for (int x = 0; x < Const.MAZE_WIDTH; x++)
+				{
+					if (found) break;
+					for (int y = 0; y < Const.MAZE_HEIGHT; y++)
+					{
+						if (!used[x][y])
+						{
+							cells.add(mazeGrid[x][y]);
+							found = true;
+							break;
+						}
+					}
+				}
+			}
+
+			iteration++;
+			if (iteration > Const.MAZE_WIDTH * Const.MAZE_HEIGHT * 2) break;
+		}
+	}
 }

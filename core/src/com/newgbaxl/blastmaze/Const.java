@@ -14,11 +14,15 @@ public class Const {
 	/**
 	 * Maze height, unitless, should be odd (2*n + 1)
 	 */
-	public static final int MAZE_HEIGHT = 20;
+	public static final int MAZE_HEIGHT = 10;
 	/**
 	 * Maze width, unitless, should be odd (2*n + 1)
 	 */
 	public static final int MAZE_WIDTH = 20;
+
+	public static final int SPAWN_CELL_X = 5;
+	public static final int SPAWN_CELL_Y = 5;
+
 	/**
 	 * 1 room in the maze will be nXn in tiles
 	 * but walls and doors remain 1 tile
