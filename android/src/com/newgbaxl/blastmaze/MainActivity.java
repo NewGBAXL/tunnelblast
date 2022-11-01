@@ -48,8 +48,11 @@ public class MainActivity extends AppCompatActivity {
         binding.fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                LayoutInflater layoutInflaterAndroid = LayoutInflater.from(getApplicationContext());
+                View v = layoutInflaterAndroid.inflate(R.layout.fragment_help, null);
+
+                AlertDialog.Builder helpDialogue = new AlertDialog.Builder(MainActivity.this);
+                helpDialogue.setView(v);
             }
         });
     }
