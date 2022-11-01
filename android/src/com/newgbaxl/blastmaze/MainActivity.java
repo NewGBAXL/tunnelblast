@@ -97,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
         LayoutInflater layoutInflaterAndroid = LayoutInflater.from(getApplicationContext());
         View v = layoutInflaterAndroid.inflate(R.layout.fragment_help, null);
 
-        AlertDialog.Builder helpDialogue = new AlertDialog.Builder(MainActivity.this);
+        AlertDialog.Builder helpDialogue = new AlertDialog.Builder(view.getContext());
         helpDialogue.setView(v);
     }
 }
