@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
         appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build();
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
 
-        binding.fab.setOnClickListener(new View.OnClickListener() {
+        /*binding.fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 LayoutInflater layoutInflaterAndroid = LayoutInflater.from(getApplicationContext());
@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
                 AlertDialog.Builder helpDialogue = new AlertDialog.Builder(MainActivity.this);
                 helpDialogue.setView(v);
             }
-        });
+        });*/
     }
 
     @Override
