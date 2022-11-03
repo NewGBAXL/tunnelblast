@@ -11,17 +11,21 @@
         android:id="@+id/topShopContainer"
         android:layout_width="318dp"
         android:layout_height="91dp"
+        android:layout_marginStart="167dp"
+        android:layout_marginTop="204dp"
         android:background="@drawable/oval_container"
-        tools:layout_editor_absoluteX="167dp"
-        tools:layout_editor_absoluteY="204dp" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/bottomShopContainer"
         android:layout_width="255dp"
         android:layout_height="91dp"
+        android:layout_marginTop="604dp"
+        android:layout_marginEnd="271dp"
         android:background="@drawable/oval_container"
-        tools:layout_editor_absoluteX="-116dp"
-        tools:layout_editor_absoluteY="604dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/button_back"
