@@ -15,12 +15,14 @@ import com.newgbaxl.blastmaze.MazeGame;
 public class AndroidLauncher extends AndroidApplication
 {
 	public boolean splash = true;
+	int money = 0;
 
 	protected void onCreate (Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
 		AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
 
+		money = getIntent().getIntExtra("Money",0);
 		int carSkin = getIntent().getIntExtra("Car", -1); //default - quick start
 		int special = getIntent().getIntExtra("Weapon", 0);
 		int scenario = getIntent().getIntExtra("Level", -1);
@@ -74,6 +76,7 @@ public class AndroidLauncher extends AndroidApplication
 	protected void onDestroy() {
 		Intent intent = new Intent(this, GameOverActivity.class);
 		//todo: push game stats to GameOverActivity
+		intent.putExtra("Money",money);
 		startActivity(intent);
 		super.onDestroy();
 	}
