@@ -7,14 +7,20 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.viewbinding.ViewBinding;
 
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.newgbaxl.blastmaze.Objects.CarSkin;
 import com.newgbaxl.blastmaze.databinding.FragmentSettingsBinding;
 import com.newgbaxl.blastmaze.databinding.FragmentStoreBinding;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.prefs.PreferenceChangeEvent;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -34,9 +40,10 @@ public class Store extends Fragment {
 
     private FragmentStoreBinding binding;
 
-    //move these to Persistant Storage!
-    public int currencyAmnt = 0;
+    //Probably should make it all list-based, but I don't want to change too many things
     public CarSkin carSkins[] = new CarSkin[9];
+    public List<CarSkin> getFromDatabase = new ArrayList<>();
+    //move these to Persistant Storage!
     public int selectedSkin = 0;
 
     public Store() {
@@ -72,9 +79,6 @@ public class Store extends Fragment {
 
 
         //binding.displayCurrency.setText();
-        for (int i = 0; i < carSkins.length; ++i){
-            carSkins[i] = new CarSkin(i*10, true);
-        }
     }
 
     @Override
@@ -86,6 +90,21 @@ public class Store extends Fragment {
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        DatabaseHelper db = new DatabaseHelper(getActivity());
+        getFromDatabase = db.getAllCars();
+        if (getFromDatabase.size() < 1) {
+            for (int i = 0; i < 9; ++i){
+                db.insertCar(true,false,i*10);
+            }
+        }
+        for (int i = 0; i < carSkins.length && i < getFromDatabase.size(); ++i){
+            carSkins[i] = getFromDatabase.get(i);
+        }
+        binding.displayCurrency.setText("$" + PreferenceManager.getDefaultSharedPreferences(getActivity()).getInt("currencyAmnt",0));
+        binding.purchaseStore.setText(carSkins[selectedSkin].purchased?"PURCHASED":"PURCHASE");
+        if(selectedSkin == PreferenceManager.getDefaultSharedPreferences(getActivity()).getInt("equipped_car",-1)) {
+            binding.purchaseStore.setText("EQUIPPED");
+        }
 
         binding.buttonBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -95,13 +114,13 @@ public class Store extends Fragment {
 
             }
         });
-
         binding.addCurrency.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //add currency
-                ++currencyAmnt;
-                binding.displayCurrency.setText("$" + currencyAmnt);
+                PreferenceManager.getDefaultSharedPreferences(getActivity()).edit().putInt("currencyAmnt",PreferenceManager.getDefaultSharedPreferences(getActivity()).getInt("currencyAmnt",0) + 1).apply();
+                binding.displayCurrency.setText("$" + PreferenceManager.getDefaultSharedPreferences(getActivity()).getInt("currencyAmnt",0));
+
             }
         });
 
@@ -134,15 +153,20 @@ public class Store extends Fragment {
         binding.purchaseStore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                int money = PreferenceManager.getDefaultSharedPreferences(getActivity()).getInt("currencyAmnt",0);
                 if (carSkins[selectedSkin].purchased){
                     binding.purchaseStore.setText("EQUIPPED");
+                    PreferenceManager.getDefaultSharedPreferences(getActivity()).edit().putInt("equipped_car",selectedSkin).apply();
                 }
                 else{
-                    if (currencyAmnt >= carSkins[selectedSkin].price){
-                        currencyAmnt-=carSkins[selectedSkin].price;
-                        //binding.displayCurrency.setText(currencyAmnt);
+                    if (money >= carSkins[selectedSkin].price){
+                        PreferenceManager.getDefaultSharedPreferences(getActivity()).edit().putInt("currencyAmnt",money - carSkins[selectedSkin].price).apply();
+                        money-=carSkins[selectedSkin].price;
+                        binding.displayCurrency.setText("$" + money);
                         binding.purchaseStore.setText("EQUIP");
                         carSkins[selectedSkin].purchased = true;
+                        DatabaseHelper db = new DatabaseHelper(getActivity());
+                        db.updateCar(carSkins[selectedSkin]);
                     }
                 }
             }
@@ -152,6 +176,9 @@ public class Store extends Fragment {
 
     public void displaySkin(){
         binding.purchaseStore.setText(carSkins[selectedSkin].purchased?"PURCHASED":"PURCHASE");
+        if(selectedSkin == PreferenceManager.getDefaultSharedPreferences(getActivity()).getInt("equipped_car",-1)) {
+            binding.purchaseStore.setText("EQUIPPED");
+        }
         binding.priceStore.setText("Price: $" + String.valueOf(carSkins[selectedSkin].price));
 
         switch (selectedSkin) {
