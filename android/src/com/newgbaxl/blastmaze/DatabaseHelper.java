@@ -6,6 +6,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.newgbaxl.blastmaze.Objects.CarSkin;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,22 +23,22 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final int DATABASE_VERSION = 1;
 
     // Database Name
-    private static final String DATABASE_NAME = "notes_db";
+    private static final String DATABASE_NAME = "cars_db";
 
-    public static final String TABLE_NAME = "notes";
+    public static final String TABLE_NAME = "cars";
 
     public static final String COLUMN_ID = "id";
-    public static final String COLUMN_NAME = "name";
-    public static final String COLUMN_DETAILS = "details";
-    public static final String COLUMN_TIMESTAMP = "timestamp";
+    public static final String COLUMN_UNLOCKED = "unlocked";
+    public static final String COLUMN_PURCHACED = "purchaced";
+    public static final String COLUMN_PRICE = "price";
 
     // Create table SQL query
     public static final String CREATE_TABLE =
             "CREATE TABLE " + TABLE_NAME + "("
                     + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
-                    + COLUMN_NAME + " TEXT,"
-                    + COLUMN_DETAILS + " TEXT,"
-                    + COLUMN_TIMESTAMP + " DATETIME DEFAULT CURRENT_TIMESTAMP"
+                    + COLUMN_UNLOCKED + " INTEGER,"
+                    + COLUMN_PURCHACED + " INTEGER,"
+                    + COLUMN_PRICE + " INTEGER"
                     + ")";
 
     public DatabaseHelper(Context context) {
@@ -60,15 +62,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public long insertNote(String name,String details) {
+    public long insertCar(boolean unlocked,boolean purchaced, int price) {
         // get writable database as we want to write data
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        // `id` and `timestamp` will be inserted automatically.
-        // no need to add them
-        values.put(COLUMN_NAME, name);
-        values.put(COLUMN_DETAILS, details);
+        //Need to store boolean values as integers
+        int unlockedInt = (unlocked?1:0);
+        int purchacedInt = (purchaced?1:0);
+
+
+        values.put(COLUMN_UNLOCKED, unlockedInt);
+        values.put(COLUMN_PURCHACED, purchacedInt);
+        values.put(COLUMN_PRICE, price);
         //values.put(COLUMN_ID, 123);
         //values.put(COLUMN_TIMESTAMP, "March 14 9:00AM");
 
@@ -82,62 +88,67 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return id;
     }
 
-    /*
-    public Note getNote(long id) {
+
+    public CarSkin getCar(long id) {
         // get readable database as we are not inserting anything
         SQLiteDatabase db = this.getReadableDatabase();
 
         Cursor cursor = db.query(TABLE_NAME,
-                new String[]{COLUMN_ID, COLUMN_NAME, COLUMN_DETAILS, COLUMN_TIMESTAMP},
+                new String[]{COLUMN_ID, COLUMN_UNLOCKED, COLUMN_PURCHACED, COLUMN_PRICE},
                 COLUMN_ID + "=?",
                 new String[]{String.valueOf(id)}, null, null, null, null);
 
         if (cursor != null)
             cursor.moveToFirst();
-
+        boolean unlocked = (cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_UNLOCKED)) > 0);
+        boolean purchaced = (cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_PURCHACED)) > 0);
         // prepare note object
-        Note note = new Note(
-                cursor.getInt(cursor.getColumnIndex(COLUMN_ID)),
-                cursor.getString(cursor.getColumnIndex(COLUMN_NAME)),
-                cursor.getString(cursor.getColumnIndex(COLUMN_DETAILS)),
-                cursor.getString(cursor.getColumnIndex(COLUMN_TIMESTAMP)));
+        CarSkin car = new CarSkin(
+                cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_ID)),
+                unlocked,
+                purchaced,
+                cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_PRICE)));
 
         // close the db connection
         cursor.close();
+        db.close();
 
-        return note;
-    }*/
+        return car;
+    }
 
-    public List<Note> getAllNotes() {
-        List<Note> notes = new ArrayList<>();
+    public List<CarSkin> getAllCars() {
+        List<CarSkin> cars = new ArrayList<>();
 
         // Select All Query
         String selectQuery = "SELECT  * FROM " + TABLE_NAME + " ORDER BY " +
-                COLUMN_TIMESTAMP + " DESC";
+                COLUMN_PRICE + " ASC";
 
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
 
         // looping through all rows and adding to list
-        /*if (cursor.moveToFirst()) {
+        if (cursor.moveToFirst()) {
             do {
-                Note note = new Note();
-                note.setId(cursor.getInt(cursor.getColumnIndex(COLUMN_ID)));
-                note.setName(cursor.getString(cursor.getColumnIndex(COLUMN_NAME)));
-                note.setDetails(cursor.getString(cursor.getColumnIndex(COLUMN_DETAILS)));
-                note.setTimestamp(cursor.getString(cursor.getColumnIndex(COLUMN_TIMESTAMP)));
-                notes.add(note);
+                boolean unlocked = (cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_UNLOCKED)) > 0);
+                boolean purchaced = (cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_PURCHACED)) > 0);
+                CarSkin car = new CarSkin(
+                    cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_ID)),
+                    unlocked,
+                    purchaced,
+                    cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_PRICE)));
+                cars.add(car);
             } while (cursor.moveToNext());
-        }*/
+        }
 
         // close db connection
+        cursor.close();
         db.close();
 
         // return notes list
-        return notes;
+        return cars;
     }
 
-    public int getNotesCount() {
+    /*public int getNotesCount() {
         String countQuery = "SELECT  * FROM " + TABLE_NAME;
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(countQuery, null);
@@ -145,24 +156,25 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         cursor.close();
         // return count
         return count;
-    }
+    }*/
 
-    public int updateNote(Note note) {
+    public int updateCar(CarSkin car) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put(COLUMN_NAME, note.getName());
-        values.put(COLUMN_DETAILS, note.getDetails());
+        values.put(COLUMN_UNLOCKED, car.unlocked?1:0);
+        values.put(COLUMN_PURCHACED, car.purchased?1:0);
+        values.put(COLUMN_PRICE, car.price);
 
         // updating row
         return db.update(TABLE_NAME, values, COLUMN_ID + " = ?",
-                new String[]{String.valueOf(note.getId())});
+                new String[]{String.valueOf(car.getId())});
     }
 
-    public void deleteNote(Note note) {
+    /*public void deleteNote(Note note) {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_NAME, COLUMN_ID + " = ?",
                 new String[]{String.valueOf(note.getId())});
         db.close();
-    }
+    }*/
 }

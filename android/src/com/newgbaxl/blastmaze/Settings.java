@@ -1,14 +1,19 @@
 package com.newgbaxl.blastmaze;
 
 import androidx.fragment.app.Fragment;
+
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.navigation.fragment.NavHostFragment;
 
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.newgbaxl.blastmaze.Objects.ArrowSwitch;
 import com.newgbaxl.blastmaze.databinding.FragmentFirstBinding;
@@ -30,11 +35,11 @@ public class Settings extends Fragment {
     private static final boolean ARG_PARAM5 = true;
 
     // TODO: Rename and change types of parameters
-    public boolean setting1;
+    /*public boolean setting1;
     public boolean setting2;
     public boolean setting3;
     public boolean setting4;
-    public boolean setting5;
+    public boolean setting5;*/
 
     private FragmentSettingsBinding binding;
 
@@ -79,11 +84,6 @@ public class Settings extends Fragment {
             setting5 = getArguments().getBoolean(String.valueOf(ARG_PARAM5));
         }*/
         //causes app to crash
-        setting1 = true;
-        setting2 = true;
-        setting3 = true;
-        setting4 = true;
-        setting5 = true;
 
     }
 
@@ -99,6 +99,23 @@ public class Settings extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        if(!sharedPref.getBoolean("setting1",true)) {
+            binding.setting1Onoff.setImageResource(R.drawable.offselected);
+        }
+        if(!sharedPref.getBoolean("setting2",true)) {
+            binding.setting2Onoff.setImageResource(R.drawable.offselected);
+        }
+        if(!sharedPref.getBoolean("setting3",true)) {
+            binding.setting3Onoff.setImageResource(R.drawable.offselected);
+        }
+        if(!sharedPref.getBoolean("setting4",true)) {
+            binding.setting4Onoff.setImageResource(R.drawable.offselected);
+        }
+        if(!sharedPref.getBoolean("setting5",true)) {
+            binding.setting5Onoff.setImageResource(R.drawable.offselected);
+        }
+
         binding.buttonSettingsback.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -111,16 +128,18 @@ public class Settings extends Fragment {
         binding.setting1Left.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                    SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
                     binding.setting1Onoff.setImageResource(R.drawable.onselected);
-                    setting1 = true;
+                    sharedPref.edit().putBoolean("setting1",true).apply();
             }
         });
 
         binding.setting1Right.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
                 binding.setting1Onoff.setImageResource(R.drawable.offselected);
-                setting1 = true;
+                sharedPref.edit().putBoolean("setting1",false).apply();
             }
         });
 
@@ -128,7 +147,8 @@ public class Settings extends Fragment {
             @Override
             public void onClick(View view) {
                 binding.setting2Onoff.setImageResource(R.drawable.onselected);
-                setting2 = true;
+                SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
+                sharedPref.edit().putBoolean("setting2",true).apply();
             }
         });
 
@@ -136,7 +156,8 @@ public class Settings extends Fragment {
             @Override
             public void onClick(View view) {
                 binding.setting2Onoff.setImageResource(R.drawable.offselected);
-                setting2 = true;
+                SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
+                sharedPref.edit().putBoolean("setting2",false).apply();
             }
         });
 
@@ -144,7 +165,8 @@ public class Settings extends Fragment {
             @Override
             public void onClick(View view) {
                 binding.setting3Onoff.setImageResource(R.drawable.onselected);
-                setting3 = true;
+                SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
+                sharedPref.edit().putBoolean("setting3",true).apply();
             }
         });
 
@@ -152,7 +174,8 @@ public class Settings extends Fragment {
             @Override
             public void onClick(View view) {
                 binding.setting3Onoff.setImageResource(R.drawable.offselected);
-                setting3 = true;
+                SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
+                sharedPref.edit().putBoolean("setting3",false).apply();
             }
         });
 
@@ -160,7 +183,8 @@ public class Settings extends Fragment {
             @Override
             public void onClick(View view) {
                 binding.setting4Onoff.setImageResource(R.drawable.onselected);
-                setting4 = true;
+                SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
+                sharedPref.edit().putBoolean("setting4",true).apply();
             }
         });
 
@@ -168,7 +192,8 @@ public class Settings extends Fragment {
             @Override
             public void onClick(View view) {
                 binding.setting4Onoff.setImageResource(R.drawable.offselected);
-                setting4 = true;
+                SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
+                sharedPref.edit().putBoolean("setting4",false).apply();
             }
         });
 
@@ -176,7 +201,8 @@ public class Settings extends Fragment {
             @Override
             public void onClick(View view) {
                 binding.setting5Onoff.setImageResource(R.drawable.onselected);
-                setting5 = true;
+                SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
+                sharedPref.edit().putBoolean("setting5",true).apply();
             }
         });
 
@@ -184,7 +210,8 @@ public class Settings extends Fragment {
             @Override
             public void onClick(View view) {
                 binding.setting5Onoff.setImageResource(R.drawable.offselected);
-                setting5 = true;
+                SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
+                sharedPref.edit().putBoolean("setting5",false).apply();
             }
         });
     }
