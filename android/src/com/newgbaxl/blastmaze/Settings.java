@@ -34,13 +34,6 @@ public class Settings extends Fragment {
     private static final boolean ARG_PARAM4 = true;
     private static final boolean ARG_PARAM5 = true;
 
-    // TODO: Rename and change types of parameters
-    /*public boolean setting1;
-    public boolean setting2;
-    public boolean setting3;
-    public boolean setting4;
-    public boolean setting5;*/
-
     private FragmentSettingsBinding binding;
 
     public Settings() {
@@ -64,27 +57,12 @@ public class Settings extends Fragment {
         args.putBoolean(String.valueOf(ARG_PARAM5), settingInt[4]);
         fragment.setArguments(args);
 
-        /*SharedPreferences settings = getActivity().getSharedPreferences("UserInfo", 0);
-        SharedPreferences.Editor editor = settings.edit();
-        editor.putString("Username",txtUname.getText().toString());
-        editor.putString("Password",txtPWD.getText().toString());
-        editor.commit();*/
-
         return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        /*if (getArguments() != null) {
-            setting1 = getArguments().getBoolean(String.valueOf(ARG_PARAM1));
-            setting2 = getArguments().getBoolean(String.valueOf(ARG_PARAM2));
-            setting3 = getArguments().getBoolean(String.valueOf(ARG_PARAM3));
-            setting4 = getArguments().getBoolean(String.valueOf(ARG_PARAM4));
-            setting5 = getArguments().getBoolean(String.valueOf(ARG_PARAM5));
-        }*/
-        //causes app to crash
-
     }
 
     @Override
@@ -93,8 +71,6 @@ public class Settings extends Fragment {
         binding = FragmentSettingsBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
-
-
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -121,7 +97,6 @@ public class Settings extends Fragment {
             public void onClick(View view) {
                 NavHostFragment.findNavController(Settings.this)
                         .navigate(R.id.action_settings_to_FirstFragment);
-
             }
         });
 

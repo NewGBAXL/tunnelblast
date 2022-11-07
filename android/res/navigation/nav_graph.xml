@@ -58,5 +58,17 @@
         <action
             android:id="@+id/action_modeSelect_to_FirstFragment"
             app:destination="@id/FirstFragment" />
+        <action
+            android:id="@+id/action_modeSelect_to_levelSelect"
+            app:destination="@id/levelSelect" />
+    </fragment>
+    <fragment
+        android:id="@+id/levelSelect"
+        android:name="com.newgbaxl.blastmaze.LevelSelect"
+        android:label="fragment_level_select"
+        tools:layout="@layout/fragment_level_select" >
+        <action
+            android:id="@+id/action_levelSelect_to_modeSelect"
+            app:destination="@id/modeSelect" />
     </fragment>
 </navigation>

@@ -163,7 +163,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         ContentValues values = new ContentValues();
         values.put(COLUMN_UNLOCKED, car.unlocked?1:0);
-        values.put(COLUMN_PURCHACED, car.purchased?1:0);
+        values.put(COLUMN_PURCHACED, car.purchaced?1:0);
         values.put(COLUMN_PRICE, car.price);
 
         // updating row

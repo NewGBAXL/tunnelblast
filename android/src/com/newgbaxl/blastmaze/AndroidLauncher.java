@@ -10,13 +10,15 @@ import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
 import com.newgbaxl.blastmaze.MazeGame;
 
-public class AndroidLauncher extends AndroidApplication {
+public class AndroidLauncher extends AndroidApplication
+{
 	//todo: store global variables here
 	//NewGBAXL
 
 	public boolean splash = true;
 
-	protected void onCreate (Bundle savedInstanceState) {
+	protected void onCreate (Bundle savedInstanceState)
+	{
 		super.onCreate(savedInstanceState);
 		AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
 
@@ -44,12 +46,14 @@ public class AndroidLauncher extends AndroidApplication {
 			startGame(savedInstanceState);*/
 	}
 
-	public void goToAnActivity(View view) {
+	public void goToAnActivity(View view)
+	{
 		Intent intent = new Intent(this, MainActivity.class);
 		startActivity(intent);
 	}
 
-	public void startGame(Bundle savedInstanceState){
+	public void startGame(Bundle savedInstanceState)
+	{
 		super.onCreate(savedInstanceState);
 		AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
 

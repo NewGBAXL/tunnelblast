@@ -7,6 +7,7 @@ public class Note {
     private String details;
     private String timestamp;
 
+    //not used
     public static final Note[] notes = {
             new Note(1,"Setting1", "Meeting with the team",
                     "10/21/22"),
