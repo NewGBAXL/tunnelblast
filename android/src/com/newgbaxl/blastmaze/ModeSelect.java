@@ -209,7 +209,9 @@ public class ModeSelect extends Fragment
         {
             //for all scenarios, while != completed, ++scenario;
             Intent i3 = new Intent(getActivity(), AndroidLauncher.class);
-            //pass scenario number and car number
+            i3.putExtra("Car", carSelect);
+            i3.putExtra("Weapon", weaponSelect);
+            i3.putExtra("Level", -1);
             startActivity(i3);
         }
         else if (modeSelect == 3)

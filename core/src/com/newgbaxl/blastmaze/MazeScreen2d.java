@@ -92,6 +92,16 @@ public class MazeScreen2d implements Screen {
 		batch = new SpriteBatch();
 	}
 
+	public MazeScreen2d(int carSkin, int special)
+	{
+		super();
+		SetupScreen();
+
+		//todo: apply car skin and special to the user car
+		user = new UserCar(32,32, getRandomColor(),
+				(float)(Math.random() * 0.6) + 0.1f, (byte)1, (byte)1);
+	}
+
 	public MazeScreen2d(int carSkin, int special, int scenarioID)
 	{
 		super();
