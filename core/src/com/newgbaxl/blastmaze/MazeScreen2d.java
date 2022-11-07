@@ -30,12 +30,13 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Random;
+import java.util.Set;
 
 public class MazeScreen2d implements Screen {
 
 	private SpriteBatch batch;
 
-	private Stage stage;
+	public Stage stage;
 
 	private TiledMapRenderer mazeRenderer;
 
@@ -55,47 +56,15 @@ public class MazeScreen2d implements Screen {
 
 	public static MazeScreen2d getInstance;
 
+	public Scenario currentScenario;
+
 	//Heads-Up Display
 	BitmapFont font;
 	float hudVerticalMargin, hudLeftX, hudRightX, hudCenterX, hudRow1Y, hudRow2Y, hudSectionWidth;
 
 	public MazeScreen2d() {
 		super();
-		getInstance = this;
-		Maze maze = (new MazeCreator()).getMaze();
-	
-		MazeTileRenderer mTileRenderer =
-			new MazeTileRenderer(maze, "brick_wall_single_perfect.png");
-
-		mazeRenderer = mTileRenderer.getRenderer();
-
-		MazeMapRenderer mMapRenderer =
-			new MazeMapRenderer(maze, "brick_wall_single_perfect.png", 2);
-
-		mapRenderer = mMapRenderer.getRenderer();
-
-		TiledMap tiledMap = mTileRenderer.getMap();
-
-		camInput = new CameraInputAdapter();
-		Actor bobActor = new BobActor(camInput, tiledMap);
-		Actor cameraActor =
-			new CameraActor(tiledMap, (BobActor) bobActor);
-		ScreenViewport svp = new ScreenViewport();
-		svp.update(Const.TILE_SIZE * Const.MAZE_MAGNIFY_TO_WORLD,
-				Const.TILE_SIZE * Const.MAZE_MAGNIFY_TO_WORLD, true);
-
-		mapViewport = new MapViewport(Const.TILE_SIZE * Const.MAZE_WIDTH,
-				Const.TILE_SIZE * Const.MAZE_HEIGHT);
-
-		stage = new Stage(svp);
-		stage.addActor(cameraActor);
-		//Actor bouncers[] = new Actor[10];
-		//for (int i = 0; i < bouncers.length; i+= 2) {
-		//	bouncers[i] = new Bouncer(32, 32, getRandomColor(), (float)(Math.random() * 0.6) + 0.1f, tiledMap);
-		//	bouncers[i + 1] = new Fly(32, 32, getRandomColor(), (float)(Math.random() * 0.6) + 0.1f, tiledMap);
-		//	stage.addActor(bouncers[i]);
-		//	stage.addActor(bouncers[i + 1]);
-		//}
+		SetupScreen();
 
 		user = new UserCar(32,32, getRandomColor(),
 				(float)(Math.random() * 0.6) + 0.1f, (byte)1, (byte)1);
@@ -121,6 +90,53 @@ public class MazeScreen2d implements Screen {
 		prepareHUD(115, 32);
 
 		batch = new SpriteBatch();
+	}
+
+	public MazeScreen2d(int carSkin, int special, int scenarioID)
+	{
+		super();
+		SetupScreen();
+
+		//todo: apply car skin and special to the user car
+		user = new UserCar(32,32, getRandomColor(),
+				(float)(Math.random() * 0.6) + 0.1f, (byte)1, (byte)1);
+
+		if (scenarioID > 0 && scenarioID < Scenario.scenarios.length)
+			currentScenario = Scenario.scenarios[scenarioID];
+
+		if (currentScenario != null) currentScenario.OnStart(this);
+	}
+
+	private void SetupScreen()
+	{
+		getInstance = this;
+		Maze maze = (new MazeCreator()).getMaze();
+
+		MazeTileRenderer mTileRenderer =
+				new MazeTileRenderer(maze, "brick_wall_single_perfect.png");
+
+		mazeRenderer = mTileRenderer.getRenderer();
+
+		MazeMapRenderer mMapRenderer =
+				new MazeMapRenderer(maze, "brick_wall_single_perfect.png", 2);
+
+		mapRenderer = mMapRenderer.getRenderer();
+
+		TiledMap tiledMap = mTileRenderer.getMap();
+
+		camInput = new CameraInputAdapter();
+		Actor bobActor = new BobActor(camInput, tiledMap);
+		Actor cameraActor =
+				new CameraActor(tiledMap, (BobActor) bobActor);
+		ScreenViewport svp = new ScreenViewport();
+		svp.update(Const.TILE_SIZE * Const.MAZE_MAGNIFY_TO_WORLD,
+				Const.TILE_SIZE * Const.MAZE_MAGNIFY_TO_WORLD, true);
+
+		mapViewport = new MapViewport(Const.TILE_SIZE * Const.MAZE_WIDTH,
+				Const.TILE_SIZE * Const.MAZE_HEIGHT);
+
+		stage = new Stage(svp);
+		stage.addActor(cameraActor);
 	}
 
 	private Color getRandomColor() {
@@ -227,6 +243,11 @@ public class MazeScreen2d implements Screen {
 		Gdx.input.setOnscreenKeyboardVisible(false);
 
 		stage.act(delta);
+		if (currentScenario != null) currentScenario.Update(this);
+		if (currentScenario != null && currentScenario.CheckForWin(this))
+		{
+			//todo: Logic for when you win
+		}
 		stage.getViewport().apply();
 		stage.draw();
 
