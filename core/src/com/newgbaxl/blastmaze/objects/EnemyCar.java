@@ -7,6 +7,8 @@ import com.newgbaxl.blastmaze.Const;
 import com.newgbaxl.blastmaze.Coordinates;
 import com.newgbaxl.blastmaze.MazeUtil;
 
+import java.util.Random;
+
 public class EnemyCar extends Car {
     int xPos = 0;
     int yPos = 0;
@@ -20,6 +22,7 @@ public class EnemyCar extends Car {
 
     final int MoveCooldown = 4;
     int moveCooldownTimer;
+    Random rand = new Random();
 
     //public boolean moving = false;
     public EnemyCar(int width, int height, Color nSkin, float delay, byte nBaseSpd, byte nPwrRate, int nMoveSpd) {
@@ -36,11 +39,15 @@ public class EnemyCar extends Car {
         //if (Gdx.graphics.getDeltaTime() > 1)
         //    calculateAction();
 
-        //debug
-        if(Gdx.input.isKeyJustPressed(Input.Keys.BUTTON_A) || Gdx.input.isKeyJustPressed(Input.Keys.J)) {
+        moveCooldownTimer--;
+        if(moveCooldownTimer <= 0) {
             calculateAction();
+            moveCooldownTimer = rand.nextInt(40) + 20;
             Gdx.app.log("tag", "Move NPC");
         }
+
+        if (position.gridX == MazeUtil.getPlayerPosition().gridX && position.gridY == MazeUtil.getPlayerPosition().gridY)
+            game.quitGame();
     }
 
     public byte calculateAction(){

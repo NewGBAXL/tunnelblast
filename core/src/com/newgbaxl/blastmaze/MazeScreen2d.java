@@ -174,10 +174,11 @@ public class MazeScreen2d implements Screen {
 		font.draw(batch, "Power", 800, hudRow1Y, hudSectionWidth, Align.left, false);
 		font.draw(batch, "Timer", 1150, hudRow1Y, hudSectionWidth, Align.left, false);
 
+		double timerDisplay = user.timer / 60f; //todo: change this based on the current mode
 		font.draw(batch, String.format(Locale.getDefault(), "%02d", user.bombs), 200, hudRow1Y, hudSectionWidth, Align.right, false);//hudLeftX, hudRow2Y, hudSectionWidth, Align.left, false);
 		font.draw(batch, String.format(Locale.getDefault(), "%02d", user.blocks), 600, hudRow1Y, hudSectionWidth, Align.right, false);;//hudCenterX, hudRow2Y, hudSectionWidth, Align.center, false);
 		font.draw(batch, String.format(Locale.getDefault(), "%02d", user.power), 1000, hudRow1Y, hudSectionWidth, Align.right, false);//hudRightX, hudRow2Y, hudSectionWidth, Align.right, false);
-		font.draw(batch, String.format(Locale.getDefault(), "%6.2f", user.timer), 1400, hudRow1Y, hudSectionWidth, Align.right, false);//hudRightX, hudRow2Y, hudSectionWidth, Align.right, false);
+		font.draw(batch, String.format(Locale.getDefault(), "%6.2f", timerDisplay), 1400, hudRow1Y, hudSectionWidth, Align.right, false);//hudRightX, hudRow2Y, hudSectionWidth, Align.right, false);
 
 
 		font.draw(batch, "FPS", 50, 480, hudSectionWidth, Align.right, false);
@@ -362,5 +363,11 @@ public class MazeScreen2d implements Screen {
 			iteration++;
 			if (iteration > Const.MAZE_WIDTH * Const.MAZE_HEIGHT * 2) break;
 		}
+	}
+
+	public void quitGame()
+	{
+
+		Gdx.app.exit();
 	}
 }

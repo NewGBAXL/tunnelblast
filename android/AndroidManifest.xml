@@ -12,12 +12,15 @@
         android:appCategory="game"
         android:fullBackupContent="true"
         android:icon="@drawable/ic_launcher"
+        android:isGame="true"
+        android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MyApplication"
-        android:isGame="true"
-        android:label="@string/app_name"
         tools:ignore="UnusedAttribute">
+        <activity
+            android:name=".GameOverActivity"
+            android:exported="false" />
         <activity
             android:name=".MainActivity"
             android:exported="true"

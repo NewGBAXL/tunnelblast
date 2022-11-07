@@ -21,13 +21,13 @@ public class AndroidLauncher extends AndroidApplication {
 		AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
 
 		//comment this out run app normally
-		//initialize(new MazeGame(), config);
+		initialize(new MazeGame(), config);
 
 		//initialize(new BlastMazeGame(), config); //this loads the "game" screen in core
 		//create splash screen & credits
 		//loads MainActivity after delay
 
-		startGame(savedInstanceState);
+		//startGame(savedInstanceState);
 		/*if (splash = true)
 		{
 			splash = false;
