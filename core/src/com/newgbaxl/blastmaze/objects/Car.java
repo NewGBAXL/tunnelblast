@@ -163,6 +163,9 @@ public class Car extends CarActorAbs
             case -5:
                 ++timer;
                 break;
+            case -6:
+                //todo: add coin but only if usercar??
+                break;
             default:
                 //oilSlick(MazeUtil.GetCellData(position.gridX,position.gridY));
                 //use intensity to change speed in cell

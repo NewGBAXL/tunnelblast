@@ -12,7 +12,7 @@ import androidx.navigation.fragment.NavHostFragment;
 import com.newgbaxl.blastmaze.databinding.FragmentSecondBinding;
 
 public class SecondFragment extends Fragment {
-
+    //not used
     private FragmentSecondBinding binding;
 
     @Override

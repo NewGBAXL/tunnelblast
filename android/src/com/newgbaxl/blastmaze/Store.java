@@ -7,14 +7,20 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.viewbinding.ViewBinding;
 
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.newgbaxl.blastmaze.Objects.CarSkin;
 import com.newgbaxl.blastmaze.databinding.FragmentSettingsBinding;
 import com.newgbaxl.blastmaze.databinding.FragmentStoreBinding;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.prefs.PreferenceChangeEvent;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -34,9 +40,10 @@ public class Store extends Fragment {
 
     private FragmentStoreBinding binding;
 
-    //move these to Persistant Storage!
-    public int currencyAmnt = 0;
+    //Probably should make it all list-based, but I don't want to change too many things
     public CarSkin carSkins[] = new CarSkin[9];
+    public List<CarSkin> getFromDatabase = new ArrayList<>();
+    //move these to Persistant Storage!
     public int selectedSkin = 0;
 
     public Store() {
@@ -68,13 +75,6 @@ public class Store extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-
-
-
-        //binding.displayCurrency.setText();
-        for (int i = 0; i < carSkins.length; ++i){
-            carSkins[i] = new CarSkin(i*10, true);
-        }
     }
 
     @Override
@@ -84,65 +84,99 @@ public class Store extends Fragment {
         return binding.getRoot();
     }
 
-    public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, Bundle savedInstanceState)
+    {
         super.onViewCreated(view, savedInstanceState);
+        DatabaseHelper db = new DatabaseHelper(getActivity());
+        getFromDatabase = db.getAllCars();
+        if (getFromDatabase.size() < 1)
+        {
+            for (int i = 0; i < 9; ++i)
+                db.insertCar(true,false,i*10);
+        }
+        for (int i = 0; i < carSkins.length && i < getFromDatabase.size(); ++i)
+            carSkins[i] = getFromDatabase.get(i);
 
-        binding.buttonBack.setOnClickListener(new View.OnClickListener() {
+        binding.displayCurrency.setText("$" + PreferenceManager.getDefaultSharedPreferences(getActivity()).getInt("currencyAmnt",0));
+        binding.purchaseStore.setText(carSkins[selectedSkin].purchaced?"PURCHASED":"PURCHASE");
+
+        if(selectedSkin == PreferenceManager.getDefaultSharedPreferences(getActivity()).getInt("equipped_car",-1))
+            binding.purchaseStore.setText("EQUIPPED");
+
+        binding.buttonBack.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View view) {
+            public void onClick(View view)
+            {
                 NavHostFragment.findNavController(Store.this)
                         .navigate(R.id.action_store_to_FirstFragment);
-
             }
         });
-
-        binding.addCurrency.setOnClickListener(new View.OnClickListener() {
+        binding.addCurrency.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View view) {
+            public void onClick(View view)
+            {
                 //add currency
-                ++currencyAmnt;
-                binding.displayCurrency.setText("$" + currencyAmnt);
+                //todo: change currency to db so that it can be accessed/modified by game
+                PreferenceManager.getDefaultSharedPreferences(getActivity()).edit().putInt("currencyAmnt",PreferenceManager.getDefaultSharedPreferences(getActivity()).getInt("currencyAmnt",0) + 1).apply();
+                binding.displayCurrency.setText("$" + PreferenceManager.getDefaultSharedPreferences(getActivity()).getInt("currencyAmnt",0));
             }
         });
 
-        binding.arrowLeftStore.setOnClickListener(new View.OnClickListener() {
+        binding.arrowLeftStore.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View view) {
+            public void onClick(View view)
+            {
                 selectedSkin = (selectedSkin>0)?selectedSkin-1:carSkins.length-1;
-                if (carSkins[selectedSkin].unlocked){
+                if (carSkins[selectedSkin].unlocked)
                     displaySkin();
-                }
-                else{
+                else
                     onClick(view);
-                }
             }
         });
 
-        binding.arrowRightStore.setOnClickListener(new View.OnClickListener() {
+        binding.arrowRightStore.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View view) {
+            public void onClick(View view)
+            {
                 selectedSkin = (selectedSkin<carSkins.length-1)?selectedSkin+1: 0;
-                if (carSkins[selectedSkin].unlocked){
+                if (carSkins[selectedSkin].unlocked)
                     displaySkin();
-                }
-                else{
+                else
                     onClick(view);
-                }
             }
         });
 
-        binding.purchaseStore.setOnClickListener(new View.OnClickListener() {
+        binding.purchaseStore.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View view) {
-                if (carSkins[selectedSkin].purchased){
+            public void onClick(View view)
+            {
+                int money = PreferenceManager.getDefaultSharedPreferences(getActivity()).getInt("currencyAmnt",0);
+                if (carSkins[selectedSkin].purchaced)
+                {
                     binding.purchaseStore.setText("EQUIPPED");
+                    PreferenceManager.getDefaultSharedPreferences(getActivity()).edit().putInt("equipped_car",selectedSkin).apply();
                 }
-                else{
-                    if (currencyAmnt >= carSkins[selectedSkin].price){
-                        currencyAmnt-=carSkins[selectedSkin].price;
-                        //binding.displayCurrency.setText(currencyAmnt);
+                else
+                {
+                    if (money >= carSkins[selectedSkin].price)
+                    {
+                        PreferenceManager.getDefaultSharedPreferences(getActivity()).edit().putInt("currencyAmnt",money - carSkins[selectedSkin].price).apply();
+                        money-=carSkins[selectedSkin].price;
+                        binding.displayCurrency.setText("$" + money);
                         binding.purchaseStore.setText("EQUIP");
-                        carSkins[selectedSkin].purchased = true;
+                        carSkins[selectedSkin].purchaced = true;
+                        DatabaseHelper db = new DatabaseHelper(getActivity());
+                        db.updateCar(carSkins[selectedSkin]);
+                    }
+                    else
+                    {
+                        Toast.makeText(getContext(),
+                                "You do not have enough coins.\n Play the game more or -- to earn more.", Toast.LENGTH_SHORT);
                     }
                 }
             }
@@ -151,10 +185,14 @@ public class Store extends Fragment {
     }
 
     public void displaySkin(){
-        binding.purchaseStore.setText(carSkins[selectedSkin].purchased?"PURCHASED":"PURCHASE");
+        binding.purchaseStore.setText(carSkins[selectedSkin].purchaced?"PURCHASED":"PURCHASE");
+        if(selectedSkin == PreferenceManager.getDefaultSharedPreferences(getActivity()).getInt("equipped_car",-1)) {
+            binding.purchaseStore.setText("EQUIPPED");
+        }
         binding.priceStore.setText("Price: $" + String.valueOf(carSkins[selectedSkin].price));
 
-        switch (selectedSkin) {
+        switch (selectedSkin)
+        {
             case 0:
                 binding.carSkinView.setImageResource(R.drawable.car1);
                 break;

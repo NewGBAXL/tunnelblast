@@ -1,18 +1,5 @@
 package com.newgbaxl.blastmaze.Objects;
 
-import android.content.Context;
-import android.graphics.drawable.Drawable;
-import android.content.Context;
-import android.content.res.TypedArray;
-import android.util.AttributeSet;
-import android.view.Gravity;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.RemoteViews;
-
-import com.newgbaxl.blastmaze.Map;
-import com.newgbaxl.blastmaze.R;
-
 public class ArrowSwitch{
     public boolean state;
 

@@ -7,66 +7,104 @@
     android:layout_height="match_parent"
     tools:context=".Store">
 
-    <Button
-        android:id="@+id/button_back"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="644dp"
-        android:text="@string/go_back"
+    <ImageView
+        android:id="@+id/topShopContainer"
+        android:layout_width="236dp"
+        android:layout_height="77dp"
+        android:layout_marginStart="243dp"
+        android:layout_marginTop="210dp"
+        android:background="@drawable/oval_container"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageButton
-        android:id="@+id/add_currency"
-        android:layout_width="90dp"
-        android:layout_height="90dp"
-        android:layout_marginStart="320dp"
-        android:layout_marginTop="196dp"
-        android:scaleType="centerInside"
-        android:src="@drawable/add_currency_store"
+    <ImageView
+        android:id="@+id/bottomShopContainer"
+        android:layout_width="236dp"
+        android:layout_height="77dp"
+        android:layout_marginTop="612dp"
+        android:layout_marginEnd="276dp"
+        android:background="@drawable/oval_container"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/button_back"
+        android:layout_width="117dp"
+        android:layout_height="75dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="612dp"
+        android:backgroundTint="#00FFFFFF"
+        android:text="@string/go_back"
+        android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/imageView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="408dp"
+        android:layout_width="509dp"
+        android:layout_height="364dp"
+        android:layout_marginTop="348dp"
         android:src="@drawable/table_store"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.387"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/imageView7"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="19dp"
+        android:layout_width="401dp"
+        android:layout_height="199dp"
+        android:layout_marginTop="4dp"
         android:src="@drawable/icon_shop"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/display_currency"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="240dp"
-        android:layout_marginEnd="88dp"
-        android:text="$Amnt"
+        android:layout_marginTop="205dp"
+        android:orientation="horizontal"
+        android:paddingLeft="0dp"
+        android:paddingRight="0dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/display_currency"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="0dp"
+            android:layout_marginTop="15dp"
+            android:text="$0"
+            android:textColor="#FFFFFF"
+            android:textSize="40sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageButton
+            android:id="@+id/add_currency"
+            android:layout_width="90dp"
+            android:layout_height="90dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="0dp"
+            android:backgroundTint="#00FFFFFF"
+            android:scaleType="centerInside"
+            android:src="@drawable/add_currency_store"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </LinearLayout>
 
     <Button
         android:id="@+id/purchase_store"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="132dp"
+        android:layout_height="62dp"
         android:layout_marginStart="158dp"
-        android:layout_marginTop="562dp"
+        android:layout_marginTop="540dp"
         android:layout_marginEnd="139dp"
         android:text="PURCHASE"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.555"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -74,8 +112,9 @@
         android:id="@+id/arrowRight_store"
         android:layout_width="96dp"
         android:layout_height="110dp"
-        android:layout_marginTop="328dp"
+        android:layout_marginTop="372dp"
         android:layout_marginEnd="16dp"
+        android:backgroundTint="#00FFFFFF"
         android:scaleType="centerInside"
         android:src="@drawable/arrow_right"
         app:layout_constraintEnd_toEndOf="parent"
@@ -86,7 +125,8 @@
         android:layout_width="96dp"
         android:layout_height="110dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="328dp"
+        android:layout_marginTop="368dp"
+        android:backgroundTint="#00FFFFFF"
         android:scaleType="centerInside"
         android:src="@drawable/arrow_left"
         app:layout_constraintStart_toStartOf="parent"
@@ -94,13 +134,14 @@
 
     <ImageView
         android:id="@+id/carSkinView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="233dp"
+        android:layout_height="110dp"
         android:layout_marginStart="123dp"
-        android:layout_marginTop="350dp"
+        android:layout_marginTop="404dp"
         android:layout_marginEnd="124dp"
         android:src="@drawable/car1"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.463"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -109,8 +150,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="176dp"
-        android:layout_marginTop="456dp"
+        android:layout_marginTop="384dp"
         android:text="Price: $0"
+        android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

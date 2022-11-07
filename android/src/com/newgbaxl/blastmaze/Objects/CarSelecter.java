@@ -11,6 +11,7 @@ import com.newgbaxl.blastmaze.R;
 
 public class CarSelecter extends RecyclerView.Adapter<CarSelecter.ViewHolder> {
 
+    //currently unused, potentially for a Shop overhaul
     private String[] localDataSet;
 
     /**

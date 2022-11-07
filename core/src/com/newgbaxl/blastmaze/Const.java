@@ -20,8 +20,8 @@ public class Const {
 	 */
 	public static final int MAZE_WIDTH = 20;
 
-	public static final int SPAWN_CELL_X = 5;
-	public static final int SPAWN_CELL_Y = 5;
+	public static final int SPAWN_CELL_X = 4;
+	public static final int SPAWN_CELL_Y = 4;
 
 	/**
 	 * 1 room in the maze will be nXn in tiles

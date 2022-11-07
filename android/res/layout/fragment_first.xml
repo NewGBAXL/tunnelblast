@@ -6,6 +6,40 @@
     android:layout_height="match_parent"
     tools:context=".FirstFragment">
 
+    <ImageView
+        android:id="@+id/mainQuitContainer"
+        android:layout_width="236dp"
+        android:layout_height="77dp"
+        android:layout_marginStart="87dp"
+        android:layout_marginEnd="88dp"
+        android:layout_marginBottom="50dp"
+        android:background="@drawable/oval_container"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageView
+        android:id="@+id/mainShopContainer"
+        android:layout_width="236dp"
+        android:layout_height="77dp"
+        android:layout_marginBottom="134dp"
+        android:background="@drawable/oval_container"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/button_settings"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/button_settings" />
+
+    <ImageView
+        android:id="@+id/mainSettingsContainer"
+        android:layout_width="300dp"
+        android:layout_height="77dp"
+        android:layout_marginBottom="214dp"
+        android:background="@drawable/oval_container"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/button_settings"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/button_settings" />
+
     <Button
         android:id="@+id/button_game_start"
         android:layout_width="239dp"
@@ -53,6 +87,7 @@
         android:layout_width="337dp"
         android:layout_height="96dp"
         android:layout_marginBottom="208dp"
+        android:backgroundTint="#00FFFFFF"
         android:scaleType="centerInside"
         android:src="@drawable/options_main"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -65,6 +100,7 @@
         android:layout_width="281dp"
         android:layout_height="79dp"
         android:layout_marginBottom="129dp"
+        android:backgroundTint="#00FFFFFF"
         android:scaleType="centerInside"
         android:src="@drawable/store_main"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -77,11 +113,19 @@
         android:layout_width="249dp"
         android:layout_height="77dp"
         android:layout_marginBottom="49dp"
+        android:backgroundTint="#00FFFFFF"
         android:scaleType="centerInside"
         android:src="@drawable/quit_main"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/start_rectangle"
+        tools:layout_editor_absoluteY="125dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

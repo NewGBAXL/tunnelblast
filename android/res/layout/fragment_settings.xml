@@ -19,24 +19,25 @@
 
     <Button
         android:id="@+id/button_settingsback"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="116dp"
+        android:layout_height="65dp"
         android:layout_marginStart="161dp"
-        android:layout_marginTop="592dp"
+        android:layout_marginTop="584dp"
         android:layout_marginEnd="162dp"
         android:text="@string/go_back"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
         android:layout_marginTop="230dp"
         android:orientation="vertical"
         android:paddingLeft="30dp"
         android:paddingRight="0dp"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
@@ -89,6 +90,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="230dp"
+        android:layout_marginEnd="25dp"
         android:orientation="vertical"
         android:paddingLeft="0dp"
         android:paddingRight="0dp"
@@ -109,6 +111,7 @@
                 android:id="@+id/setting1_left"
                 android:layout_width="45dp"
                 android:layout_height="58dp"
+                android:backgroundTint="#00FFFFFF"
                 android:scaleType="centerInside"
                 android:src="@drawable/arrow_left"
                 tools:layout_editor_absoluteX="205dp"
@@ -118,8 +121,8 @@
                 android:id="@+id/setting1_onoff"
                 android:layout_width="117dp"
                 android:layout_height="41dp"
-                android:scaleType="centerInside"
                 android:layout_marginTop="8dp"
+                android:scaleType="centerInside"
                 android:src="@drawable/onselected"
                 tools:layout_editor_absoluteX="250dp"
                 tools:layout_editor_absoluteY="229dp" />
@@ -128,6 +131,7 @@
                 android:id="@+id/setting1_right"
                 android:layout_width="45dp"
                 android:layout_height="58dp"
+                android:backgroundTint="#00FFFFFF"
                 android:scaleType="centerInside"
                 android:src="@drawable/arrow_right" />
 
@@ -147,6 +151,7 @@
                 android:id="@+id/setting2_left"
                 android:layout_width="45dp"
                 android:layout_height="58dp"
+                android:backgroundTint="#00FFFFFF"
                 android:scaleType="centerInside"
                 android:src="@drawable/arrow_left"
                 tools:layout_editor_absoluteX="205dp"
@@ -156,8 +161,8 @@
                 android:id="@+id/setting2_onoff"
                 android:layout_width="117dp"
                 android:layout_height="41dp"
-                android:scaleType="centerInside"
                 android:layout_marginTop="8dp"
+                android:scaleType="centerInside"
                 android:src="@drawable/onselected"
                 tools:layout_editor_absoluteX="250dp"
                 tools:layout_editor_absoluteY="287dp" />
@@ -166,6 +171,7 @@
                 android:id="@+id/setting2_right"
                 android:layout_width="45dp"
                 android:layout_height="58dp"
+                android:backgroundTint="#00FFFFFF"
                 android:scaleType="centerInside"
                 android:src="@drawable/arrow_right"
                 tools:layout_editor_absoluteX="367dp"
@@ -188,6 +194,7 @@
                 android:id="@+id/setting3_left"
                 android:layout_width="45dp"
                 android:layout_height="58dp"
+                android:backgroundTint="#00FFFFFF"
                 android:scaleType="centerInside"
                 android:src="@drawable/arrow_left"
                 tools:layout_editor_absoluteX="205dp"
@@ -197,8 +204,8 @@
                 android:id="@+id/setting3_onoff"
                 android:layout_width="117dp"
                 android:layout_height="41dp"
-                android:scaleType="centerInside"
                 android:layout_marginTop="8dp"
+                android:scaleType="centerInside"
                 android:src="@drawable/onselected"
                 tools:layout_editor_absoluteX="250dp"
                 tools:layout_editor_absoluteY="345dp" />
@@ -207,6 +214,7 @@
                 android:id="@+id/setting3_right"
                 android:layout_width="45dp"
                 android:layout_height="58dp"
+                android:backgroundTint="#00FFFFFF"
                 android:scaleType="centerInside"
                 android:src="@drawable/arrow_right"
                 tools:layout_editor_absoluteX="367dp"
@@ -227,6 +235,7 @@
                 android:id="@+id/setting4_left"
                 android:layout_width="45dp"
                 android:layout_height="58dp"
+                android:backgroundTint="#00FFFFFF"
                 android:scaleType="centerInside"
                 android:src="@drawable/arrow_left"
                 tools:layout_editor_absoluteX="205dp"
@@ -236,8 +245,8 @@
                 android:id="@+id/setting4_onoff"
                 android:layout_width="117dp"
                 android:layout_height="41dp"
-                android:scaleType="centerInside"
                 android:layout_marginTop="8dp"
+                android:scaleType="centerInside"
                 android:src="@drawable/onselected"
                 tools:layout_editor_absoluteX="250dp"
                 tools:layout_editor_absoluteY="403dp" />
@@ -246,6 +255,7 @@
                 android:id="@+id/setting4_right"
                 android:layout_width="45dp"
                 android:layout_height="58dp"
+                android:backgroundTint="#00FFFFFF"
                 android:scaleType="centerInside"
                 android:src="@drawable/arrow_right"
                 tools:layout_editor_absoluteX="367dp"
@@ -267,6 +277,7 @@
                 android:id="@+id/setting5_left"
                 android:layout_width="45dp"
                 android:layout_height="58dp"
+                android:backgroundTint="#00FFFFFF"
                 android:scaleType="centerInside"
                 android:src="@drawable/arrow_left"
                 tools:layout_editor_absoluteX="205dp"
@@ -276,14 +287,15 @@
                 android:id="@+id/setting5_onoff"
                 android:layout_width="117dp"
                 android:layout_height="41dp"
-                android:scaleType="centerInside"
                 android:layout_marginTop="8dp"
+                android:scaleType="centerInside"
                 android:src="@drawable/onselected" />
 
             <ImageButton
                 android:id="@+id/setting5_right"
                 android:layout_width="45dp"
                 android:layout_height="58dp"
+                android:backgroundTint="#00FFFFFF"
                 android:scaleType="centerInside"
                 android:src="@drawable/arrow_right"
                 tools:layout_editor_absoluteX="367dp"

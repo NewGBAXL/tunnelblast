@@ -15,7 +15,8 @@ public class UserCar extends Car {
     int moveCooldownTimer;
 
     //public boolean moving = false;
-    public UserCar(int width, int height, Color nSkin, float delay, byte nBaseSpd, byte nPwrRate) {
+    public UserCar(int width, int height, Color nSkin, float delay, byte nBaseSpd, byte nPwrRate)
+    {
         super(width, height, nSkin, delay, nBaseSpd, nPwrRate);
         nSkin = Color.GREEN;
         position = new Coordinates(Const.SPAWN_CELL_X * Const.TILE_SIZE, Const.SPAWN_CELL_Y * Const.TILE_SIZE);
@@ -24,7 +25,8 @@ public class UserCar extends Car {
     }
 
     //@Override
-    public boolean keyUp(InputEvent event, int keycode) {
+    public boolean keyUp(InputEvent event, int keycode)
+    {
         moveState = PlayerMoveState.IDLE;
         return true;
     }
@@ -35,8 +37,11 @@ public class UserCar extends Car {
     }*/
 
     @Override
-    public void act(float delta) {
+    public void act(float delta)
+    {
         super.act(delta);
+        if (timer > 0) timer--;
+        else timer = 600;
         //switch(moveState) {
         //    case RIGHT :
 //

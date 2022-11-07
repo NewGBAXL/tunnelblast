@@ -5,6 +5,7 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.newgbaxl.blastmaze.objects.UserCar;
 
 public class MazeUtil {
 
@@ -96,6 +97,12 @@ public class MazeUtil {
 		if (x < 0 || y < 0 || x > Const.MAZE_WIDTH || y > Const.MAZE_HEIGHT) return;
 
 		grid[x][y].cellData = value;
+	}
+
+	public static Coordinates getPlayerPosition()
+	{
+		UserCar user = MazeScreen2d.getInstance.user;
+		return user.position;
 	}
 
 

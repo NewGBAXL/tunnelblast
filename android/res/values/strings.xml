@@ -23,4 +23,6 @@
     <string name="power_counter">Power</string>
     <string name="timer">Timer</string>
 
+    <string name="ruleSet">Replace once gamemode is completed.</string>
+
 </resources>

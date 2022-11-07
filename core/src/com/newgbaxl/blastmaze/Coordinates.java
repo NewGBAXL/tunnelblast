@@ -1,6 +1,7 @@
 package com.newgbaxl.blastmaze;
 
-public class Coordinates {
+public class Coordinates
+{
 
     public float X;
     public float Y;

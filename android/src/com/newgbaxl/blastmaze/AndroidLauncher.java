@@ -10,40 +10,66 @@ import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
 import com.newgbaxl.blastmaze.MazeGame;
 
-public class AndroidLauncher extends AndroidApplication {
-	@Override
+public class AndroidLauncher extends AndroidApplication
+{
+	public boolean splash = true;
 
-	//todo: store global variables here
-	//NewGBAXL
-
-	protected void onCreate (Bundle savedInstanceState) {
+	protected void onCreate (Bundle savedInstanceState)
+	{
 		super.onCreate(savedInstanceState);
 		AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
 
-		//comment this out run app normally
+
+		//if no pushed params
 		initialize(new MazeGame(), config);
 
+		//initialize(new MazeGame(carSkinInt, specialInt, scenarioInt), config);
+		//the mazeGame will store the params of each scenario
+
+
+
+		//early notes (ignore)
 		//initialize(new BlastMazeGame(), config); //this loads the "game" screen in core
 		//create splash screen & credits
 		//loads MainActivity after delay
-		/*Handler handler = new Handler();
-		handler.postDelayed(new Runnable() {
-			public void run() {
-				finish();
-				Intent i3 = new Intent(AndroidLauncher.this, MainActivity.class);
-				//startActivity(i3);
-			}
-		}, 2500);*/
+
+		//startGame(savedInstanceState);
+		/*if (splash = true)
+		{
+			splash = false;
+			Handler handler = new Handler();
+			handler.postDelayed(new Runnable() {
+				public void run() {
+					finish();
+					Intent i3 = new Intent(AndroidLauncher.this, MainActivity.class);
+					//startActivity(i3);
+				}
+			}, 2500);
+		}
+		else
+			startGame(savedInstanceState);*/
 	}
 
-	public void goToAnActivity(View view) {
+	public void goToAnActivity(View view)
+	{
 		Intent intent = new Intent(this, MainActivity.class);
 		startActivity(intent);
 	}
 
-	public void startGame(Bundle savedInstanceState){
+	public void startGame(Bundle savedInstanceState)
+	{
 		super.onCreate(savedInstanceState);
 		AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
-		initialize(new MazeGame(), config);
+
+		int mode = 0; //0 - 24
+		initialize(new MazeGame(mode), config);
+	}
+
+	@Override
+	protected void onDestroy() {
+		Intent intent = new Intent(this, GameOverActivity.class);
+		//todo: push game stats to GameOverActivity
+		startActivity(intent);
+		super.onDestroy();
 	}
 }

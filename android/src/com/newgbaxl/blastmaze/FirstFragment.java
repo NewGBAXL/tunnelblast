@@ -43,12 +43,10 @@ public class FirstFragment extends Fragment {
         binding.buttonGameStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i3 = new Intent(getActivity(), AndroidLauncher.class);
-                startActivity(i3);
-                //getApplication().initialize(new MazeGame(), workaround);
-                /*NavHostFragment.findNavController(FirstFragment.this)
-                        .navigate(R.id.action_FirstFragment_to_gameView);*/
-
+                NavHostFragment.findNavController(FirstFragment.this)
+                        .navigate(R.id.action_FirstFragment_to_modeSelect);
+                //Intent i3 = new Intent(getActivity(), AndroidLauncher.class);
+                //getActivity().startActivity(i3);
             }
         });
 
@@ -71,8 +69,7 @@ public class FirstFragment extends Fragment {
         binding.buttonQuit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // TODO Auto-generated method stub
-                //finish();
+                //finish(); //for final tasks before exit
                 System.exit(0);
             }
         });
