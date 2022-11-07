@@ -69,8 +69,7 @@ public class FirstFragment extends Fragment {
         binding.buttonQuit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // TODO Auto-generated method stub
-                //finish();
+                //finish(); //for final tasks before exit
                 System.exit(0);
             }
         });

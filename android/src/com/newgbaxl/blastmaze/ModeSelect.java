@@ -7,14 +7,12 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
-import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.newgbaxl.blastmaze.Objects.CarSkin;
-import com.newgbaxl.blastmaze.databinding.FragmentFirstBinding;
 import com.newgbaxl.blastmaze.databinding.FragmentModeSelectBinding;
 
 import java.util.ArrayList;
@@ -35,7 +33,6 @@ public class ModeSelect extends Fragment
 
     public CarSkin carSkins[] = new CarSkin[9];
     public List<CarSkin> getFromDatabase = new ArrayList<>();
-    public int selectedSkin = 0;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -165,8 +162,8 @@ public class ModeSelect extends Fragment
             @Override
             public void onClick(View view)
             {
-                selectedSkin = (selectedSkin>0)?selectedSkin-1:carSkins.length-1;
-                if (carSkins[selectedSkin].purchaced)
+                carSelect = (carSelect >0)? carSelect -1:carSkins.length-1;
+                if (carSkins[carSelect].purchaced)
                     displaySkin();
                 else
                     onClick(view);
@@ -177,8 +174,8 @@ public class ModeSelect extends Fragment
             @Override
             public void onClick(View view)
             {
-                selectedSkin = (selectedSkin<carSkins.length-1)?selectedSkin+1: 0;
-                if (carSkins[selectedSkin].purchaced)
+                carSelect = (carSelect <carSkins.length-1)? carSelect +1: 0;
+                if (carSkins[carSelect].purchaced)
                     displaySkin();
                 else
                     onClick(view);
@@ -204,8 +201,6 @@ public class ModeSelect extends Fragment
                 startActivity(i3);
             }
         });
-
-        //todo: add Play! button
     }
 
     void startGame()
@@ -268,7 +263,7 @@ public class ModeSelect extends Fragment
     }
 
     public void displaySkin(){
-        switch (selectedSkin)
+        switch (carSelect)
         {
             case 0:
                 binding.carSkinModeSelView.setImageResource(R.drawable.car1);

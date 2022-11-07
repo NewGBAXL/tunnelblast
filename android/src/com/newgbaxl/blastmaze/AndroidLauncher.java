@@ -12,9 +12,6 @@ import com.newgbaxl.blastmaze.MazeGame;
 
 public class AndroidLauncher extends AndroidApplication
 {
-	//todo: store global variables here
-	//NewGBAXL
-
 	public boolean splash = true;
 
 	protected void onCreate (Bundle savedInstanceState)
@@ -22,9 +19,16 @@ public class AndroidLauncher extends AndroidApplication
 		super.onCreate(savedInstanceState);
 		AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
 
-		//comment this out run app normally
+
+		//if no pushed params
 		initialize(new MazeGame(), config);
 
+		//initialize(new MazeGame(carSkinInt, specialInt, scenarioInt), config);
+		//the mazeGame will store the params of each scenario
+
+
+
+		//early notes (ignore)
 		//initialize(new BlastMazeGame(), config); //this loads the "game" screen in core
 		//create splash screen & credits
 		//loads MainActivity after delay
@@ -59,5 +63,13 @@ public class AndroidLauncher extends AndroidApplication
 
 		int mode = 0; //0 - 24
 		initialize(new MazeGame(mode), config);
+	}
+
+	@Override
+	protected void onDestroy() {
+		Intent intent = new Intent(this, GameOverActivity.class);
+		//todo: push game stats to GameOverActivity
+		startActivity(intent);
+		super.onDestroy();
 	}
 }

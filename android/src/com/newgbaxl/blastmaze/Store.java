@@ -118,9 +118,9 @@ public class Store extends Fragment {
             public void onClick(View view)
             {
                 //add currency
+                //todo: change currency to db so that it can be accessed/modified by game
                 PreferenceManager.getDefaultSharedPreferences(getActivity()).edit().putInt("currencyAmnt",PreferenceManager.getDefaultSharedPreferences(getActivity()).getInt("currencyAmnt",0) + 1).apply();
                 binding.displayCurrency.setText("$" + PreferenceManager.getDefaultSharedPreferences(getActivity()).getInt("currencyAmnt",0));
-
             }
         });
 
@@ -172,6 +172,11 @@ public class Store extends Fragment {
                         carSkins[selectedSkin].purchaced = true;
                         DatabaseHelper db = new DatabaseHelper(getActivity());
                         db.updateCar(carSkins[selectedSkin]);
+                    }
+                    else
+                    {
+                        Toast.makeText(getContext(),
+                                "You do not have enough coins.\n Play the game more or -- to earn more.", Toast.LENGTH_SHORT);
                     }
                 }
             }

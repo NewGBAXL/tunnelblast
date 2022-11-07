@@ -19,6 +19,7 @@ public class GridCell {
     //-3 is bomb
     //-4 is power
     //-5 is clock (extra time)
+    //-6 is coin (currency)
 
     public GridCell(int x, int y)
     {
