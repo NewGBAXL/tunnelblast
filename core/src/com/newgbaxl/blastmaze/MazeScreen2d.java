@@ -78,12 +78,9 @@ public class MazeScreen2d implements Screen {
 		user = new UserCar(32,32, getRandomColor(),
 				(float)(Math.random() * 0.6) + 0.1f, (byte)1, (byte)1);
 
-		enemyTestOnly = (new EnemyCar(32,32, getRandomColor(),
-				(float)(Math.random() * 0.6) + 0.1f, (byte)1, (byte)1,1));
-		stage.addActor(enemyTestOnly);
-
-		int startingCars = 1;
-		for (int i = 1; i < startingCars; ++i)
+		enemies = new LinkedList<>();
+		int startingCars = 2;
+		for (int i = 0; i < startingCars; ++i)
 		{
 			enemies.add(new EnemyCar(32,32, getRandomColor(),
 					(float)(Math.random() * 0.6) + 0.1f, (byte)1, (byte)1,1));
@@ -92,7 +89,6 @@ public class MazeScreen2d implements Screen {
 		}
 
 		stage.addActor(user);
-		stage.addActor(enemyTestOnly);
 
 		GenerateMaze();
 
@@ -220,14 +216,14 @@ public class MazeScreen2d implements Screen {
 		font.draw(batch, String.valueOf(Gdx.graphics.getFramesPerSecond()), 110, 480);
 
 		//for testing
-		font.draw(batch, "UpPriority", 40, 200, hudSectionWidth, Align.right, false);
-		font.draw(batch, String.format(Locale.getDefault(), "%02d", enemyTestOnly.up), 40, 100);
-		font.draw(batch, "RightPriority", 440, 200, hudSectionWidth, Align.right, false);
-		font.draw(batch, String.format(Locale.getDefault(), "%02d", enemyTestOnly.rp), 440, 100);
-		font.draw(batch, "DownPriority", 840, 200, hudSectionWidth, Align.right, false);
-		font.draw(batch, String.format(Locale.getDefault(), "%02d", enemyTestOnly.dp), 840, 100);
-		font.draw(batch, "LeftPriority", 1200, 200, hudSectionWidth, Align.right, false);
-		font.draw(batch, String.format(Locale.getDefault(), "%02d", enemyTestOnly.lp), 1200, 100);
+		//font.draw(batch, "UpPriority", 40, 200, hudSectionWidth, Align.right, false);
+		//font.draw(batch, String.format(Locale.getDefault(), "%02d", enemyTestOnly.up), 40, 100);
+		//font.draw(batch, "RightPriority", 440, 200, hudSectionWidth, Align.right, false);
+		//font.draw(batch, String.format(Locale.getDefault(), "%02d", enemyTestOnly.rp), 440, 100);
+		//font.draw(batch, "DownPriority", 840, 200, hudSectionWidth, Align.right, false);
+		//font.draw(batch, String.format(Locale.getDefault(), "%02d", enemyTestOnly.dp), 840, 100);
+		//font.draw(batch, "LeftPriority", 1200, 200, hudSectionWidth, Align.right, false);
+		//font.draw(batch, String.format(Locale.getDefault(), "%02d", enemyTestOnly.lp), 1200, 100);
 
 		batch.end();
 	}

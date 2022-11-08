@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.newgbaxl.blastmaze.objects.EnemyCar;
 
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 
 public abstract class Scenario
@@ -14,7 +15,8 @@ public abstract class Scenario
         new Scenario() {
         @Override
         public void OnStart(MazeScreen2d scene) {
-          //Add 2 enemy cars to the scene
+            //Add 2 enemy cars to the scene
+            scene.enemies = new LinkedList<>();
             for (int i = 1; i < 2; ++i)
             {
                 scene.enemies.add(new EnemyCar(32,32, Color.BLACK,

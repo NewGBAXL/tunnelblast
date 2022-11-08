@@ -22,7 +22,7 @@ public class EnemyCar extends Car {
 
     final int MoveCooldown = 4;
     int moveCooldownTimer;
-    Random rand = new Random();
+    static Random rand = new Random();
 
     //public boolean moving = false;
     public EnemyCar(int width, int height, Color nSkin, float delay, byte nBaseSpd, byte nPwrRate, int nMoveSpd) {
