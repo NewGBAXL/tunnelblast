@@ -26,9 +26,13 @@ import com.newgbaxl.blastmaze.objects.UserCar;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Dictionary;
+import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 
@@ -52,7 +56,12 @@ public class MazeScreen2d implements Screen {
 	//Array of grid spaces, walls defined by digits in hexadecimal format
 	public GridCell[][] mazeGrid;
 	public Texture mazeWall = new Texture("brickWallDirectional.png");
-	public Texture cellThing = new Texture("Circle_question_mark.png");
+	public Texture questionPickup = new Texture("Circle_question_mark.png");
+	Map<Short, Texture> pickupImages = new HashMap<Short, Texture>(){{
+		put((short)-2, new Texture("Pickup_Block.png"));
+		put((short)-3, new Texture("Pickup_Bomb.png"));
+		put((short)-6, new Texture("Pickup_Coin.png"));
+	}};
 
 	public static MazeScreen2d getInstance;
 
@@ -270,8 +279,11 @@ public class MazeScreen2d implements Screen {
 		batch.begin();
 		for (int x = 0; x < Const.MAZE_WIDTH; x++) {
 			for (int y = 0; y < Const.MAZE_HEIGHT; y++) {
-				if (MazeUtil.GetCellData(x, y) <= -2)
-					batch.draw(cellThing, x * Const.TILE_SIZE, y * Const.TILE_SIZE, 0, 0, Const.TILE_SIZE, Const.TILE_SIZE, 0.5f, 0.5f, 0, 0, 0, 196, 199, false, false);
+				if (MazeUtil.GetCellData(x, y) <= -2) {
+					if (pickupImages.containsKey(MazeUtil.GetCellData(x, y)))
+						batch.draw(pickupImages.get(MazeUtil.GetCellData(x, y)), x * Const.TILE_SIZE - 8, y * Const.TILE_SIZE - 8, 0, 0, Const.TILE_SIZE * 0.75f, Const.TILE_SIZE * 0.75f, 1f, 1f, 0, 0, 0, 32, 32, false, false);
+					else batch.draw(questionPickup, x * Const.TILE_SIZE, y * Const.TILE_SIZE, 0, 0, Const.TILE_SIZE, Const.TILE_SIZE, 0.5f, 0.5f, 0, 0, 0, 196, 199, false, false);
+				}
 				if (mazeGrid[x][y].nWall != 0)
 					batch.draw(mazeWall, x * Const.TILE_SIZE - 16, (y + 0.5f) * Const.TILE_SIZE - 16, 0, 0, Const.TILE_SIZE, Const.TILE_SIZE, 1, 1, 0, 0, 0, 48, 32, false, false);
 				if (mazeGrid[x][y].eWall != 0)
@@ -357,7 +369,8 @@ public class MazeScreen2d implements Screen {
 			//Place walls on remaining sides
 			for (int i : directions) MazeUtil.SetWallStrength(c.x, c.y, i, 1);
 
-			if (rand.nextInt(32) == 0) c.cellData = (byte)((rand.nextInt(4) + 2) * -1);
+			if (rand.nextInt(32) == 0 && !(c.x == Const.SPAWN_CELL_X && c.y == Const.SPAWN_CELL_Y)) c.cellData = (short)((rand.nextInt(5) + 2) * -1);
+			Gdx.app.log("Tag", "" + c.cellData);
 
 			cells.remove(c);
 			used[c.x][c.y] = true;

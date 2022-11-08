@@ -83,7 +83,7 @@ public class MazeUtil {
 		return null;
 	}
 
-	public static byte GetCellData(int x, int y)
+	public static short GetCellData(int x, int y)
 	{
 		GridCell[][] grid = MazeScreen2d.getInstance.mazeGrid;
 		if (x < 0 || y < 0 || x > Const.MAZE_WIDTH || y > Const.MAZE_HEIGHT) return (byte)0;
