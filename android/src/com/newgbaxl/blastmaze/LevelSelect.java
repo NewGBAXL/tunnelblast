@@ -1,12 +1,23 @@
 package com.newgbaxl.blastmaze;
 
+import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.fragment.NavHostFragment;
 
+import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.Toast;
+
+import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -60,5 +71,42 @@ public class LevelSelect extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_level_select, container, false);
+    }
+
+    public void onViewCreated(@NonNull View view, Bundle savedInstanceState)
+    {
+        //set simple contents of listView
+        ListView level_list = (ListView) getActivity().findViewById(R.id.list_levels);
+        ArrayList<Integer> nums = new ArrayList<Integer>();
+        for (int i = 1; i <= 20; ++i)
+            nums.add(i);
+        ArrayAdapter<Integer> nums_adapter = new ArrayAdapter<Integer>(getActivity(), android.R.layout.simple_list_item_1, nums);
+        level_list.setAdapter(nums_adapter);
+
+        //Create and set OnItemClickListener
+        AdapterView.OnItemClickListener itemClickListener =
+                new AdapterView.OnItemClickListener(){
+                    @Override
+                    public void onItemClick(AdapterView<?> listView,
+                                            View itemView,
+                                            int position,
+                                            long id) {
+                        startGame((int) id);
+                        //Toast.makeText(getActivity(), "Item No: " + position, Toast.LENGTH_SHORT).show();
+                    }
+                };
+        level_list.setOnItemClickListener(itemClickListener);
+    }
+
+    void startGame(int level)
+    {
+
+        // TODO: get Car/Weapon/Coins from player config database
+        Intent i3 = new Intent(getActivity(), AndroidLauncher.class);
+        i3.putExtra("Car", 0);
+        i3.putExtra("Weapon", 0);
+        i3.putExtra("Level", level);
+        i3.putExtra("Money", PreferenceManager.getDefaultSharedPreferences(getActivity()).getInt("currencyAmnt",0));
+        startActivity(i3);
     }
 }
