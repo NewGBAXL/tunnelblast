@@ -101,6 +101,8 @@ public class ModeSelect extends Fragment
         }
         for (int i = 0; i < carSkins.length && i < getFromDatabase.size(); ++i)
             carSkins[i] = getFromDatabase.get(i);
+        carSelect = PreferenceManager.getDefaultSharedPreferences(getActivity()).getInt("equipped_car",0);
+        displaySkin();
 
         binding.quickStart.setOnClickListener(new View.OnClickListener()
         {
@@ -164,9 +166,10 @@ public class ModeSelect extends Fragment
             public void onClick(View view)
             {
                 carSelect = (carSelect >0)? carSelect -1:carSkins.length-1;
-                if (carSkins[carSelect].purchaced)
+                if (carSkins[carSelect].purchaced) {
                     displaySkin();
-                else
+                    PreferenceManager.getDefaultSharedPreferences(getActivity()).edit().putInt("equipped_car", carSelect).apply();
+                } else
                     onClick(view);
             }
         });
@@ -176,9 +179,10 @@ public class ModeSelect extends Fragment
             public void onClick(View view)
             {
                 carSelect = (carSelect <carSkins.length-1)? carSelect +1: 0;
-                if (carSkins[carSelect].purchaced)
+                if (carSkins[carSelect].purchaced) {
                     displaySkin();
-                else
+                    PreferenceManager.getDefaultSharedPreferences(getActivity()).edit().putInt("equipped_car", carSelect).apply();
+                } else
                     onClick(view);
             }
         });
