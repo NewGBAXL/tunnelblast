@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.newgbaxl.blastmaze.Objects.ArrowSwitch;
+import com.newgbaxl.blastmaze.databinding.ActivityMainBinding;
 import com.newgbaxl.blastmaze.databinding.FragmentFirstBinding;
 import com.newgbaxl.blastmaze.databinding.FragmentSettingsBinding;
 
@@ -97,6 +98,13 @@ public class Settings extends Fragment {
             public void onClick(View view) {
                 NavHostFragment.findNavController(Settings.this)
                         .navigate(R.id.action_settings_to_FirstFragment);
+            }
+        });
+
+        ActivityMainBinding.inflate(getLayoutInflater()).fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //NavHostFragment.findNavController(Settings.this).navigate(R.id.action_settings_to_help);
             }
         });
 

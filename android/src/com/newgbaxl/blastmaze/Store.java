@@ -43,7 +43,7 @@ public class Store extends Fragment {
     //Probably should make it all list-based, but I don't want to change too many things
     public CarSkin carSkins[] = new CarSkin[9];
     public List<CarSkin> getFromDatabase = new ArrayList<>();
-    //move these to Persistant Storage!
+
     public int selectedSkin = 0;
 
     public Store() {

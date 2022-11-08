@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -209,7 +210,10 @@ public class ModeSelect extends Fragment
         {
             //for all scenarios, while != completed, ++scenario;
             Intent i3 = new Intent(getActivity(), AndroidLauncher.class);
-            //pass scenario number and car number
+            i3.putExtra("Car", carSelect);
+            i3.putExtra("Weapon", weaponSelect);
+            i3.putExtra("Level", -1);
+            i3.putExtra("Money", PreferenceManager.getDefaultSharedPreferences(getActivity()).getInt("currencyAmnt",0));
             startActivity(i3);
         }
         else if (modeSelect == 3)

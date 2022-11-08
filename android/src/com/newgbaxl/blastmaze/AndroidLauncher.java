@@ -1,5 +1,7 @@
 package com.newgbaxl.blastmaze;
 
+import static java.sql.Types.NULL;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -13,19 +15,24 @@ import com.newgbaxl.blastmaze.MazeGame;
 public class AndroidLauncher extends AndroidApplication
 {
 	public boolean splash = true;
+	int money = 0;
 
 	protected void onCreate (Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
 		AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
 
+		money = getIntent().getIntExtra("Money",0);
+		int carSkin = getIntent().getIntExtra("Car", -1); //default - quick start
+		int special = getIntent().getIntExtra("Weapon", 0);
+		int scenario = getIntent().getIntExtra("Level", -1);
 
-		//if no pushed params
-		initialize(new MazeGame(), config);
+		if (carSkin == NULL || carSkin == -1) //if no pushed params (not sure exactly how this works)
+			initialize(new MazeGame(), config);
+		else
+			initialize(new MazeGame(carSkin, special, scenario), config);
 
-		//initialize(new MazeGame(carSkinInt, specialInt, scenarioInt), config);
 		//the mazeGame will store the params of each scenario
-
 
 
 		//early notes (ignore)
@@ -62,13 +69,14 @@ public class AndroidLauncher extends AndroidApplication
 		AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
 
 		int mode = 0; //0 - 24
-		initialize(new MazeGame(mode), config);
+		//initialize(new MazeGame(mode), config);
 	}
 
 	@Override
 	protected void onDestroy() {
 		Intent intent = new Intent(this, GameOverActivity.class);
 		//todo: push game stats to GameOverActivity
+		intent.putExtra("Money",money);
 		startActivity(intent);
 		super.onDestroy();
 	}
