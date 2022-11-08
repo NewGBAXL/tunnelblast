@@ -12,7 +12,7 @@ public class GridCell {
     public int x;
     public int y;
 
-    public byte cellData = -1;
+    public short cellData = -1;
     //-1 is empty
     //+n is cellSpd
     //-2 is block
