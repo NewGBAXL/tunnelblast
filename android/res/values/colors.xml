@@ -7,4 +7,10 @@
     <color name="teal_700">#FF018786</color>
     <color name="white">#FFFFFFFF</color>
     <color name="black">#000000FF</color>
+    <color name="gold">#AF9500FF</color>
+    <color name="gold2">#C9B037FF</color>
+    <color name="silver">#D7D7D7FF</color>
+    <color name="silver2">#B4B4B4FF</color>
+    <color name="bronze">#6A3805FF</color>
+    <color name="bronze2">#AD8A56FF</color>
 </resources>

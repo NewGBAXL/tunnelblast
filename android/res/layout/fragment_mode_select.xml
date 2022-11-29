@@ -65,7 +65,7 @@
         android:layout_height="70dp"
         android:layout_marginEnd="12dp"
         android:layout_marginBottom="130dp"
-        android:text="Button"
+        android:text="Free Play"
         android:textSize="23sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
