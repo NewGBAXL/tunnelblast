@@ -1,12 +1,21 @@
 package com.newgbaxl.blastmaze;
 
+import android.graphics.Color;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.fragment.NavHostFragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+
+import com.newgbaxl.blastmaze.databinding.FragmentFirstBinding;
+import com.newgbaxl.blastmaze.databinding.FragmentLevelSelectBinding;
+
+import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -15,18 +24,18 @@ import android.view.ViewGroup;
  */
 public class LevelSelect extends Fragment
 {
-    /*private static final int[] BUTTON_IDS =
+    private FragmentLevelSelectBinding binding;
+
+    private static final String[] GAME_MODES =
     {
-            R.id.buttonOne,
-            R.id.buttonTwo,
-            R.id.buttonThree,
-            R.id.buttonFour,
-            R.id.buttonFive,
-            R.id.buttonSix,
-            R.id.buttonSeven,
-            R.id.buttonEight,
-            R.id.buttonMid,
-    };*/
+            "Evade",
+            "Hunt",
+            "Coin Collect",
+            "Destroy",
+            "Bomb Enemy",
+            "Box in NPC",
+            "God Mode",
+    };
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -38,6 +47,7 @@ public class LevelSelect extends Fragment
     private String mParam2;
 
     private byte[] ranks = new byte[20];
+    private byte[] modeTypes = {0,1,3,0,4,1,0,1,4,0,3,1,0,1,4,0,5,1,0,2};
 
     public LevelSelect() {
         // Required empty public constructor
@@ -71,14 +81,46 @@ public class LevelSelect extends Fragment
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
+        // or slightly better
+        // buttons = new ArrayList<Button>(BUTTON_IDS.length);
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState)
+    public View onCreateView(
+            LayoutInflater inflater, ViewGroup container,
+            Bundle savedInstanceState
+    ) {
+
+        binding = FragmentLevelSelectBinding.inflate(inflater, container, false);
+        return binding.getRoot();
+
+    }
+
+    public void onViewCreated(@NonNull View view, Bundle savedInstanceState)
     {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_level_select, container, false);
+        super.onViewCreated(view, savedInstanceState);
+
+        binding.button3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                for (int i = 0; i < 20; ++i)
+                    ranks[i] = 0;
+                update();
+            }
+        });
+
+        binding.button4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                for (int i = 0; i < 20; ++i)
+                    ranks[i] = 1;
+                update();
+            }
+        });
+
+        update();
+
     }
 
     //rename this f'n
@@ -124,4 +166,47 @@ protected void onCreate(Bundle savedInstanceState) {
     }
 }
      */
+
+    public void update()
+    {
+        binding.buttonlvl1.setText(GAME_MODES[modeTypes[0]]);
+        binding.buttonlvl2.setText(GAME_MODES[modeTypes[1]]);
+        binding.buttonlvl3.setText(GAME_MODES[modeTypes[2]]);
+        binding.buttonlvl4.setText(GAME_MODES[modeTypes[3]]);
+        binding.buttonlvl5.setText(GAME_MODES[modeTypes[4]]);
+        binding.buttonlvl6.setText(GAME_MODES[modeTypes[5]]);
+        binding.buttonlvl7.setText(GAME_MODES[modeTypes[6]]);
+        binding.buttonlvl8.setText(GAME_MODES[modeTypes[7]]);
+        binding.buttonlvl9.setText(GAME_MODES[modeTypes[8]]);
+        binding.buttonlvl10.setText(GAME_MODES[modeTypes[9]]);
+        binding.buttonlvl11.setText(GAME_MODES[modeTypes[10]]);
+        binding.buttonlvl12.setText(GAME_MODES[modeTypes[11]]);
+        binding.buttonlvl13.setText(GAME_MODES[modeTypes[12]]);
+        binding.buttonlvl14.setText(GAME_MODES[modeTypes[13]]);
+        binding.buttonlvl15.setText(GAME_MODES[modeTypes[14]]);
+        binding.buttonlvl16.setText(GAME_MODES[modeTypes[15]]);
+        binding.buttonlvl17.setText(GAME_MODES[modeTypes[16]]);
+        binding.buttonlvl18.setText(GAME_MODES[modeTypes[17]]);
+        binding.buttonlvl19.setText(GAME_MODES[modeTypes[18]]);
+
+        int i = 19;
+        binding.buttonlvl20.setText((ranks[i] != 0)?GAME_MODES[modeTypes[i]]:"LOCKED");
+        binding.buttonlvl20.setBackgroundColor((ranks[i] != 0)?Color.BLUE:getResources().getColor(R.color.silver2));
+        binding.buttonlvl20.setClickable(ranks[i] > 0);
+
+        //todo: make loop for all buttons
+
+        //unlock first scenario
+        if (ranks[0] == 0)
+            ranks[0] = 1;
+
+        binding.buttonlvl1.setText(GAME_MODES[modeTypes[0]]);
+        binding.buttonlvl1.setClickable(ranks[0] > 0);
+
+        binding.buttonlvl5.setClickable(ranks[0] > 0);
+
+        //todo:remove the colors platinum,gold,bronze; rename silver to locked
+
+        //for (Button b : )
+    }
 }
