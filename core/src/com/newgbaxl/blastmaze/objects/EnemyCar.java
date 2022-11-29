@@ -42,7 +42,7 @@ public class EnemyCar extends Car {
         moveCooldownTimer--;
         if(moveCooldownTimer <= 0) {
             calculateAction();
-            moveCooldownTimer = rand.nextInt(40) + 20;
+            moveCooldownTimer = (int)((rand.nextInt(40) + 20) * game.enemySpeedMultiplier);
             Gdx.app.log("tag", "Move NPC");
         }
 

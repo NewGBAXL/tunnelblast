@@ -5,6 +5,8 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.math.Matrix4;
+import com.badlogic.gdx.math.Quaternion;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Align;
 import com.newgbaxl.blastmaze.camera.MapViewport;
@@ -38,7 +40,13 @@ import java.util.Set;
 
 public class MazeScreen2d implements Screen {
 
+	//Data to pass back to the android side
+	public static boolean win = false;
+	public static boolean lose = false;
+	public static char rank = 'F';
+
 	private SpriteBatch batch;
+	private SpriteBatch UISpritebatch;
 
 	public Stage stage;
 
@@ -52,9 +60,11 @@ public class MazeScreen2d implements Screen {
 	UserCar user;
 	LinkedList<EnemyCar> enemies;
 	EnemyCar enemyTestOnly;
+	public float enemySpeedMultiplier = 1f;
 
 	//Array of grid spaces, walls defined by digits in hexadecimal format
 	public GridCell[][] mazeGrid;
+	public Texture mazeFloor = new Texture("brickFloor.png");
 	public Texture mazeWall = new Texture("brickWallDirectional.png");
 	public Texture questionPickup = new Texture("Circle_question_mark.png");
 	Map<Short, Texture> pickupImages = new HashMap<Short, Texture>(){{
@@ -95,6 +105,7 @@ public class MazeScreen2d implements Screen {
 		prepareHUD(115, 32);
 
 		batch = new SpriteBatch();
+		UISpritebatch = new SpriteBatch();
 	}
 
 	public MazeScreen2d(int carSkin, int special)
@@ -124,6 +135,10 @@ public class MazeScreen2d implements Screen {
 
 	private void SetupScreen()
 	{
+		win	= false;
+		lose = false;
+		rank = 'F';
+
 		getInstance = this;
 		Maze maze = (new MazeCreator()).getMaze();
 
@@ -165,9 +180,9 @@ public class MazeScreen2d implements Screen {
 		FreeTypeFontGenerator.FreeTypeFontParameter fontParameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
 
 		fontParameter.size = 72;
-		fontParameter.borderWidth = 3.6f;
-		fontParameter.color = new Color(1, 1, 1, 0.3f);
-		fontParameter.borderColor = new Color(0, 0, 0, 0.3f);
+		fontParameter.borderWidth = 4f;
+		fontParameter.color = new Color(1, 1, 1, 0.5f);
+		fontParameter.borderColor = new Color(0, 0, 0, 0.5f);
 
 		font = fontGenerator.generateFont(fontParameter);
 
@@ -199,21 +214,21 @@ public class MazeScreen2d implements Screen {
 		font.draw(batch, String.format(Locale.getDefault(), "%.2f", timer), 1300, hudRow2Y, hudSectionWidth, Align.center, false);//hudRightX, hudRow2Y, hudSectionWidth, Align.right, false);
 		*/
 
-		batch.begin();
-		font.draw(batch, "Bombs", 10, hudRow1Y, hudSectionWidth, Align.left, false);
-		font.draw(batch, "Blocks", 400, hudRow1Y, hudSectionWidth, Align.left, false);
-		font.draw(batch, "Power", 800, hudRow1Y, hudSectionWidth, Align.left, false);
-		font.draw(batch, "Timer", 1150, hudRow1Y, hudSectionWidth, Align.left, false);
+		UISpritebatch.begin();
+		font.draw(UISpritebatch, "Bombs", 10, hudRow1Y, hudSectionWidth, Align.left, false);
+		font.draw(UISpritebatch, "Blocks", 400, hudRow1Y, hudSectionWidth, Align.left, false);
+		font.draw(UISpritebatch, "Power", 800, hudRow1Y, hudSectionWidth, Align.left, false);
+		font.draw(UISpritebatch, "Timer", 1150, hudRow1Y, hudSectionWidth, Align.left, false);
 
 		double timerDisplay = user.timer / 60f; //todo: change this based on the current mode
-		font.draw(batch, String.format(Locale.getDefault(), "%02d", user.bombs), 200, hudRow1Y, hudSectionWidth, Align.right, false);//hudLeftX, hudRow2Y, hudSectionWidth, Align.left, false);
-		font.draw(batch, String.format(Locale.getDefault(), "%02d", user.blocks), 600, hudRow1Y, hudSectionWidth, Align.right, false);;//hudCenterX, hudRow2Y, hudSectionWidth, Align.center, false);
-		font.draw(batch, String.format(Locale.getDefault(), "%02d", user.power), 1000, hudRow1Y, hudSectionWidth, Align.right, false);//hudRightX, hudRow2Y, hudSectionWidth, Align.right, false);
-		font.draw(batch, String.format(Locale.getDefault(), "%6.2f", timerDisplay), 1400, hudRow1Y, hudSectionWidth, Align.right, false);//hudRightX, hudRow2Y, hudSectionWidth, Align.right, false);
+		font.draw(UISpritebatch, String.format(Locale.getDefault(), "%02d", user.bombs), 200, hudRow1Y, hudSectionWidth, Align.right, false);//hudLeftX, hudRow2Y, hudSectionWidth, Align.left, false);
+		font.draw(UISpritebatch, String.format(Locale.getDefault(), "%02d", user.blocks), 600, hudRow1Y, hudSectionWidth, Align.right, false);;//hudCenterX, hudRow2Y, hudSectionWidth, Align.center, false);
+		font.draw(UISpritebatch, String.format(Locale.getDefault(), "%02d", user.power), 1000, hudRow1Y, hudSectionWidth, Align.right, false);//hudRightX, hudRow2Y, hudSectionWidth, Align.right, false);
+		font.draw(UISpritebatch, String.format(Locale.getDefault(), "%6.2f", timerDisplay), 1300, hudRow1Y, hudSectionWidth, Align.left, false);//hudRightX, hudRow2Y, hudSectionWidth, Align.right, false);
 
 
-		font.draw(batch, "FPS", 50, 480, hudSectionWidth, Align.right, false);
-		font.draw(batch, String.valueOf(Gdx.graphics.getFramesPerSecond()), 110, 480);
+		font.draw(UISpritebatch, "FPS", 50, 480, hudSectionWidth, Align.right, false);
+		font.draw(UISpritebatch, String.valueOf(Gdx.graphics.getFramesPerSecond()), 110, 480);
 
 		//for testing
 		//font.draw(batch, "UpPriority", 40, 200, hudSectionWidth, Align.right, false);
@@ -225,7 +240,7 @@ public class MazeScreen2d implements Screen {
 		//font.draw(batch, "LeftPriority", 1200, 200, hudSectionWidth, Align.right, false);
 		//font.draw(batch, String.format(Locale.getDefault(), "%02d", enemyTestOnly.lp), 1200, 100);
 
-		batch.end();
+		UISpritebatch.end();
 	}
 
 	@Override
@@ -250,8 +265,18 @@ public class MazeScreen2d implements Screen {
 
 	@Override
 	public void render(float delta) {
-		Gdx.gl.glClearColor(0.5f, 0.5f, 0.5f, 1);
+		OrthographicCamera cam = (OrthographicCamera) stage.getCamera();
+		cam.translate(620, 300);
+		Gdx.gl.glClearColor(0f, 0f, 0f, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+		//Draw the floor of the maze
+		batch.begin();
+		for (int x = 0; x < Const.MAZE_WIDTH; x++) {
+			for (int y = 0; y < Const.MAZE_HEIGHT; y++) {
+				batch.draw(mazeFloor, x * Const.TILE_SIZE - 8, y * Const.TILE_SIZE - 8, 0, 0, Const.TILE_SIZE, Const.TILE_SIZE, 1f, 1f, 0, 0, 0, 64, 64, false, false);
+			}}
+		batch.end();
 
 		if (Gdx.input.isKeyJustPressed(Input.Keys.R)) GenerateMaze();
 
@@ -268,7 +293,6 @@ public class MazeScreen2d implements Screen {
 
 		//stage.getCamera().position.x = 100;
 
-		OrthographicCamera cam = (OrthographicCamera) stage.getCamera();
 
 		//mazeRenderer.setView(cam);
 		//mazeRenderer.render();
@@ -283,6 +307,7 @@ public class MazeScreen2d implements Screen {
 
 		//Draw walls
 		batch.begin();
+		batch.setProjectionMatrix(cam.combined);
 		for (int x = 0; x < Const.MAZE_WIDTH; x++) {
 			for (int y = 0; y < Const.MAZE_HEIGHT; y++) {
 				if (MazeUtil.GetCellData(x, y) <= -2) {
@@ -302,6 +327,7 @@ public class MazeScreen2d implements Screen {
 		}
 		batch.end();
 
+		cam.translate(-cam.position.x, -cam.position.y);
 		updateAndRenderHUD();
 	}
 
@@ -407,7 +433,7 @@ public class MazeScreen2d implements Screen {
 
 	public void quitGame()
 	{
-
+		lose = true;
 		Gdx.app.exit();
 	}
 }
