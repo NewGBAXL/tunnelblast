@@ -44,6 +44,8 @@ public class MazeScreen2d implements Screen {
 	public static boolean win = false;
 	public static boolean lose = false;
 	public static char rank = 'F';
+	public static int result = -1;
+	public static int currentLvlID = 0;
 
 	private SpriteBatch batch;
 	private SpriteBatch UISpritebatch;
@@ -128,8 +130,10 @@ public class MazeScreen2d implements Screen {
 				(float)(Math.random() * 0.6) + 0.1f, (byte)1, (byte)1);
 
 		if (scenarioID > 0 && scenarioID < Scenario.scenarios.length)
+		{
 			currentScenario = Scenario.scenarios[scenarioID];
-
+			currentLvlID = scenarioID; //do not use this variable anywhere else
+		}
 		if (currentScenario != null) currentScenario.OnStart(this);
 	}
 
@@ -138,6 +142,7 @@ public class MazeScreen2d implements Screen {
 		win	= false;
 		lose = false;
 		rank = 'F';
+		result = -1;
 
 		getInstance = this;
 		Maze maze = (new MazeCreator()).getMaze();
@@ -226,7 +231,6 @@ public class MazeScreen2d implements Screen {
 		font.draw(UISpritebatch, String.format(Locale.getDefault(), "%02d", user.power), 1000, hudRow1Y, hudSectionWidth, Align.right, false);//hudRightX, hudRow2Y, hudSectionWidth, Align.right, false);
 		font.draw(UISpritebatch, String.format(Locale.getDefault(), "%6.2f", timerDisplay), 1300, hudRow1Y, hudSectionWidth, Align.left, false);//hudRightX, hudRow2Y, hudSectionWidth, Align.right, false);
 
-
 		font.draw(UISpritebatch, "FPS", 50, 480, hudSectionWidth, Align.right, false);
 		font.draw(UISpritebatch, String.valueOf(Gdx.graphics.getFramesPerSecond()), 110, 480);
 
@@ -287,6 +291,7 @@ public class MazeScreen2d implements Screen {
 		if (currentScenario != null && currentScenario.CheckForWin(this))
 		{
 			//todo: Logic for when you win
+			result = currentScenario.getRankResult(this);
 		}
 		stage.getViewport().apply();
 		stage.draw();
@@ -433,6 +438,7 @@ public class MazeScreen2d implements Screen {
 
 	public void quitGame()
 	{
+		result = (result==-1)?0:1;
 		lose = true;
 		Gdx.app.exit();
 	}

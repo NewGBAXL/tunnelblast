@@ -35,6 +35,14 @@ public abstract class Scenario
             //No win condition
             return false;
         }
+
+        @Override
+        public int getRankResult(MazeScreen2d scene){
+            if (!CheckForWin(scene))
+                return -1; //still playing
+            else
+                return 4;
+        }
     }
 };
 
@@ -44,4 +52,6 @@ public abstract class Scenario
     public abstract void Update(MazeScreen2d scene);
     //Customizable condition for when you should win the game. i.e. return true when you have enough points or there are no more enemies or something
     public abstract boolean CheckForWin(MazeScreen2d scene);
+
+    public abstract int getRankResult(MazeScreen2d scene);
 }

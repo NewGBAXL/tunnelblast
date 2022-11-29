@@ -1,5 +1,7 @@
 package com.newgbaxl.blastmaze;
 
+import static com.newgbaxl.blastmaze.GlobalVars.globalMoney;
+
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -97,7 +99,8 @@ public class Store extends Fragment {
         for (int i = 0; i < carSkins.length && i < getFromDatabase.size(); ++i)
             carSkins[i] = getFromDatabase.get(i);
 
-        binding.displayCurrency.setText("$" + PreferenceManager.getDefaultSharedPreferences(getActivity()).getInt("currencyAmnt",0));
+        //binding.displayCurrency.setText("$" + PreferenceManager.getDefaultSharedPreferences(getActivity()).getInt("currencyAmnt",0));
+        binding.displayCurrency.setText("$" + globalMoney);
         binding.purchaseStore.setText(carSkins[selectedSkin].purchaced?"PURCHASED":"PURCHASE");
 
         if(selectedSkin == PreferenceManager.getDefaultSharedPreferences(getActivity()).getInt("equipped_car",-1))
@@ -118,9 +121,12 @@ public class Store extends Fragment {
             public void onClick(View view)
             {
                 //add currency
-                //todo: change currency to db so that it can be accessed/modified by game
-                PreferenceManager.getDefaultSharedPreferences(getActivity()).edit().putInt("currencyAmnt",PreferenceManager.getDefaultSharedPreferences(getActivity()).getInt("currencyAmnt",0) + 1).apply();
-                binding.displayCurrency.setText("$" + PreferenceManager.getDefaultSharedPreferences(getActivity()).getInt("currencyAmnt",0));
+
+                //PreferenceManager.getDefaultSharedPreferences(getActivity()).edit().putInt("currencyAmnt",PreferenceManager.getDefaultSharedPreferences(getActivity()).getInt("currencyAmnt",0) + 1).apply();
+                //binding.displayCurrency.setText("$" + PreferenceManager.getDefaultSharedPreferences(getActivity()).getInt("currencyAmnt",0));
+
+                ++globalMoney;
+                binding.displayCurrency.setText("$" + globalMoney);
             }
         });
 
@@ -155,7 +161,7 @@ public class Store extends Fragment {
             @Override
             public void onClick(View view)
             {
-                int money = PreferenceManager.getDefaultSharedPreferences(getActivity()).getInt("currencyAmnt",0);
+                //int money = PreferenceManager.getDefaultSharedPreferences(getActivity()).getInt("currencyAmnt",0);
                 if (carSkins[selectedSkin].purchaced)
                 {
                     binding.purchaseStore.setText("EQUIPPED");
@@ -163,11 +169,11 @@ public class Store extends Fragment {
                 }
                 else
                 {
-                    if (money >= carSkins[selectedSkin].price)
+                    if (globalMoney >= carSkins[selectedSkin].price)
                     {
-                        PreferenceManager.getDefaultSharedPreferences(getActivity()).edit().putInt("currencyAmnt",money - carSkins[selectedSkin].price).apply();
-                        money-=carSkins[selectedSkin].price;
-                        binding.displayCurrency.setText("$" + money);
+                        //PreferenceManager.getDefaultSharedPreferences(getActivity()).edit().putInt("currencyAmnt",money - carSkins[selectedSkin].price).apply();
+                        globalMoney-=carSkins[selectedSkin].price;
+                        binding.displayCurrency.setText("$" + globalMoney);
                         binding.purchaseStore.setText("EQUIP");
                         carSkins[selectedSkin].purchaced = true;
                         DatabaseHelper db = new DatabaseHelper(getActivity());

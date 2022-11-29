@@ -37,6 +37,8 @@ public class LevelSelect extends Fragment
             "God Mode",
     };
 
+    public Button buttons[] = new Button[20];
+
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -101,11 +103,34 @@ public class LevelSelect extends Fragment
     {
         super.onViewCreated(view, savedInstanceState);
 
+        buttons[0] =  binding.buttonlvl1;
+        buttons[1] =  binding.buttonlvl2;
+        buttons[2] =  binding.buttonlvl3;
+        buttons[3] =  binding.buttonlvl4;
+        buttons[4] =  binding.buttonlvl5;
+        buttons[5] =  binding.buttonlvl6;
+        buttons[6] =  binding.buttonlvl7;
+        buttons[7] =  binding.buttonlvl8;
+        buttons[8] =  binding.buttonlvl9;
+        buttons[9] =  binding.buttonlvl10;
+        buttons[10] =  binding.buttonlvl11;
+        buttons[11] =  binding.buttonlvl12;
+        buttons[12] =  binding.buttonlvl13;
+        buttons[13] =  binding.buttonlvl14;
+        buttons[14] =  binding.buttonlvl15;
+        buttons[15] =  binding.buttonlvl16;
+        buttons[16] =  binding.buttonlvl17;
+        buttons[17] =  binding.buttonlvl18;
+        buttons[18] =  binding.buttonlvl19;
+        buttons[19] =  binding.buttonlvl20;
+
+        update();
         binding.button3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 for (int i = 0; i < 20; ++i)
-                    ranks[i] = 0;
+                    GlobalVars.globalRanks[i] = 0;
+                    //ranks[i] = 0;
                 update();
             }
         });
@@ -114,13 +139,13 @@ public class LevelSelect extends Fragment
             @Override
             public void onClick(View view) {
                 for (int i = 0; i < 20; ++i)
-                    ranks[i] = 1;
+                    GlobalVars.globalRanks[i] = 1;
+                    //ranks[i] = 1;
                 update();
             }
         });
 
         update();
-
     }
 
     //rename this f'n
@@ -134,19 +159,19 @@ public class LevelSelect extends Fragment
         //5 Rank S (optional)
 
         //unlock first scenario
-        if (ranks[0] == 0)
-            ranks[0] = 1;
+        if (GlobalVars.globalRanks[0] == 0)
+            GlobalVars.globalRanks[0] = 1;
 
-        for (int i = 0; i < 20; ++i)
+        /*for (int i = 0; i < 20; ++i)
         {
             //set the color and clickability of a button if it is 0, not 0
             //set the rank emblem if rank is 2-5
-        }
+        }*/
 
-        int startedLvl = 1; //set to clicked button #
+        //int startedLvl = 1; //set to clicked button #
         //start game
 
-        ranks[startedLvl] = 0; //getResult()
+        //ranks[startedLvl] = 0; //getResult()
 
         //#af9500, #c9b037, #d7d7d7, #b4b4b4, #6a3805 and #ad8a56.
     }
@@ -169,7 +194,14 @@ protected void onCreate(Bundle savedInstanceState) {
 
     public void update()
     {
-        binding.buttonlvl1.setText(GAME_MODES[modeTypes[0]]);
+        for (int i = 0; i < 20; ++i)
+        {
+            buttons[i].setText((GlobalVars.globalRanks[i] != 0)?GAME_MODES[modeTypes[i]]:"LOCKED");
+            buttons[i].setBackgroundColor((GlobalVars.globalRanks[i] != 0)?Color.BLUE:getResources().getColor(R.color.silver2));
+            buttons[i].setClickable(GlobalVars.globalRanks[i] > 0);
+        }
+
+        /*binding.buttonlvl1.setText(GAME_MODES[modeTypes[0]]);
         binding.buttonlvl2.setText(GAME_MODES[modeTypes[1]]);
         binding.buttonlvl3.setText(GAME_MODES[modeTypes[2]]);
         binding.buttonlvl4.setText(GAME_MODES[modeTypes[3]]);
@@ -189,21 +221,22 @@ protected void onCreate(Bundle savedInstanceState) {
         binding.buttonlvl18.setText(GAME_MODES[modeTypes[17]]);
         binding.buttonlvl19.setText(GAME_MODES[modeTypes[18]]);
 
+
         int i = 19;
         binding.buttonlvl20.setText((ranks[i] != 0)?GAME_MODES[modeTypes[i]]:"LOCKED");
         binding.buttonlvl20.setBackgroundColor((ranks[i] != 0)?Color.BLUE:getResources().getColor(R.color.silver2));
-        binding.buttonlvl20.setClickable(ranks[i] > 0);
+        binding.buttonlvl20.setClickable(ranks[i] > 0);*/
 
         //todo: make loop for all buttons
 
         //unlock first scenario
-        if (ranks[0] == 0)
-            ranks[0] = 1;
+        if (GlobalVars.globalRanks[0] == 0)
+            GlobalVars.globalRanks[0] = 1;
 
-        binding.buttonlvl1.setText(GAME_MODES[modeTypes[0]]);
-        binding.buttonlvl1.setClickable(ranks[0] > 0);
+        //binding.buttonlvl1.setText(GAME_MODES[modeTypes[0]]);
+        //binding.buttonlvl1.setClickable(ranks[0] > 0);
 
-        binding.buttonlvl5.setClickable(ranks[0] > 0);
+        //binding.buttonlvl5.setClickable(ranks[0] > 0);
 
         //todo:remove the colors platinum,gold,bronze; rename silver to locked
 
