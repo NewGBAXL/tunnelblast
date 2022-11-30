@@ -1,5 +1,6 @@
 package com.newgbaxl.blastmaze;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 
@@ -11,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 
 import com.newgbaxl.blastmaze.databinding.FragmentFirstBinding;
 import com.newgbaxl.blastmaze.databinding.FragmentLevelSelectBinding;
@@ -38,6 +40,7 @@ public class LevelSelect extends Fragment
     };
 
     public Button buttons[] = new Button[20];
+    public ImageView medals[] = new ImageView[20];
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -124,6 +127,27 @@ public class LevelSelect extends Fragment
         buttons[18] =  binding.buttonlvl19;
         buttons[19] =  binding.buttonlvl20;
 
+        medals[0] =  binding.ranklvl1;
+        medals[1] =  binding.ranklvl2;
+        medals[2] =  binding.ranklvl3;
+        medals[3] =  binding.ranklvl4;
+        medals[4] =  binding.ranklvl5;
+        medals[5] =  binding.ranklvl6;
+        medals[6] =  binding.ranklvl7;
+        medals[7] =  binding.ranklvl8;
+        medals[8] =  binding.ranklvl9;
+        medals[9] =  binding.ranklvl10;
+        medals[10] =  binding.ranklvl11;
+        medals[11] =  binding.ranklvl12;
+        medals[12] =  binding.ranklvl13;
+        medals[13] =  binding.ranklvl14;
+        medals[14] =  binding.ranklvl15;
+        medals[15] =  binding.ranklvl16;
+        medals[16] =  binding.ranklvl17;
+        medals[17] =  binding.ranklvl18;
+        medals[18] =  binding.ranklvl19;
+        medals[19] =  binding.ranklvl20;
+
         update();
         binding.button3.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -145,6 +169,26 @@ public class LevelSelect extends Fragment
             }
         });
 
+        binding.button6.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                for (int i = 0; i < 20; ++i)
+                    GlobalVars.globalRanks[i] = 4;
+                //ranks[i] = 1;
+                update();
+            }
+        });
+
+        for (int i = 0; i < 20; ++i)
+        {
+            buttons[i].setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent i3 = new Intent(getActivity(), AndroidLauncher.class);
+                    getActivity().startActivity(i3);
+                }
+            });
+        }
         update();
     }
 
@@ -199,47 +243,30 @@ protected void onCreate(Bundle savedInstanceState) {
             buttons[i].setText((GlobalVars.globalRanks[i] != 0)?GAME_MODES[modeTypes[i]]:"LOCKED");
             buttons[i].setBackgroundColor((GlobalVars.globalRanks[i] != 0)?Color.BLUE:getResources().getColor(R.color.silver2));
             buttons[i].setClickable(GlobalVars.globalRanks[i] > 0);
+
+            medals[i].setVisibility((GlobalVars.globalRanks[i] > 1)?View.VISIBLE:View.INVISIBLE);
+            switch (GlobalVars.globalRanks[i])
+            {
+                case 2:
+                    medals[i].setImageResource(R.drawable.bronze);
+                    break;
+                case 3:
+                    medals[i].setImageResource(R.drawable.silver);
+                    break;
+                case 4:
+                    medals[i].setImageResource(R.drawable.gold);
+                    break;
+                case 5:
+                    medals[i].setImageResource(R.drawable.platinum);
+                    break;
+            }
         }
-
-        /*binding.buttonlvl1.setText(GAME_MODES[modeTypes[0]]);
-        binding.buttonlvl2.setText(GAME_MODES[modeTypes[1]]);
-        binding.buttonlvl3.setText(GAME_MODES[modeTypes[2]]);
-        binding.buttonlvl4.setText(GAME_MODES[modeTypes[3]]);
-        binding.buttonlvl5.setText(GAME_MODES[modeTypes[4]]);
-        binding.buttonlvl6.setText(GAME_MODES[modeTypes[5]]);
-        binding.buttonlvl7.setText(GAME_MODES[modeTypes[6]]);
-        binding.buttonlvl8.setText(GAME_MODES[modeTypes[7]]);
-        binding.buttonlvl9.setText(GAME_MODES[modeTypes[8]]);
-        binding.buttonlvl10.setText(GAME_MODES[modeTypes[9]]);
-        binding.buttonlvl11.setText(GAME_MODES[modeTypes[10]]);
-        binding.buttonlvl12.setText(GAME_MODES[modeTypes[11]]);
-        binding.buttonlvl13.setText(GAME_MODES[modeTypes[12]]);
-        binding.buttonlvl14.setText(GAME_MODES[modeTypes[13]]);
-        binding.buttonlvl15.setText(GAME_MODES[modeTypes[14]]);
-        binding.buttonlvl16.setText(GAME_MODES[modeTypes[15]]);
-        binding.buttonlvl17.setText(GAME_MODES[modeTypes[16]]);
-        binding.buttonlvl18.setText(GAME_MODES[modeTypes[17]]);
-        binding.buttonlvl19.setText(GAME_MODES[modeTypes[18]]);
-
-
-        int i = 19;
-        binding.buttonlvl20.setText((ranks[i] != 0)?GAME_MODES[modeTypes[i]]:"LOCKED");
-        binding.buttonlvl20.setBackgroundColor((ranks[i] != 0)?Color.BLUE:getResources().getColor(R.color.silver2));
-        binding.buttonlvl20.setClickable(ranks[i] > 0);*/
-
-        //todo: make loop for all buttons
 
         //unlock first scenario
         if (GlobalVars.globalRanks[0] == 0)
             GlobalVars.globalRanks[0] = 1;
 
-        //binding.buttonlvl1.setText(GAME_MODES[modeTypes[0]]);
-        //binding.buttonlvl1.setClickable(ranks[0] > 0);
-
-        //binding.buttonlvl5.setClickable(ranks[0] > 0);
-
         //todo:remove the colors platinum,gold,bronze; rename silver to locked
 
-        //for (Button b : )
     }
 }

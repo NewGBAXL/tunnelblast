@@ -10,7 +10,7 @@
         android:id="@+id/button3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="587dp"
+        android:layout_marginTop="537dp"
         android:text="lock all"
         app:layout_constraintTop_toTopOf="parent"
         tools:layout_editor_absoluteX="64dp" />
@@ -19,10 +19,18 @@
         android:id="@+id/button4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="637dp"
+        android:layout_marginTop="587dp"
         android:text="unlock all"
         app:layout_constraintTop_toTopOf="parent"
         tools:layout_editor_absoluteX="69dp" />
+
+    <Button
+        android:id="@+id/button6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="640dp"
+        android:text="set all to gold"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -44,7 +52,7 @@
                     android:text="Button" />
 
                 <ImageView
-                    android:id="@+id/imageView6"
+                    android:id="@+id/ranklvl1"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
 
@@ -57,7 +65,7 @@
                     android:text="Button" />
 
                 <ImageView
-                    android:id="@+id/imageView8"
+                    android:id="@+id/ranklvl2"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
 
@@ -76,7 +84,7 @@
                     android:text="Button" />
 
                 <ImageView
-                    android:id="@+id/imageView9"
+                    android:id="@+id/ranklvl3"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
 
@@ -89,7 +97,7 @@
                     android:text="Button" />
 
                 <ImageView
-                    android:id="@+id/imageView10"
+                    android:id="@+id/ranklvl4"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
 
@@ -108,7 +116,7 @@
                     android:text="Button" />
 
                 <ImageView
-                    android:id="@+id/imageView11"
+                    android:id="@+id/ranklvl5"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
 
@@ -121,7 +129,7 @@
                     android:text="Button" />
 
                 <ImageView
-                    android:id="@+id/imageView12"
+                    android:id="@+id/ranklvl6"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
 
@@ -140,7 +148,7 @@
                     android:text="Button" />
 
                 <ImageView
-                    android:id="@+id/imageView13"
+                    android:id="@+id/ranklvl7"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
 
@@ -153,7 +161,7 @@
                     android:text="Button" />
 
                 <ImageView
-                    android:id="@+id/imageView14"
+                    android:id="@+id/ranklvl8"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
 
@@ -171,7 +179,7 @@
                     android:text="Button" />
 
                 <ImageView
-                    android:id="@+id/imageView15"
+                    android:id="@+id/ranklvl9"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
 
@@ -184,7 +192,7 @@
                     android:text="Button" />
 
                 <ImageView
-                    android:id="@+id/imageView16"
+                    android:id="@+id/ranklvl10"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
 
@@ -203,7 +211,7 @@
                     android:text="Button" />
 
                 <ImageView
-                    android:id="@+id/imageView17"
+                    android:id="@+id/ranklvl11"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
 
@@ -216,7 +224,7 @@
                     android:text="Button" />
 
                 <ImageView
-                    android:id="@+id/imageView18"
+                    android:id="@+id/ranklvl12"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
 
@@ -234,7 +242,7 @@
                     android:text="Button" />
 
                 <ImageView
-                    android:id="@+id/imageView19"
+                    android:id="@+id/ranklvl13"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
 
@@ -247,7 +255,7 @@
                     android:text="Button" />
 
                 <ImageView
-                    android:id="@+id/imageView20"
+                    android:id="@+id/ranklvl14"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
 
@@ -266,7 +274,7 @@
                     android:text="Button" />
 
                 <ImageView
-                    android:id="@+id/imageView21"
+                    android:id="@+id/ranklvl15"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
 
@@ -279,7 +287,7 @@
                     android:text="Button" />
 
                 <ImageView
-                    android:id="@+id/imageView22"
+                    android:id="@+id/ranklvl16"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
 
@@ -297,7 +305,7 @@
                     android:text="Button" />
 
                 <ImageView
-                    android:id="@+id/imageView23"
+                    android:id="@+id/ranklvl17"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
 
@@ -310,7 +318,7 @@
                     android:text="Button" />
 
                 <ImageView
-                    android:id="@+id/imageView24"
+                    android:id="@+id/ranklvl18"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
 
@@ -328,7 +336,7 @@
                     android:text="Button" />
 
                 <ImageView
-                    android:id="@+id/imageView25"
+                    android:id="@+id/ranklvl19"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
 
@@ -341,7 +349,7 @@
                     android:text="Button" />
 
                 <ImageView
-                    android:id="@+id/imageView26"
+                    android:id="@+id/ranklvl20"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
 

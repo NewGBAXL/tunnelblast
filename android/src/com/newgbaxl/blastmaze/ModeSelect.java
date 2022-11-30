@@ -153,6 +153,7 @@ public class ModeSelect extends Fragment
         {
             @Override
             public void onClick(View view) {
+                //todo: add navigation to Free Play (Eric)
                 changeMode(4);
                 NavHostFragment.findNavController(ModeSelect.this)
                         .navigate(R.id.action_modeSelect_to_FirstFragment);
@@ -216,8 +217,13 @@ public class ModeSelect extends Fragment
             Intent i3 = new Intent(getActivity(), AndroidLauncher.class);
             i3.putExtra("Car", carSelect);
             i3.putExtra("Weapon", weaponSelect);
-            i3.putExtra("Level", -1);
-            i3.putExtra("Money", PreferenceManager.getDefaultSharedPreferences(getActivity()).getInt("currencyAmnt",0));
+
+            int i = 0;
+            while (i < 20 && GlobalVars.globalRanks[i] >= 1)
+                ++i;
+            --i;
+            i3.putExtra("Level", i);
+
             startActivity(i3);
         }
         else if (modeSelect == 3)
