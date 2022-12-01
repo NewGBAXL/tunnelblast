@@ -41,7 +41,6 @@ public class UserCar extends Car {
     {
         super.act(delta);
         if (timer > 0) timer--;
-        else timer = 600;
         //switch(moveState) {
         //    case RIGHT :
 //

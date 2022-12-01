@@ -19,7 +19,7 @@ public class GameOverActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_over);
 
-        money = getIntent().getIntExtra("Money",0);
+        money = MazeScreen2d.coinsCollected;
 
         //Proof of concept stuff since I don't know exactly what you want
         if (MazeScreen2d.result > 0){

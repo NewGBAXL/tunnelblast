@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.newgbaxl.blastmaze.Const;
 import com.newgbaxl.blastmaze.Coordinates;
 import com.newgbaxl.blastmaze.Maze;
+import com.newgbaxl.blastmaze.MazeScreen2d;
 import com.newgbaxl.blastmaze.MazeUtil;
 
 public class Car extends CarActorAbs
@@ -164,7 +165,7 @@ public class Car extends CarActorAbs
                 ++timer;
                 break;
             case -6:
-                //todo: add coin but only if usercar??
+                if (game.user == this) MazeScreen2d.coinsCollected++;
                 break;
             default:
                 //oilSlick(MazeUtil.GetCellData(position.gridX,position.gridY));

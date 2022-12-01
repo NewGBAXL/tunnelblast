@@ -22,7 +22,7 @@ public class MazeGame extends Game {
 	@Override
 	public void create () {
 		if (carSkin == -1)
-			this.setScreen(new MazeScreen2d());
+			this.setScreen(new MazeScreen2d(-1, special, scenarioID));
 		else if (scenarioID == -1)
 			this.setScreen(new MazeScreen2d(carSkin, special));
 		else

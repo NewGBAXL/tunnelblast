@@ -11,6 +11,37 @@ public abstract class Scenario
 {
     public static Scenario[] scenarios = new Scenario[]
     {
+        new Scenario() {
+            @Override
+            public void OnStart(MazeScreen2d scene) {
+                scene.enemies.add(new EnemyCar(32,32, Color.BLACK,
+                        (float)(Math.random() * 0.6) + 0.1f, (byte)1, (byte)1,1));
+                scene.stage.addActor(scene.enemies.peekLast());
+
+                scene.user.bombs = 15;
+                scene.user.timer = 60 * 60;
+
+                scene.coinCount = 4;
+            }
+
+            @Override
+            public void Update(MazeScreen2d scene) {
+
+            }
+
+            @Override
+            public boolean CheckForWin(MazeScreen2d scene) {
+                if (scene.user.timer <= 0) return true;
+                return false;
+            }
+
+            @Override
+            public int getRankResult(MazeScreen2d scene) {
+
+                return MazeScreen2d.coinsCollected + 1;
+            }
+        },
+
         //Example scenario, feel free to create more in this array
         new Scenario() {
         @Override
@@ -23,6 +54,8 @@ public abstract class Scenario
                     (float)(Math.random() * 0.6) + 0.1f, (byte)1, (byte)1,1));
                     scene.stage.addActor(scene.enemies.peekLast());
             }
+
+            scene.user.timer = 300 * 60;
         }
 
         @Override

@@ -181,10 +181,12 @@ public class LevelSelect extends Fragment
 
         for (int i = 0; i < 20; ++i)
         {
+            int num = i;
             buttons[i].setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     Intent i3 = new Intent(getActivity(), AndroidLauncher.class);
+                    i3.putExtra("Level", num);
                     getActivity().startActivity(i3);
                 }
             });

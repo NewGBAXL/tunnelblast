@@ -7,8 +7,10 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Quaternion;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.Logger;
 import com.newgbaxl.blastmaze.camera.MapViewport;
 
 import com.badlogic.gdx.Gdx;
@@ -38,14 +40,15 @@ import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 
+import sun.rmi.runtime.Log;
+import sun.security.util.Debug;
+
 public class MazeScreen2d implements Screen {
 
 	//Data to pass back to the android side
-	public static boolean win = false;
-	public static boolean lose = false;
-	public static char rank = 'F';
 	public static int result = -1;
 	public static int currentLvlID = 0;
+	public static int coinsCollected = 0;
 
 	private SpriteBatch batch;
 	private SpriteBatch UISpritebatch;
@@ -59,10 +62,14 @@ public class MazeScreen2d implements Screen {
 	private MapViewport mapViewport;
 
 	private TiledMapRenderer mapRenderer;
-	UserCar user;
+	public UserCar user;
 	LinkedList<EnemyCar> enemies;
 	EnemyCar enemyTestOnly;
 	public float enemySpeedMultiplier = 1f;
+	public boolean huntEnemyMode = false;
+
+	//Set in the scenario and only called on map creation
+	public int coinCount = 0;
 
 	//Array of grid spaces, walls defined by digits in hexadecimal format
 	public GridCell[][] mazeGrid;
@@ -87,10 +94,6 @@ public class MazeScreen2d implements Screen {
 		super();
 		SetupScreen();
 
-		user = new UserCar(32,32, getRandomColor(),
-				(float)(Math.random() * 0.6) + 0.1f, (byte)1, (byte)1);
-
-		enemies = new LinkedList<>();
 		int startingCars = 2;
 		for (int i = 0; i < startingCars; ++i)
 		{
@@ -100,14 +103,7 @@ public class MazeScreen2d implements Screen {
 			stage.addActor(enemies.peekLast());
 		}
 
-		stage.addActor(user);
-
-		GenerateMaze();
-
-		prepareHUD(115, 32);
-
-		batch = new SpriteBatch();
-		UISpritebatch = new SpriteBatch();
+		PlaceCoins();
 	}
 
 	public MazeScreen2d(int carSkin, int special)
@@ -118,6 +114,7 @@ public class MazeScreen2d implements Screen {
 		//todo: apply car skin and special to the user car
 		user = new UserCar(32,32, getRandomColor(),
 				(float)(Math.random() * 0.6) + 0.1f, (byte)1, (byte)1);
+		PlaceCoins();
 	}
 
 	public MazeScreen2d(int carSkin, int special, int scenarioID)
@@ -125,24 +122,19 @@ public class MazeScreen2d implements Screen {
 		super();
 		SetupScreen();
 
-		//todo: apply car skin and special to the user car
-		user = new UserCar(32,32, getRandomColor(),
-				(float)(Math.random() * 0.6) + 0.1f, (byte)1, (byte)1);
-
-		if (scenarioID > 0 && scenarioID < Scenario.scenarios.length)
+		if (scenarioID >= 0 && scenarioID < Scenario.scenarios.length)
 		{
 			currentScenario = Scenario.scenarios[scenarioID];
 			currentLvlID = scenarioID; //do not use this variable anywhere else
 		}
 		if (currentScenario != null) currentScenario.OnStart(this);
+		PlaceCoins();
 	}
 
 	private void SetupScreen()
 	{
-		win	= false;
-		lose = false;
-		rank = 'F';
 		result = -1;
+		coinsCollected = 0;
 
 		getInstance = this;
 		Maze maze = (new MazeCreator()).getMaze();
@@ -172,6 +164,58 @@ public class MazeScreen2d implements Screen {
 
 		stage = new Stage(svp);
 		stage.addActor(cameraActor);
+
+		GenerateMaze();
+
+		prepareHUD(115, 32);
+
+		batch = new SpriteBatch();
+		UISpritebatch = new SpriteBatch();
+
+		user = new UserCar(32,32, getRandomColor(),
+				(float)(Math.random() * 0.6) + 0.1f, (byte)1, (byte)1);
+		stage.addActor(user);
+
+
+		enemies = new LinkedList<>();
+	}
+
+	public void PlaceCoins()
+	{
+		Random rand = new Random();
+
+		ArrayList<Coordinates> invalidPositions = new ArrayList<>();
+		invalidPositions.add(user.position);
+		if (enemies != null) for (int e = 0; e < enemies.size(); e++) invalidPositions.add(enemies.get(e).position);
+
+		float tolerance = 16;
+		for (int i = 0; i < coinCount; i++)
+		{
+			boolean placed = false;
+			while (!placed)
+			{
+				Gdx.app.log("maze", "Placed Coin");
+				//Pick a random position
+				Vector2 pos = new Vector2(rand.nextInt(Const.MAZE_WIDTH), rand.nextInt(Const.MAZE_HEIGHT));
+
+				if (mazeGrid[(int)pos.x][(int)pos.y].cellData != -1) continue;
+				for (int p = 0; p < invalidPositions.size(); p++)
+				{
+					//If it is too close to something, retry and increase tolerance
+					float dist = (float)Math.sqrt(Math.pow(invalidPositions.get(p).gridX - pos.x, 2) + Math.pow(invalidPositions.get(p).gridY - pos.y, 2));
+					if (dist < tolerance)
+					{
+						tolerance *= 0.95f;
+						continue;
+					}
+				}
+
+				//Nothing is nearby, place the coin
+				placed = true;
+				invalidPositions.add(new Coordinates(pos.x * Const.TILE_SIZE, pos.y * Const.TILE_SIZE));
+				mazeGrid[(int)pos.x][(int)pos.y].cellData = -6;
+			}
+		}
 	}
 
 	private Color getRandomColor() {
@@ -292,6 +336,7 @@ public class MazeScreen2d implements Screen {
 		{
 			//todo: Logic for when you win
 			result = currentScenario.getRankResult(this);
+			quitGame();
 		}
 		stage.getViewport().apply();
 		stage.draw();
@@ -406,7 +451,7 @@ public class MazeScreen2d implements Screen {
 			//Place walls on remaining sides
 			for (int i : directions) MazeUtil.SetWallStrength(c.x, c.y, i, 1);
 
-			if (rand.nextInt(32) == 0 && !(c.x == Const.SPAWN_CELL_X && c.y == Const.SPAWN_CELL_Y)) c.cellData = (short)((rand.nextInt(5) + 2) * -1);
+			if (rand.nextInt(32) == 0 && !(c.x == Const.SPAWN_CELL_X && c.y == Const.SPAWN_CELL_Y)) c.cellData = (short)((rand.nextInt(4) + 2) * -1);
 			Gdx.app.log("Tag", "" + c.cellData);
 
 			cells.remove(c);
@@ -438,8 +483,7 @@ public class MazeScreen2d implements Screen {
 
 	public void quitGame()
 	{
-		result = (result==-1)?0:1;
-		lose = true;
+		if (result == -1) result = 0;
 		Gdx.app.exit();
 	}
 }

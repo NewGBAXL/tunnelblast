@@ -5,6 +5,7 @@ import static java.sql.Types.NULL;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -27,10 +28,14 @@ public class AndroidLauncher extends AndroidApplication
 		int special = getIntent().getIntExtra("Weapon", 0);
 		int scenario = getIntent().getIntExtra("Level", -1);
 
-		if (carSkin == NULL || carSkin == -1) //if no pushed params (not sure exactly how this works)
-			initialize(new MazeGame(), config);
-		else
+		if (carSkin == NULL || carSkin == -1) {//if no pushed params (not sure exactly how this works)
+			initialize(new MazeGame(-1, special, scenario), config);
+			Log.d("test", "wrong thing");
+		}
+		else {
 			initialize(new MazeGame(carSkin, special, scenario), config);
+			Log.d("test", "right thing");
+		}
 
 		//the mazeGame will store the params of each scenario
 
