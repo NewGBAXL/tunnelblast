@@ -25,6 +25,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.newgbaxl.blastmaze.controller.TouchController;
 import com.newgbaxl.blastmaze.objects.EnemyCar;
 import com.newgbaxl.blastmaze.objects.UserCar;
 
@@ -57,9 +58,9 @@ public class MazeScreen2d implements Screen {
 
 	private TiledMapRenderer mazeRenderer;
 
-	private CameraInputAdapter camInput;
-
-	private MapViewport mapViewport;
+	public CameraInputAdapter camInput;
+	public TouchController controller;
+	public MapViewport mapViewport;
 
 	private TiledMapRenderer mapRenderer;
 	public UserCar user;
@@ -67,6 +68,10 @@ public class MazeScreen2d implements Screen {
 	EnemyCar enemyTestOnly;
 	public float enemySpeedMultiplier = 1f;
 	public boolean huntEnemyMode = false;
+	public boolean debugMode = true; //shows FPS, etc; toggle in Settings
+	public boolean touchControls = true; //toggle in Settings
+
+	public boolean gameLoaded = false;
 
 	//Set in the scenario and only called on map creation
 	public int coinCount = 0;
@@ -178,6 +183,8 @@ public class MazeScreen2d implements Screen {
 
 
 		enemies = new LinkedList<>();
+		controller = new TouchController();
+		//gameLoaded = true; //turn this on to enable touch controls
 	}
 
 	public void PlaceCoins()
