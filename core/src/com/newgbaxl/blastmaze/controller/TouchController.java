@@ -179,3 +179,37 @@ public class TouchController {
         viewport.update(width, height);
     }
 }
+
+/*if (Gdx.input.justTouched()) {
+			guiCam.unproject(touchPoint.set(Gdx.input.getX(), Gdx.input.getY(), 0));
+
+			if (playBounds.contains(touchPoint.x, touchPoint.y)) {
+				Assets.playSound(Assets.clickSound);
+				game.setScreen(new GameScreen(game));
+				return;
+			}
+			if (highscoresBounds.contains(touchPoint.x, touchPoint.y)) {
+				Assets.playSound(Assets.clickSound);
+				game.setScreen(new HighscoresScreen(game));
+				return;
+			}
+			if (helpBounds.contains(touchPoint.x, touchPoint.y)) {
+				Assets.playSound(Assets.clickSound);
+				game.setScreen(new HelpScreen(game));
+				return;
+			}
+			if (multiplayerBounds.contains(touchPoint.x, touchPoint.y)) {
+				Assets.playSound(Assets.clickSound);
+				WarpController.getInstance().startApp(getRandomHexString(10));
+				game.setScreen(new StartMultiplayerScreen(game));
+				return;
+			}
+			if (soundBounds.contains(touchPoint.x, touchPoint.y)) {
+				Assets.playSound(Assets.clickSound);
+				Settings.soundEnabled = !Settings.soundEnabled;
+				if (Settings.soundEnabled)
+					Assets.music.play();
+				else
+					Assets.music.pause();
+			}
+		}*/

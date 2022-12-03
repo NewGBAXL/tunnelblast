@@ -1,8 +1,7 @@
 package com.newgbaxl.blastmaze;
 
 import com.badlogic.gdx.Game;
-
-import java.util.stream.Stream;
+import com.newgbaxl.blastmaze.multiplayer.StreamController;
 
 public class MazeGame extends Game {
 	int carSkin = -1;

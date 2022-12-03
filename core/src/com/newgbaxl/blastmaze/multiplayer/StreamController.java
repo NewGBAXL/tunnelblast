@@ -1,4 +1,4 @@
-package com.newgbaxl.blastmaze;
+package com.newgbaxl.blastmaze.multiplayer;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
@@ -11,15 +11,27 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.newgbaxl.blastmaze.appwarp.WarpController;
+import com.newgbaxl.blastmaze.appwarp.WarpListener;
 
 import java.util.Locale;
+import java.util.Random;
 
-public class StreamController implements Screen {
+public class StreamController implements Screen, WarpListener {
+
+    private final String[] tryingToConnect = {"Connecting","to AppWarp"};
+    private final String[] waitForOtherUser = {"Waiting for","other user"};
+    private final String[] errorInConnection = {"Error in","Connection", "Go Back"};
+
+    private final String[] game_win = {"Congrats You Win!", "Enemy Defeated"};
+    private final String[] game_loose = {"Oops You Loose!","Target Achieved","By Enemy"};
+    private final String[] enemy_left = {"Congrats You Win!", "Enemy Left the Game"};
+
+    private String[] msg = tryingToConnect;
 
     Texture img;
 
     //todo: dump in touch controls
-    //todo: dump in HUD
 
     int bombs = 0;
     int blocks = 0;
@@ -39,6 +51,8 @@ public class StreamController implements Screen {
     public StreamController(){
         super();
         setupScreen();
+        WarpController.getInstance().startApp(getRandomHexString(10));
+        WarpController.getInstance().setListener(this);
     }
 
     @Override
@@ -80,6 +94,11 @@ public class StreamController implements Screen {
         hudRow1Y = 700; //height - hudVerticalMargin;
         hudRow2Y = 630; //hudRow1Y - hudVerticalMargin - font.getCapHeight();
         hudSectionWidth = width / 3;
+    }
+
+    public void update(){
+
+        WarpController.getInstance().handleLeave();
     }
 
     public void updateAndRenderHUD(){
@@ -130,4 +149,76 @@ public class StreamController implements Screen {
         batch.dispose();
         img.dispose();
     }
+
+    @Override
+    public void onError (String message) {
+        this.msg = errorInConnection;
+        update();
+    }
+
+    private String getRandomHexString(int numchars){
+        Random r = new Random();
+        StringBuffer sb = new StringBuffer();
+        while(sb.length() < numchars){
+            sb.append(Integer.toHexString(r.nextInt()));
+        }
+        return sb.toString().substring(0, numchars);
+    }
+
+    @Override
+    public void onGameStarted (String message) {
+        /*Gdx.app.postRunnable(new Runnable() {
+            @Override
+            public void run () {
+                MazeGame.setScreen(new MultiplayerGameScreen(game, StartMultiplayerScreen.this));
+            }
+        });*/
+
+    }
+
+    @Override
+    public void onGameFinished (int code, boolean isRemote) {
+        if(code==WarpController.GAME_WIN){
+            this.msg = game_loose;
+        }else if(code==WarpController.GAME_LOOSE){
+            this.msg = game_win;
+        }else if(code==WarpController.ENEMY_LEFT){
+            this.msg = enemy_left;
+        }
+        update();
+        //MazeGame.setScreen(this);
+    }
+
+    @Override
+    public void onGameUpdateReceived (String message) {
+
+    }
+
+    @Override
+    public void onWaitingStarted(String message) {
+        this.msg = waitForOtherUser;
+        update();
+    }
+
+    //this sends the data from phone to phone
+    //todo: enable this and update location.
+    /*private void sendLocation(float x, float y, float width, float height){
+        counter++;
+        try {
+            JSONObject data = new JSONObject();
+            data.put("x", x);
+            data.put("y", y);
+            data.put("width", width);
+            data.put("height", height);
+            data.put("bomb", bomb);
+            //etc
+
+            if(counter%10==0){
+                counter=0;
+                WarpController.getInstance().sendGameUpdate(data.toString());
+            }
+        } catch (Exception e) {
+            // exception in sendLocation
+        }
+    }*/
 }
