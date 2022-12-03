@@ -111,6 +111,24 @@ public class MazeScreen2d implements Screen {
 		PlaceCoins();
 	}
 
+	//for experimental VS mode
+	public MazeScreen2d(int modeTest) {
+		super();
+		SetupScreen();
+
+		int startingCars = 2;
+		for (int i = 0; i < startingCars; ++i)
+		{
+			enemies.add(new EnemyCar(32,32, getRandomColor(),
+					(float)(Math.random() * 0.6) + 0.1f, (byte)1, (byte)1,1));
+
+			stage.addActor(enemies.peekLast());
+		}
+
+		//setup online car
+		PlaceCoins();
+	}
+
 	public MazeScreen2d(int carSkin, int special)
 	{
 		super();

@@ -10,9 +10,9 @@
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="52dp"
         android:layout_marginTop="296dp"
         android:text="Choose Your Car"
+        android:visibility="gone"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -23,52 +23,64 @@
         android:layout_marginTop="296dp"
         android:layout_marginEnd="44dp"
         android:text="Choose Your Special"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/select_scenario"
-        android:layout_width="180dp"
-        android:layout_height="70dp"
-        android:layout_marginStart="12dp"
-        android:layout_marginBottom="217dp"
-        android:text="Scenario"
-        android:textSize="23sp"
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="219dp"
+        android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
 
-    <Button
-        android:id="@+id/select_vs"
-        android:layout_width="180dp"
-        android:layout_height="70dp"
-        android:layout_marginEnd="12dp"
-        android:layout_marginBottom="217dp"
-        android:text="Vs"
-        android:textSize="27sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        <Button
+            android:id="@+id/select_scenario"
+            android:layout_width="160dp"
+            android:layout_height="70dp"
+            android:layout_marginStart="12dp"
+            android:text="Scenario"
+            android:textSize="23sp" />
 
-    <Button
-        android:id="@+id/select_level"
-        android:layout_width="180dp"
-        android:layout_height="70dp"
-        android:layout_marginStart="12dp"
-        android:layout_marginBottom="130dp"
-        android:text="Level Select"
-        android:textSize="19sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        <Button
+            android:id="@+id/select_vs"
+            android:layout_width="160dp"
+            android:layout_height="70dp"
+            android:layout_marginStart="45dp"
+            android:layout_marginEnd="12dp"
+            android:text="Vs"
+            android:textSize="27sp" />
+    </LinearLayout>
 
-    <Button
-        android:id="@+id/button5"
-        android:layout_width="180dp"
-        android:layout_height="70dp"
-        android:layout_marginEnd="12dp"
-        android:layout_marginBottom="130dp"
-        android:text="Free Play"
-        android:textSize="23sp"
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="131dp"
+        android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <Button
+            android:id="@+id/select_level"
+            android:layout_width="180dp"
+            android:layout_height="70dp"
+            android:layout_marginStart="12dp"
+            android:text="Level Select"
+            android:textSize="19sp" />
+
+        <Button
+            android:id="@+id/select_freeplay"
+            android:layout_width="180dp"
+            android:layout_height="70dp"
+            android:layout_marginStart="27dp"
+            android:layout_marginEnd="12dp"
+            android:text="Free Play"
+            android:textSize="23sp" />
+    </LinearLayout>
 
     <TextView
         android:id="@+id/textView9"
@@ -76,44 +88,53 @@
         android:layout_height="wrap_content"
         android:text="Play!"
         android:textSize="100sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/button5"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/select_level" />
+        tools:layout_editor_absoluteX="98dp"
+        tools:layout_editor_absoluteY="599dp" />
 
     <TextView
         android:id="@+id/textView10"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
         android:layout_marginTop="31dp"
         android:text="[Blast Maze]"
-        android:textSize="70sp"
+        android:textSize="65sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageButton
-        android:id="@+id/select_car_left"
-        android:layout_width="64dp"
-        android:layout_height="87dp"
-        android:layout_marginTop="338dp"
-        android:scaleType="centerInside"
-        android:src="@drawable/arrow_left"
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="280dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
 
-    <ImageButton
-        android:id="@+id/select_car_right"
-        android:layout_width="64dp"
-        android:layout_height="87dp"
-        android:layout_marginStart="144dp"
-        android:layout_marginTop="338dp"
-        android:scaleType="centerInside"
-        android:src="@drawable/arrow_right"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <ImageButton
+            android:id="@+id/select_car_left"
+            android:layout_width="87dp"
+            android:layout_height="117dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/arrow_left" />
+
+        <ImageView
+            android:id="@+id/carSkinModeSelView"
+            android:layout_width="180dp"
+            android:layout_height="130dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:src="@drawable/car1" />
+
+        <ImageButton
+            android:id="@+id/select_car_right"
+            android:layout_width="87dp"
+            android:layout_height="117dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/arrow_right" />
+    </LinearLayout>
 
     <ImageButton
         android:id="@+id/select_sp_left"
@@ -123,6 +144,7 @@
         android:layout_marginEnd="140dp"
         android:scaleType="centerInside"
         android:src="@drawable/arrow_left"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -133,6 +155,7 @@
         android:layout_marginTop="338dp"
         android:scaleType="centerInside"
         android:src="@drawable/arrow_right"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -144,16 +167,6 @@
         android:src="@drawable/quick_start"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageView
-        android:id="@+id/carSkinModeSelView"
-        android:layout_width="100dp"
-        android:layout_height="42dp"
-        android:layout_marginStart="53dp"
-        android:layout_marginTop="363dp"
-        android:src="@drawable/car1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -245,7 +258,8 @@
         android:layout_height="130dp"
         android:layout_marginStart="98dp"
         android:layout_marginEnd="101dp"
-        android:backgroundTint="#00FFFF00"
+        android:backgroundTint="#00FFFFFF"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
