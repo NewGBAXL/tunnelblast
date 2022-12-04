@@ -5,8 +5,12 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.math.Matrix4;
+import com.badlogic.gdx.math.Quaternion;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.Logger;
 import com.newgbaxl.blastmaze.camera.MapViewport;
 
 import com.badlogic.gdx.Gdx;
@@ -21,7 +25,9 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.newgbaxl.blastmaze.controller.TouchController;
 import com.newgbaxl.blastmaze.objects.EnemyCar;
+import com.newgbaxl.blastmaze.objects.OnlineCar;
 import com.newgbaxl.blastmaze.objects.UserCar;
 
 import java.util.ArrayList;
@@ -36,25 +42,45 @@ import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 
+import sun.rmi.runtime.Log;
+import sun.security.util.Debug;
+
 public class MazeScreen2d implements Screen {
 
+	//Data to pass back to the android side
+	public static int result = -1;
+	public static int currentLvlID = 0;
+	public static int coinsCollected = 0;
+
 	private SpriteBatch batch;
+	private SpriteBatch UISpritebatch;
 
 	public Stage stage;
 
 	private TiledMapRenderer mazeRenderer;
 
-	private CameraInputAdapter camInput;
-
-	private MapViewport mapViewport;
+	public CameraInputAdapter camInput;
+	public TouchController controller;
+	public MapViewport mapViewport;
 
 	private TiledMapRenderer mapRenderer;
-	UserCar user;
+	public UserCar user;
 	LinkedList<EnemyCar> enemies;
 	EnemyCar enemyTestOnly;
+	OnlineCar player2;
+	public float enemySpeedMultiplier = 1f;
+	public boolean huntEnemyMode = false;
+	public boolean debugMode = true; //shows FPS, etc; toggle in Settings
+	public boolean touchControls = true; //toggle in Settings
+
+	public boolean gameLoaded = false;
+
+	//Set in the scenario and only called on map creation
+	public int coinCount = 0;
 
 	//Array of grid spaces, walls defined by digits in hexadecimal format
 	public GridCell[][] mazeGrid;
+	public Texture mazeFloor = new Texture("brickFloor.png");
 	public Texture mazeWall = new Texture("brickWallDirectional.png");
 	public Texture questionPickup = new Texture("Circle_question_mark.png");
 	Map<Short, Texture> pickupImages = new HashMap<Short, Texture>(){{
@@ -75,15 +101,8 @@ public class MazeScreen2d implements Screen {
 		super();
 		SetupScreen();
 
-		user = new UserCar(32,32, getRandomColor(),
-				(float)(Math.random() * 0.6) + 0.1f, (byte)1, (byte)1);
-
-		enemyTestOnly = (new EnemyCar(32,32, getRandomColor(),
-				(float)(Math.random() * 0.6) + 0.1f, (byte)1, (byte)1,1));
-		stage.addActor(enemyTestOnly);
-
-		int startingCars = 1;
-		for (int i = 1; i < startingCars; ++i)
+		int startingCars = 2;
+		for (int i = 0; i < startingCars; ++i)
 		{
 			enemies.add(new EnemyCar(32,32, getRandomColor(),
 					(float)(Math.random() * 0.6) + 0.1f, (byte)1, (byte)1,1));
@@ -91,17 +110,28 @@ public class MazeScreen2d implements Screen {
 			stage.addActor(enemies.peekLast());
 		}
 
-		stage.addActor(user);
-		stage.addActor(enemyTestOnly);
-
-		GenerateMaze();
-
-		prepareHUD(115, 32);
-
-		batch = new SpriteBatch();
+		PlaceCoins();
 	}
 
-	public MazeScreen2d(int carSkin, int special)
+	//for experimental VS mode
+	public MazeScreen2d(int modeTest) {
+		super();
+		SetupScreen();
+
+		int startingCars = 2;
+		for (int i = 0; i < startingCars; ++i)
+		{
+			enemies.add(new EnemyCar(32,32, getRandomColor(),
+					(float)(Math.random() * 0.6) + 0.1f, (byte)1, (byte)1,1));
+
+			stage.addActor(enemies.peekLast());
+		}
+
+		//setup online car
+		PlaceCoins();
+	}
+
+	public MazeScreen2d(int carSkin, int special, boolean vsMode)
 	{
 		super();
 		SetupScreen();
@@ -109,25 +139,32 @@ public class MazeScreen2d implements Screen {
 		//todo: apply car skin and special to the user car
 		user = new UserCar(32,32, getRandomColor(),
 				(float)(Math.random() * 0.6) + 0.1f, (byte)1, (byte)1);
+		if (vsMode)
+			player2 = new OnlineCar(32,32,getRandomColor(),
+					(float) (Math.random() * 0.6) + 0.1f, (byte)1, (byte)1);
+		
+		PlaceCoins();
 	}
 
-	public MazeScreen2d(int carSkin, int special, int scenarioID)
+	public MazeScreen2d(int carSkin, int special, int scenarioID, boolean vsMode)
 	{
 		super();
 		SetupScreen();
 
-		//todo: apply car skin and special to the user car
-		user = new UserCar(32,32, getRandomColor(),
-				(float)(Math.random() * 0.6) + 0.1f, (byte)1, (byte)1);
-
-		if (scenarioID > 0 && scenarioID < Scenario.scenarios.length)
+		if (scenarioID >= 0 && scenarioID < Scenario.scenarios.length)
+		{
 			currentScenario = Scenario.scenarios[scenarioID];
-
+			currentLvlID = scenarioID; //do not use this variable anywhere else
+		}
 		if (currentScenario != null) currentScenario.OnStart(this);
+		PlaceCoins();
 	}
 
 	private void SetupScreen()
 	{
+		result = -1;
+		coinsCollected = 0;
+
 		getInstance = this;
 		Maze maze = (new MazeCreator()).getMaze();
 
@@ -156,6 +193,59 @@ public class MazeScreen2d implements Screen {
 
 		stage = new Stage(svp);
 		stage.addActor(cameraActor);
+
+		GenerateMaze();
+
+		prepareHUD(115, 32);
+
+		batch = new SpriteBatch();
+		UISpritebatch = new SpriteBatch();
+
+		user = new UserCar(32,32, getRandomColor(),
+				(float)(Math.random() * 0.6) + 0.1f, (byte)1, (byte)1);
+		stage.addActor(user);
+
+
+		enemies = new LinkedList<>();
+		controller = new TouchController();
+	}
+
+	public void PlaceCoins()
+	{
+		Random rand = new Random();
+
+		ArrayList<Coordinates> invalidPositions = new ArrayList<>();
+		invalidPositions.add(user.position);
+		if (enemies != null) for (int e = 0; e < enemies.size(); e++) invalidPositions.add(enemies.get(e).position);
+
+		float tolerance = 16;
+		for (int i = 0; i < coinCount; i++)
+		{
+			boolean placed = false;
+			while (!placed)
+			{
+				Gdx.app.log("maze", "Placed Coin");
+				//Pick a random position
+				Vector2 pos = new Vector2(rand.nextInt(Const.MAZE_WIDTH), rand.nextInt(Const.MAZE_HEIGHT));
+
+				if (mazeGrid[(int)pos.x][(int)pos.y].cellData != -1) continue;
+				for (int p = 0; p < invalidPositions.size(); p++)
+				{
+					//If it is too close to something, retry and increase tolerance
+					float dist = (float)Math.sqrt(Math.pow(invalidPositions.get(p).gridX - pos.x, 2) + Math.pow(invalidPositions.get(p).gridY - pos.y, 2));
+					if (dist < tolerance)
+					{
+						tolerance *= 0.95f;
+						continue;
+					}
+				}
+
+				//Nothing is nearby, place the coin
+				placed = true;
+				invalidPositions.add(new Coordinates(pos.x * Const.TILE_SIZE, pos.y * Const.TILE_SIZE));
+				mazeGrid[(int)pos.x][(int)pos.y].cellData = -6;
+			}
+		}
 	}
 
 	private Color getRandomColor() {
@@ -169,9 +259,9 @@ public class MazeScreen2d implements Screen {
 		FreeTypeFontGenerator.FreeTypeFontParameter fontParameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
 
 		fontParameter.size = 72;
-		fontParameter.borderWidth = 3.6f;
-		fontParameter.color = new Color(1, 1, 1, 0.3f);
-		fontParameter.borderColor = new Color(0, 0, 0, 0.3f);
+		fontParameter.borderWidth = 4f;
+		fontParameter.color = new Color(1, 1, 1, 0.5f);
+		fontParameter.borderColor = new Color(0, 0, 0, 0.5f);
 
 		font = fontGenerator.generateFont(fontParameter);
 
@@ -203,33 +293,44 @@ public class MazeScreen2d implements Screen {
 		font.draw(batch, String.format(Locale.getDefault(), "%.2f", timer), 1300, hudRow2Y, hudSectionWidth, Align.center, false);//hudRightX, hudRow2Y, hudSectionWidth, Align.right, false);
 		*/
 
-		batch.begin();
-		font.draw(batch, "Bombs", 10, hudRow1Y, hudSectionWidth, Align.left, false);
-		font.draw(batch, "Blocks", 400, hudRow1Y, hudSectionWidth, Align.left, false);
-		font.draw(batch, "Power", 800, hudRow1Y, hudSectionWidth, Align.left, false);
-		font.draw(batch, "Timer", 1150, hudRow1Y, hudSectionWidth, Align.left, false);
+		UISpritebatch.begin();
+		font.draw(UISpritebatch, "Bombs", 10, hudRow1Y, hudSectionWidth, Align.left, false);
+		font.draw(UISpritebatch, "Blocks", 400, hudRow1Y, hudSectionWidth, Align.left, false);
+		font.draw(UISpritebatch, "Power", 800, hudRow1Y, hudSectionWidth, Align.left, false);
+		font.draw(UISpritebatch, "Timer", 1150, hudRow1Y, hudSectionWidth, Align.left, false);
 
 		double timerDisplay = user.timer / 60f; //todo: change this based on the current mode
-		font.draw(batch, String.format(Locale.getDefault(), "%02d", user.bombs), 200, hudRow1Y, hudSectionWidth, Align.right, false);//hudLeftX, hudRow2Y, hudSectionWidth, Align.left, false);
-		font.draw(batch, String.format(Locale.getDefault(), "%02d", user.blocks), 600, hudRow1Y, hudSectionWidth, Align.right, false);;//hudCenterX, hudRow2Y, hudSectionWidth, Align.center, false);
-		font.draw(batch, String.format(Locale.getDefault(), "%02d", user.power), 1000, hudRow1Y, hudSectionWidth, Align.right, false);//hudRightX, hudRow2Y, hudSectionWidth, Align.right, false);
-		font.draw(batch, String.format(Locale.getDefault(), "%6.2f", timerDisplay), 1400, hudRow1Y, hudSectionWidth, Align.right, false);//hudRightX, hudRow2Y, hudSectionWidth, Align.right, false);
+		font.draw(UISpritebatch, String.format(Locale.getDefault(), "%02d", user.bombs), 200, hudRow1Y, hudSectionWidth, Align.right, false);//hudLeftX, hudRow2Y, hudSectionWidth, Align.left, false);
+		font.draw(UISpritebatch, String.format(Locale.getDefault(), "%02d", user.blocks), 600, hudRow1Y, hudSectionWidth, Align.right, false);;//hudCenterX, hudRow2Y, hudSectionWidth, Align.center, false);
+		font.draw(UISpritebatch, String.format(Locale.getDefault(), "%02d", user.power), 1000, hudRow1Y, hudSectionWidth, Align.right, false);//hudRightX, hudRow2Y, hudSectionWidth, Align.right, false);
+		font.draw(UISpritebatch, String.format(Locale.getDefault(), "%6.2f", timerDisplay), 1300, hudRow1Y, hudSectionWidth, Align.left, false);//hudRightX, hudRow2Y, hudSectionWidth, Align.right, false);
 
+		user.dpadUp = controller.isUpPressed();
+		user.dpadDown = controller.isDownPressed();
+		user.dpadLeft = controller.isLeftPressed();
+		user.dpadRight = controller.isRightPressed();
 
-		font.draw(batch, "FPS", 50, 480, hudSectionWidth, Align.right, false);
-		font.draw(batch, String.valueOf(Gdx.graphics.getFramesPerSecond()), 110, 480);
+		font.draw(UISpritebatch, String.format(Locale.getDefault(), "Up: %b", controller.isUpPressed()), 200, hudRow1Y, hudSectionWidth, Align.right, false);
+		font.draw(UISpritebatch, String.format(Locale.getDefault(), "Down: %b", controller.isDownPressed()), 600, hudRow1Y, hudSectionWidth, Align.right, false);
+		font.draw(UISpritebatch, String.format(Locale.getDefault(), "Left: %b", controller.isLeftPressed()), 1000, hudRow1Y, hudSectionWidth, Align.right, false);
+		font.draw(UISpritebatch, String.format(Locale.getDefault(), "Right: %b", controller.isRightPressed()), 1300, hudRow1Y, hudSectionWidth, Align.left, false);
+
+		font.draw(UISpritebatch, "FPS", 50, 480, hudSectionWidth, Align.right, false);
+		font.draw(UISpritebatch, String.valueOf(Gdx.graphics.getFramesPerSecond()), 110, 480);
+
+		gameLoaded = true; //turn this on to enable touch controls
 
 		//for testing
-		font.draw(batch, "UpPriority", 40, 200, hudSectionWidth, Align.right, false);
-		font.draw(batch, String.format(Locale.getDefault(), "%02d", enemyTestOnly.up), 40, 100);
-		font.draw(batch, "RightPriority", 440, 200, hudSectionWidth, Align.right, false);
-		font.draw(batch, String.format(Locale.getDefault(), "%02d", enemyTestOnly.rp), 440, 100);
-		font.draw(batch, "DownPriority", 840, 200, hudSectionWidth, Align.right, false);
-		font.draw(batch, String.format(Locale.getDefault(), "%02d", enemyTestOnly.dp), 840, 100);
-		font.draw(batch, "LeftPriority", 1200, 200, hudSectionWidth, Align.right, false);
-		font.draw(batch, String.format(Locale.getDefault(), "%02d", enemyTestOnly.lp), 1200, 100);
+		//font.draw(batch, "UpPriority", 40, 200, hudSectionWidth, Align.right, false);
+		//font.draw(batch, String.format(Locale.getDefault(), "%02d", enemyTestOnly.up), 40, 100);
+		//font.draw(batch, "RightPriority", 440, 200, hudSectionWidth, Align.right, false);
+		//font.draw(batch, String.format(Locale.getDefault(), "%02d", enemyTestOnly.rp), 440, 100);
+		//font.draw(batch, "DownPriority", 840, 200, hudSectionWidth, Align.right, false);
+		//font.draw(batch, String.format(Locale.getDefault(), "%02d", enemyTestOnly.dp), 840, 100);
+		//font.draw(batch, "LeftPriority", 1200, 200, hudSectionWidth, Align.right, false);
+		//font.draw(batch, String.format(Locale.getDefault(), "%02d", enemyTestOnly.lp), 1200, 100);
 
-		batch.end();
+		UISpritebatch.end();
 	}
 
 	@Override
@@ -254,8 +355,18 @@ public class MazeScreen2d implements Screen {
 
 	@Override
 	public void render(float delta) {
-		Gdx.gl.glClearColor(0.5f, 0.5f, 0.5f, 1);
+		OrthographicCamera cam = (OrthographicCamera) stage.getCamera();
+		cam.translate(620, 300);
+		Gdx.gl.glClearColor(0f, 0f, 0f, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+		//Draw the floor of the maze
+		batch.begin();
+		for (int x = 0; x < Const.MAZE_WIDTH; x++) {
+			for (int y = 0; y < Const.MAZE_HEIGHT; y++) {
+				batch.draw(mazeFloor, x * Const.TILE_SIZE - 8, y * Const.TILE_SIZE - 8, 0, 0, Const.TILE_SIZE, Const.TILE_SIZE, 1f, 1f, 0, 0, 0, 64, 64, false, false);
+			}}
+		batch.end();
 
 		if (Gdx.input.isKeyJustPressed(Input.Keys.R)) GenerateMaze();
 
@@ -266,13 +377,14 @@ public class MazeScreen2d implements Screen {
 		if (currentScenario != null && currentScenario.CheckForWin(this))
 		{
 			//todo: Logic for when you win
+			result = currentScenario.getRankResult(this);
+			quitGame();
 		}
 		stage.getViewport().apply();
 		stage.draw();
 
 		//stage.getCamera().position.x = 100;
 
-		OrthographicCamera cam = (OrthographicCamera) stage.getCamera();
 
 		//mazeRenderer.setView(cam);
 		//mazeRenderer.render();
@@ -287,6 +399,7 @@ public class MazeScreen2d implements Screen {
 
 		//Draw walls
 		batch.begin();
+		batch.setProjectionMatrix(cam.combined);
 		for (int x = 0; x < Const.MAZE_WIDTH; x++) {
 			for (int y = 0; y < Const.MAZE_HEIGHT; y++) {
 				if (MazeUtil.GetCellData(x, y) <= -2) {
@@ -306,6 +419,7 @@ public class MazeScreen2d implements Screen {
 		}
 		batch.end();
 
+		cam.translate(-cam.position.x, -cam.position.y);
 		updateAndRenderHUD();
 	}
 
@@ -379,7 +493,7 @@ public class MazeScreen2d implements Screen {
 			//Place walls on remaining sides
 			for (int i : directions) MazeUtil.SetWallStrength(c.x, c.y, i, 1);
 
-			if (rand.nextInt(32) == 0 && !(c.x == Const.SPAWN_CELL_X && c.y == Const.SPAWN_CELL_Y)) c.cellData = (short)((rand.nextInt(5) + 2) * -1);
+			if (rand.nextInt(32) == 0 && !(c.x == Const.SPAWN_CELL_X && c.y == Const.SPAWN_CELL_Y)) c.cellData = (short)((rand.nextInt(4) + 2) * -1);
 			Gdx.app.log("Tag", "" + c.cellData);
 
 			cells.remove(c);
@@ -411,7 +525,7 @@ public class MazeScreen2d implements Screen {
 
 	public void quitGame()
 	{
-
+		if (result == -1) result = 0;
 		Gdx.app.exit();
 	}
 }

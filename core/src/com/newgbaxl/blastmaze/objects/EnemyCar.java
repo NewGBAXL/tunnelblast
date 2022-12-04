@@ -22,7 +22,7 @@ public class EnemyCar extends Car {
 
     final int MoveCooldown = 4;
     int moveCooldownTimer;
-    Random rand = new Random();
+    static Random rand = new Random();
 
     //public boolean moving = false;
     public EnemyCar(int width, int height, Color nSkin, float delay, byte nBaseSpd, byte nPwrRate, int nMoveSpd) {
@@ -42,7 +42,7 @@ public class EnemyCar extends Car {
         moveCooldownTimer--;
         if(moveCooldownTimer <= 0) {
             calculateAction();
-            moveCooldownTimer = rand.nextInt(40) + 20;
+            moveCooldownTimer = (int)((rand.nextInt(40) + 20) * game.enemySpeedMultiplier);
             Gdx.app.log("tag", "Move NPC");
         }
 
@@ -92,7 +92,6 @@ public class EnemyCar extends Car {
         //if path p is negative && != -3, use bomb, then move
         /*if (p[maxDir] < 0)
             destroyAll(1);
-
         moveTo(p[maxDir]);*/
 
         //other notes:
@@ -125,29 +124,54 @@ public class EnemyCar extends Car {
 
         for (byte i = 0; i < 4; ++i) //for all directions
         {
-            if ((i == 0 && MazeUtil.getPlayerPosition().gridY > position.gridY) ||
+            if ((!game.huntEnemyMode && (i == 0 && MazeUtil.getPlayerPosition().gridY > position.gridY) ||
                     (i == 1 && MazeUtil.getPlayerPosition().gridX > position.gridX) ||
                     (i == 2 && MazeUtil.getPlayerPosition().gridY < position.gridY) ||
-                    (i == 3 && MazeUtil.getPlayerPosition().gridX < position.gridX))
+                    (i == 3 && MazeUtil.getPlayerPosition().gridX < position.gridX)) ||
+                    (game.huntEnemyMode && (i == 0 && MazeUtil.getPlayerPosition().gridY < position.gridY) ||
+                    (i == 1 && MazeUtil.getPlayerPosition().gridX < position.gridX) ||
+                    (i == 2 && MazeUtil.getPlayerPosition().gridY > position.gridY) ||
+                    (i == 3 && MazeUtil.getPlayerPosition().gridX > position.gridX)))
             {
                 if (i != lastPos)
                 {
                     if (isValidMove(i))
-                        priorities[i] = 4; //closest to player, valid move
+                    {
+                        //closest to player, valid move
+                        Random rand = new Random();
+                        priorities[i] = (rand.nextInt(2)==0)?(byte)7:(byte)6;
+                    }
                     else
-                        priorities[i] = -1; //closest to player, invalid move
+                        priorities[i] = -2; //closest to player, invalid move
                 }
                 else
-                    priorities[i] = -3; //closest to player, but came from there
+                    priorities[i] = 2; //closest to player, but came from there, sp case break wall
+            }
+
+            else if (((i == 0 || i == 2) && MazeUtil.getPlayerPosition().gridY == position.gridY) ||
+                    ((i == 1 || i == 3) && MazeUtil.getPlayerPosition().gridX == position.gridX))
+            {
+                if (i != lastPos)
+                {
+                    if (isValidMove(i))
+                        priorities[i] = (!game.huntEnemyMode)?(byte)5:(byte)-3; //closest to player, valid move
+                    else
+                        priorities[i] = (!game.huntEnemyMode)?(byte)-3:(byte)5; //closest to player, invalid move
+                }
+                else
+                    priorities[i] = 1; //closest to player, but came from there, sp case break wall
             }
 
             else if (isValidMove(i))
                 if (i != lastPos)
-                    priorities[i] = 2; //valid move
+                {
+                    Random rand = new Random();
+                    priorities[i] = (rand.nextInt(3)==0)?(byte)-1:(byte)3; //valid move
+                }
                 else
-                    priorities[i] = 1; //valid move but turning around
+                    priorities[i] = -5; //valid move but turning around
             else
-                priorities[i] = -2; //invalid move
+                priorities[i] = -6; //invalid move
         }
 
         up = priorities[0];
