@@ -28,6 +28,9 @@ public class StreamController implements Screen, WarpListener {
     private final String[] game_loose = {"Oops You Loose!","Target Achieved","By Enemy"};
     private final String[] enemy_left = {"Congrats You Win!", "Enemy Left the Game"};
 
+    private final String waitForOtherUser1 = "Waiting for other user";
+    private final String errorInConnection1 = "Error in Connection";
+
     private String[] msg = tryingToConnect;
 
     Texture img;
@@ -58,9 +61,9 @@ public class StreamController implements Screen, WarpListener {
     public StreamController(){
         super();
         setupScreen();
-        WarpController.getInstance().startApp(getRandomHexString(10));
-        WarpController.getInstance().setListener(this);
         appwarp = new WarpController();
+        WarpController.getInstance().setListener(this);
+        WarpController.getInstance().startApp(getRandomHexString(10));
     }
 
     @Override
@@ -162,6 +165,7 @@ public class StreamController implements Screen, WarpListener {
     @Override
     public void onError (String message) {
         this.msg = errorInConnection;
+         displayText = errorInConnection1;
         update();
     }
 
@@ -206,6 +210,7 @@ public class StreamController implements Screen, WarpListener {
     @Override
     public void onWaitingStarted(String message) {
         this.msg = waitForOtherUser;
+        displayText = waitForOtherUser1;
         update();
     }
 
