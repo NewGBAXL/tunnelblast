@@ -2,6 +2,7 @@ package com.newgbaxl.blastmaze.multiplayer;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
@@ -38,6 +39,12 @@ public class StreamController implements Screen, WarpListener {
     int timer = 0;
     int power = 0;
     int coinsCollected = 0;
+    int counter = 0;
+
+    WarpController appwarp;
+
+    final int MoveCooldown = 4;
+    int moveCooldownTimer;
 
     String displayText = "Connecting to server..";
 
@@ -53,6 +60,7 @@ public class StreamController implements Screen, WarpListener {
         setupScreen();
         WarpController.getInstance().startApp(getRandomHexString(10));
         WarpController.getInstance().setListener(this);
+        appwarp = new WarpController();
     }
 
     @Override
@@ -62,6 +70,7 @@ public class StreamController implements Screen, WarpListener {
         batch.draw(img, 0, 0);
         batch.end();
         updateAndRenderHUD();
+        updateUserInput();
     }
 
     public void setupScreen(){
@@ -221,4 +230,54 @@ public class StreamController implements Screen, WarpListener {
             // exception in sendLocation
         }
     }*/
+
+    public void updateUserInput()
+    {
+        if (timer > 0) timer--;
+
+        //if ..
+        if(Gdx.input.isKeyJustPressed(Input.Keys.A) || Gdx.input.isKeyJustPressed(Input.Keys.LEFT) && moveCooldownTimer <= 0) {
+            //if (Gdx.input.isKeyPressed(Input.Keys.CONTROL_LEFT))
+            sendControlInput((byte)3);
+            Gdx.app.log("tag", "Left");
+            moveCooldownTimer = MoveCooldown;
+        }
+
+        if(Gdx.input.isKeyJustPressed(Input.Keys.D) || Gdx.input.isKeyJustPressed(Input.Keys.RIGHT) && moveCooldownTimer <= 0) {
+            //if (Gdx.input.isKeyPressed(Input.Keys.CONTROL_LEFT))
+            sendControlInput((byte)1);
+            Gdx.app.log("tag", "Right");
+            moveCooldownTimer = MoveCooldown;
+        }
+
+        if(Gdx.input.isKeyJustPressed(Input.Keys.W) || Gdx.input.isKeyJustPressed(Input.Keys.UP) && moveCooldownTimer <= 0) {
+            //if (Gdx.input.isKeyPressed(Input.Keys.CONTROL_LEFT))
+            sendControlInput((byte)0);
+            Gdx.app.log("tag", "Up");
+            moveCooldownTimer = MoveCooldown;
+        }
+
+        if(Gdx.input.isKeyJustPressed(Input.Keys.S) || Gdx.input.isKeyJustPressed(Input.Keys.DOWN) && moveCooldownTimer <= 0) {
+            //if (Gdx.input.isKeyPressed(Input.Keys.CONTROL_LEFT))
+            sendControlInput((byte)2);
+            Gdx.app.log("tag", "Down");
+            moveCooldownTimer = MoveCooldown;
+        }
+
+    }
+
+    private void sendControlInput(int input){
+        counter++;
+        try{
+            //JSONObject data = new JSONObject();
+            //data.put(input);
+            if(counter%10==0){
+                counter=0;
+            }
+            WarpController.getInstance().sendGameUpdate(Integer.toString(input));
+        }
+        catch (Exception e) {
+
+        }
+    }
 }

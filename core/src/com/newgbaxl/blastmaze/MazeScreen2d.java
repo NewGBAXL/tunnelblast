@@ -27,6 +27,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.newgbaxl.blastmaze.controller.TouchController;
 import com.newgbaxl.blastmaze.objects.EnemyCar;
+import com.newgbaxl.blastmaze.objects.OnlineCar;
 import com.newgbaxl.blastmaze.objects.UserCar;
 
 import java.util.ArrayList;
@@ -66,6 +67,7 @@ public class MazeScreen2d implements Screen {
 	public UserCar user;
 	LinkedList<EnemyCar> enemies;
 	EnemyCar enemyTestOnly;
+	OnlineCar player2;
 	public float enemySpeedMultiplier = 1f;
 	public boolean huntEnemyMode = false;
 	public boolean debugMode = true; //shows FPS, etc; toggle in Settings
@@ -129,7 +131,7 @@ public class MazeScreen2d implements Screen {
 		PlaceCoins();
 	}
 
-	public MazeScreen2d(int carSkin, int special)
+	public MazeScreen2d(int carSkin, int special, boolean vsMode)
 	{
 		super();
 		SetupScreen();
@@ -137,10 +139,14 @@ public class MazeScreen2d implements Screen {
 		//todo: apply car skin and special to the user car
 		user = new UserCar(32,32, getRandomColor(),
 				(float)(Math.random() * 0.6) + 0.1f, (byte)1, (byte)1);
+		if (vsMode)
+			player2 = new OnlineCar(32,32,getRandomColor(),
+					(float) (Math.random() * 0.6) + 0.1f, (byte)1, (byte)1);
+		
 		PlaceCoins();
 	}
 
-	public MazeScreen2d(int carSkin, int special, int scenarioID)
+	public MazeScreen2d(int carSkin, int special, int scenarioID, boolean vsMode)
 	{
 		super();
 		SetupScreen();

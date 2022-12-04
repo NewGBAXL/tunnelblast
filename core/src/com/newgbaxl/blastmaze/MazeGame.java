@@ -27,11 +27,11 @@ public class MazeGame extends Game {
 		if (vsMode == 2)
 			this.setScreen(new StreamController());
 		else if (carSkin == -1)
-			this.setScreen(new MazeScreen2d(-1, special, scenarioID));
+			this.setScreen(new MazeScreen2d(-1, special, scenarioID, (vsMode==1)));
 		else if (scenarioID == -1)
-			this.setScreen(new MazeScreen2d(carSkin, special));
+			this.setScreen(new MazeScreen2d(carSkin, special, (vsMode==1)));
 		else
-			this.setScreen(new MazeScreen2d(carSkin, special, scenarioID));
+			this.setScreen(new MazeScreen2d(carSkin, special, scenarioID, (vsMode==1)));
 	}
 
 	@Override
