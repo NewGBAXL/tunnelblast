@@ -22,7 +22,10 @@ import com.newgbaxl.blastmaze.MazeUtil;
 public class TouchController {
     Viewport viewport;
     Stage stage;
-    boolean upPressed, downPressed, leftPressed, rightPressed;
+    boolean upPressed = false;
+    boolean downPressed = false;
+    boolean leftPressed = false;
+    boolean rightPressed = false;
     OrthographicCamera cam;
 
     public TouchController(){

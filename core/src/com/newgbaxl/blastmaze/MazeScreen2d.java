@@ -208,7 +208,6 @@ public class MazeScreen2d implements Screen {
 
 		enemies = new LinkedList<>();
 		controller = new TouchController();
-		//gameLoaded = true; //turn this on to enable touch controls
 	}
 
 	public void PlaceCoins()
@@ -306,8 +305,20 @@ public class MazeScreen2d implements Screen {
 		font.draw(UISpritebatch, String.format(Locale.getDefault(), "%02d", user.power), 1000, hudRow1Y, hudSectionWidth, Align.right, false);//hudRightX, hudRow2Y, hudSectionWidth, Align.right, false);
 		font.draw(UISpritebatch, String.format(Locale.getDefault(), "%6.2f", timerDisplay), 1300, hudRow1Y, hudSectionWidth, Align.left, false);//hudRightX, hudRow2Y, hudSectionWidth, Align.right, false);
 
+		user.dpadUp = controller.isUpPressed();
+		user.dpadDown = controller.isDownPressed();
+		user.dpadLeft = controller.isLeftPressed();
+		user.dpadRight = controller.isRightPressed();
+
+		font.draw(UISpritebatch, String.format(Locale.getDefault(), "Up: %b", controller.isUpPressed()), 200, hudRow1Y, hudSectionWidth, Align.right, false);
+		font.draw(UISpritebatch, String.format(Locale.getDefault(), "Down: %b", controller.isDownPressed()), 600, hudRow1Y, hudSectionWidth, Align.right, false);
+		font.draw(UISpritebatch, String.format(Locale.getDefault(), "Left: %b", controller.isLeftPressed()), 1000, hudRow1Y, hudSectionWidth, Align.right, false);
+		font.draw(UISpritebatch, String.format(Locale.getDefault(), "Right: %b", controller.isRightPressed()), 1300, hudRow1Y, hudSectionWidth, Align.left, false);
+
 		font.draw(UISpritebatch, "FPS", 50, 480, hudSectionWidth, Align.right, false);
 		font.draw(UISpritebatch, String.valueOf(Gdx.graphics.getFramesPerSecond()), 110, 480);
+
+		gameLoaded = true; //turn this on to enable touch controls
 
 		//for testing
 		//font.draw(batch, "UpPriority", 40, 200, hudSectionWidth, Align.right, false);

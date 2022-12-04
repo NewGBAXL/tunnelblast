@@ -122,7 +122,12 @@ public class OnlineCar extends Car implements WarpListener {
 
     @Override
     public void onGameUpdateReceived(String message) {
-        moveTo((byte)(Integer.parseInt(message)));
+        try {
+            moveTo((byte)(Integer.parseInt(message)));
+        }
+        catch (Exception e){
+
+        }
     }
 
     public void onUpdatePeersReceived(UpdateEvent event) {
