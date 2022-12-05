@@ -90,6 +90,8 @@ public class FreePlay extends Fragment {
         bombs.setHint(Integer.toString(GlobalVars.bombs));
         enemies.setHint(Integer.toString(GlobalVars.enemies));
         walls.setHint(Integer.toString(GlobalVars.walls));
+
+
         binding.start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -113,5 +115,45 @@ public class FreePlay extends Fragment {
         GlobalVars.enemies=editPref(enemies,GlobalVars.enemies,0,10);
         GlobalVars.walls=editPref(walls,GlobalVars.walls,0,99);
         NavHostFragment.findNavController(FreePlay.this).navigate(R.id.action_freePlay_to_modeSelect);
+    }
+
+    public void onClickEvade(View view) {
+        GlobalVars.mode=0;
+    }
+
+    public void onClickHunt(View view) {
+        GlobalVars.mode=1;
+    }
+
+    public void onClickCoin(View view) {
+        GlobalVars.mode=2;
+    }
+
+    public void onClickBomb(View view) {
+        GlobalVars.mode=3;
+    }
+
+    public void onClickWall(View view) {
+        GlobalVars.mode=4;
+    }
+
+    public void setSelectedMode() {
+        switch(GlobalVars.mode) {
+            case 1:
+                binding.huntSelect.setChecked(true);
+                return;
+            case 2:
+                binding.coinSelect.setChecked(true);
+                return;
+            case 3:
+                binding.bombSelect.setChecked(true);
+                return;
+            case 4:
+                binding.wallSelect.setChecked(true);
+                return;
+            default:
+                binding.evadeSelect.setChecked(true);
+                return;
+        }
     }
 }

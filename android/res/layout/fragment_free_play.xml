@@ -93,30 +93,35 @@
                     android:id="@+id/evadeSelect"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:onClick="onClickEvade"
                     android:text="Evade" />
 
                 <RadioButton
                     android:id="@+id/huntSelect"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:onClick="onClickHunt"
                     android:text="Hunt" />
 
                 <RadioButton
                     android:id="@+id/coinSelect"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:onClick="onClickCoin"
                     android:text="Coin Collect" />
 
                 <RadioButton
                     android:id="@+id/bombSelect"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:onClick="onClickBomb"
                     android:text="Blow Up Everything" />
 
                 <RadioButton
                     android:id="@+id/wallSelect"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:onClick="onClickWall"
                     android:text="Box in NPC" />
             </RadioGroup>
         </LinearLayout>
