@@ -86,10 +86,10 @@ public class FreePlay extends Fragment {
         bombs = binding.editBombs;
         enemies = binding.editEnemies;
         walls = binding.editWalls;
-        timer.setHint(GlobalVars.timer);
-        bombs.setHint(GlobalVars.bombs);
-        enemies.setHint(GlobalVars.enemies);
-        walls.setHint(GlobalVars.walls);
+        timer.setHint(Integer.toString(GlobalVars.timer));
+        bombs.setHint(Integer.toString(GlobalVars.bombs));
+        enemies.setHint(Integer.toString(GlobalVars.enemies));
+        walls.setHint(Integer.toString(GlobalVars.walls));
     }
     private int editPref(EditText text, int def, int min, int max) {
         int val = Integer.parseInt(text.getText().toString());
