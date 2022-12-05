@@ -66,6 +66,9 @@
         <action
             android:id="@+id/action_modeSelect_to_vsSelect"
             app:destination="@id/vsSelect" />
+        <action
+            android:id="@+id/action_modeSelect_to_freePlay"
+            app:destination="@id/freePlay" />
     </fragment>
     <fragment
         android:id="@+id/levelSelect"
@@ -83,6 +86,15 @@
         tools:layout="@layout/fragment_vs_select" >
         <action
             android:id="@+id/action_vsSelect_to_modeSelect"
+            app:destination="@id/modeSelect" />
+    </fragment>
+    <fragment
+        android:id="@+id/freePlay"
+        android:name="com.newgbaxl.blastmaze.FreePlay"
+        android:label="fragment_free_play"
+        tools:layout="@layout/fragment_free_play" >
+        <action
+            android:id="@+id/action_freePlay_to_modeSelect"
             app:destination="@id/modeSelect" />
     </fragment>
 </navigation>

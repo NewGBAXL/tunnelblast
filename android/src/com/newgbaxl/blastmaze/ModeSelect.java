@@ -153,9 +153,6 @@ public class ModeSelect extends Fragment
             public void onClick(View view) {
                 //todo: add navigation to Free Play (Eric)
                 changeMode(4);
-                NavHostFragment.findNavController(ModeSelect.this)
-                        .navigate(R.id.action_modeSelect_to_FirstFragment);
-                //placeholder and debug back button
             }
         });
 
@@ -234,7 +231,11 @@ public class ModeSelect extends Fragment
             NavHostFragment.findNavController(ModeSelect.this)
                     .navigate(R.id.action_modeSelect_to_levelSelect);
         }
-        //todo: if modeSelect == 4, FreePlay (Eric)
+        else if (modeSelect == 4)
+        {
+            NavHostFragment.findNavController(ModeSelect.this)
+                    .navigate(R.id.action_modeSelect_to_freePlay);
+        }
     }
 
     void changeMode(int switchTo)
