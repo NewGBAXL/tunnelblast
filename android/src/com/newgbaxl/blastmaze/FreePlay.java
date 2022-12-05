@@ -90,19 +90,28 @@ public class FreePlay extends Fragment {
         bombs.setHint(Integer.toString(GlobalVars.bombs));
         enemies.setHint(Integer.toString(GlobalVars.enemies));
         walls.setHint(Integer.toString(GlobalVars.walls));
+        binding.start.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onClickStart(view);
+            }
+        });
     }
     private int editPref(EditText text, int def, int min, int max) {
+        if (text.getText().toString().equals("")) {
+            return def;
+        }
         int val = Integer.parseInt(text.getText().toString());
         if (val < min || val > max) {
             val = def;
         }
         return val;
     }
-    public void onStart(View view) {
-        GlobalVars.timer=editPref(timer, 90, 1, 999);
-        GlobalVars.bombs=editPref(bombs,15,0,99);
-        GlobalVars.enemies=editPref(enemies,1,0,10);
-        GlobalVars.walls=editPref(walls,15,0,99);
+    public void onClickStart(View view) {
+        GlobalVars.timer=editPref(timer, GlobalVars.timer, 1, 999);
+        GlobalVars.bombs=editPref(bombs,GlobalVars.bombs,0,99);
+        GlobalVars.enemies=editPref(enemies,GlobalVars.enemies,0,10);
+        GlobalVars.walls=editPref(walls,GlobalVars.walls,0,99);
         NavHostFragment.findNavController(FreePlay.this).navigate(R.id.action_freePlay_to_modeSelect);
     }
 }
