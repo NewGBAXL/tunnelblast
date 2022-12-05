@@ -166,6 +166,7 @@ public class Car extends CarActorAbs
                 break;
             case -6:
                 if (game.user == this) MazeScreen2d.coinsCollected++;
+                MazeScreen2d.coinsRemaining--;
                 break;
             default:
                 //oilSlick(MazeUtil.GetCellData(position.gridX,position.gridY));

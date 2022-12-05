@@ -2,6 +2,7 @@ package com.newgbaxl.blastmaze.objects;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.newgbaxl.blastmaze.Const;
 import com.newgbaxl.blastmaze.Coordinates;
@@ -89,7 +90,25 @@ public class UserCar extends Car {
         }
 
         if((Gdx.input.isKeyJustPressed(Input.Keys.BUTTON_X) || Gdx.input.isKeyJustPressed(Input.Keys.X)) && moveCooldownTimer <= 0) {
+
+            //Kill adjacent enemies
+            if (bombs > 0) {
+                for (Object e : game.enemies.toArray()) {
+                    if (e.getClass() == EnemyCar.class) {
+                        Coordinates pos = ((EnemyCar) e).position;
+                        if ((pos.gridY == position.gridY && pos.gridX == position.gridX) ||
+                                (pos.gridY == position.gridY && pos.gridX == position.gridX + 1) ||
+                                (pos.gridY == position.gridY && pos.gridX == position.gridX - 1) ||
+                                (pos.gridY == position.gridY + 1 && pos.gridX == position.gridX) ||
+                                (pos.gridY == position.gridY - 1 && pos.gridX == position.gridX)) {
+                            game.enemies.remove(e);
+                            game.stage.getActors().removeValue((Actor) e, true);
+                        }
+                    }
+                }
+            }
             destroyAll(1);
+
             Gdx.app.log("tag", "Button X");
             moveCooldownTimer = MoveCooldown;
         }

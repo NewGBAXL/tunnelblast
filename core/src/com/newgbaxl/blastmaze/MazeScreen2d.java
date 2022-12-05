@@ -49,6 +49,7 @@ public class MazeScreen2d implements Screen {
 	public static int result = -1;
 	public static int currentLvlID = 0;
 	public static int coinsCollected = 0;
+	public static int coinsRemaining = 0;
 
 	private SpriteBatch batch;
 	private SpriteBatch UISpritebatch;
@@ -63,7 +64,7 @@ public class MazeScreen2d implements Screen {
 
 	private TiledMapRenderer mapRenderer;
 	public UserCar user;
-	LinkedList<EnemyCar> enemies;
+	public LinkedList<EnemyCar> enemies;
 	EnemyCar enemyTestOnly;
 	public float enemySpeedMultiplier = 1f;
 	public boolean huntEnemyMode = false;
@@ -214,6 +215,7 @@ public class MazeScreen2d implements Screen {
 				placed = true;
 				invalidPositions.add(new Coordinates(pos.x * Const.TILE_SIZE, pos.y * Const.TILE_SIZE));
 				mazeGrid[(int)pos.x][(int)pos.y].cellData = -6;
+				coinsRemaining++;
 			}
 		}
 	}
