@@ -5,6 +5,8 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.newgbaxl.blastmaze.controller.TouchController;
 import com.newgbaxl.blastmaze.objects.UserCar;
 
 public class MazeUtil {
@@ -105,14 +107,15 @@ public class MazeUtil {
 		return user.position;
 	}
 
+	public static TouchController getController()
+	{
+		return MazeScreen2d.getInstance.controller;
+	}
 
-
-
-
-
-
-
-
+	public static Stage getStage()
+	{
+		return MazeScreen2d.getInstance.stage;
+	}
 
 
 

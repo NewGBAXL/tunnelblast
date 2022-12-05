@@ -19,19 +19,7 @@ public class MazeCreator {
 	public Maze getMaze() {
 		return maze;
 	}
-	/*
-		***********
-		***********
-		***********
-		***********
-		***********
-		***********
-		***********
-		***********
-		***********
-		***********
-		***********
-	*/
+
 	private void fillWithWalls() {
 		for (int r = 0; r < Const.MAZE_HEIGHT; r++) {
 			for (int c = 0; c < Const.MAZE_WIDTH; c++) {
@@ -40,19 +28,6 @@ public class MazeCreator {
 		}
 	}
 
-	/*
-		***********
-		* * * * * *
-		***********
-		* * * * * *
-		***********
-		* * * * * *
-		***********
-		* * * * * *
-		***********
-		* * * * * *
-		***********
-	 */
 	private void createDefaultRooms() {
 		for (int r = 1; r < Const.MAZE_HEIGHT; r += 2) {
 			for (int c = 1; c < Const.MAZE_WIDTH; c += 2) {
@@ -76,19 +51,6 @@ public class MazeCreator {
 		Gdx.app.log("MazeCreator", "\n" + maze.toString());
 	}
 
-	/*
-		***********
-		*         *
-		* *** *** *
-		* * *   * *
-		* * *** ***
-		*     * *     <= Exit/Entry point
-		***** * * *
-		*     *   *
-		* *********
-		*         *
-		***********
-	 */
 	private void createMaze() {
 		fillWithWalls();
 

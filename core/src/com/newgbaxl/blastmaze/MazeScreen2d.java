@@ -25,7 +25,9 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.newgbaxl.blastmaze.controller.TouchController;
 import com.newgbaxl.blastmaze.objects.EnemyCar;
+import com.newgbaxl.blastmaze.objects.OnlineCar;
 import com.newgbaxl.blastmaze.objects.UserCar;
 
 import java.util.ArrayList;
@@ -58,16 +60,21 @@ public class MazeScreen2d implements Screen {
 
 	private TiledMapRenderer mazeRenderer;
 
-	private CameraInputAdapter camInput;
-
-	private MapViewport mapViewport;
+	public CameraInputAdapter camInput;
+	public TouchController controller;
+	public MapViewport mapViewport;
 
 	private TiledMapRenderer mapRenderer;
 	public UserCar user;
 	public LinkedList<EnemyCar> enemies;
 	EnemyCar enemyTestOnly;
+	OnlineCar player2;
 	public float enemySpeedMultiplier = 1f;
 	public boolean huntEnemyMode = false;
+	public boolean debugMode = true; //shows FPS, etc; toggle in Settings
+	public boolean touchControls = true; //toggle in Settings
+
+	public boolean gameLoaded = false;
 
 	//Set in the scenario and only called on map creation
 	public int coinCount = 0;
@@ -107,7 +114,25 @@ public class MazeScreen2d implements Screen {
 		PlaceCoins();
 	}
 
-	public MazeScreen2d(int carSkin, int special)
+	//for experimental VS mode
+	public MazeScreen2d(int modeTest) {
+		super();
+		SetupScreen();
+
+		int startingCars = 2;
+		for (int i = 0; i < startingCars; ++i)
+		{
+			enemies.add(new EnemyCar(32,32, getRandomColor(),
+					(float)(Math.random() * 0.6) + 0.1f, (byte)1, (byte)1,1));
+
+			stage.addActor(enemies.peekLast());
+		}
+
+		//setup online car
+		PlaceCoins();
+	}
+
+	public MazeScreen2d(int carSkin, int special, boolean vsMode)
 	{
 		super();
 		SetupScreen();
@@ -115,10 +140,14 @@ public class MazeScreen2d implements Screen {
 		//todo: apply car skin and special to the user car
 		user = new UserCar(32,32, getRandomColor(),
 				(float)(Math.random() * 0.6) + 0.1f, (byte)1, (byte)1);
+		if (vsMode)
+			player2 = new OnlineCar(32,32,getRandomColor(),
+					(float) (Math.random() * 0.6) + 0.1f, (byte)1, (byte)1);
+		
 		PlaceCoins();
 	}
 
-	public MazeScreen2d(int carSkin, int special, int scenarioID)
+	public MazeScreen2d(int carSkin, int special, int scenarioID, boolean vsMode)
 	{
 		super();
 		SetupScreen();
@@ -179,6 +208,7 @@ public class MazeScreen2d implements Screen {
 
 
 		enemies = new LinkedList<>();
+		controller = new TouchController();
 	}
 
 	public void PlaceCoins()
@@ -277,8 +307,20 @@ public class MazeScreen2d implements Screen {
 		font.draw(UISpritebatch, String.format(Locale.getDefault(), "%02d", user.power), 1000, hudRow1Y, hudSectionWidth, Align.right, false);//hudRightX, hudRow2Y, hudSectionWidth, Align.right, false);
 		font.draw(UISpritebatch, String.format(Locale.getDefault(), "%6.2f", timerDisplay), 1300, hudRow1Y, hudSectionWidth, Align.left, false);//hudRightX, hudRow2Y, hudSectionWidth, Align.right, false);
 
+		user.dpadUp = controller.isUpPressed();
+		user.dpadDown = controller.isDownPressed();
+		user.dpadLeft = controller.isLeftPressed();
+		user.dpadRight = controller.isRightPressed();
+
+		font.draw(UISpritebatch, String.format(Locale.getDefault(), "Up: %b", controller.isUpPressed()), 200, hudRow1Y, hudSectionWidth, Align.right, false);
+		font.draw(UISpritebatch, String.format(Locale.getDefault(), "Down: %b", controller.isDownPressed()), 600, hudRow1Y, hudSectionWidth, Align.right, false);
+		font.draw(UISpritebatch, String.format(Locale.getDefault(), "Left: %b", controller.isLeftPressed()), 1000, hudRow1Y, hudSectionWidth, Align.right, false);
+		font.draw(UISpritebatch, String.format(Locale.getDefault(), "Right: %b", controller.isRightPressed()), 1300, hudRow1Y, hudSectionWidth, Align.left, false);
+
 		font.draw(UISpritebatch, "FPS", 50, 480, hudSectionWidth, Align.right, false);
 		font.draw(UISpritebatch, String.valueOf(Gdx.graphics.getFramesPerSecond()), 110, 480);
+
+		gameLoaded = true; //turn this on to enable touch controls
 
 		//for testing
 		//font.draw(batch, "UpPriority", 40, 200, hudSectionWidth, Align.right, false);

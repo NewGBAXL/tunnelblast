@@ -34,7 +34,9 @@
         tools:layout="@layout/fragment_store" >
         <action
             android:id="@+id/action_store_to_FirstFragment"
-            app:destination="@id/FirstFragment" />
+            app:destination="@id/FirstFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim" />
     </fragment>
     <fragment
         android:id="@+id/settings"
@@ -43,7 +45,9 @@
         tools:layout="@layout/fragment_settings" >
         <action
             android:id="@+id/action_settings_to_FirstFragment"
-            app:destination="@id/FirstFragment" />
+            app:destination="@id/FirstFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim" />
     </fragment>
     <fragment
         android:id="@+id/gameView"
@@ -57,10 +61,24 @@
         tools:layout="@layout/fragment_mode_select" >
         <action
             android:id="@+id/action_modeSelect_to_FirstFragment"
-            app:destination="@id/FirstFragment" />
+            app:destination="@id/FirstFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@animator/nav_default_exit_anim" />
         <action
             android:id="@+id/action_modeSelect_to_levelSelect"
-            app:destination="@id/levelSelect" />
+            app:destination="@id/levelSelect"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim" />
+        <action
+            android:id="@+id/action_modeSelect_to_vsSelect"
+            app:destination="@id/vsSelect"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim" />
+        <action
+            android:id="@+id/action_modeSelect_to_freePlay"
+            app:destination="@id/freePlay"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim" />
     </fragment>
     <fragment
         android:id="@+id/levelSelect"
@@ -69,6 +87,30 @@
         tools:layout="@layout/fragment_level_select" >
         <action
             android:id="@+id/action_levelSelect_to_modeSelect"
-            app:destination="@id/modeSelect" />
+            app:destination="@id/modeSelect"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim" />
+    </fragment>
+    <fragment
+        android:id="@+id/vsSelect"
+        android:name="com.newgbaxl.blastmaze.VsSelect"
+        android:label="fragment_vs_select"
+        tools:layout="@layout/fragment_vs_select" >
+        <action
+            android:id="@+id/action_vsSelect_to_modeSelect"
+            app:destination="@id/modeSelect"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim" />
+    </fragment>
+    <fragment
+        android:id="@+id/freePlay"
+        android:name="com.newgbaxl.blastmaze.FreePlay"
+        android:label="fragment_free_play"
+        tools:layout="@layout/fragment_free_play" >
+        <action
+            android:id="@+id/action_freePlay_to_modeSelect"
+            app:destination="@id/modeSelect"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim" />
     </fragment>
 </navigation>

@@ -7,6 +7,9 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.newgbaxl.blastmaze.Const;
 import com.newgbaxl.blastmaze.Coordinates;
 import com.newgbaxl.blastmaze.HeadsUpDisplay;
+import com.newgbaxl.blastmaze.MazeScreen2d;
+import com.newgbaxl.blastmaze.MazeUtil;
+import com.newgbaxl.blastmaze.controller.TouchController;
 
 public class UserCar extends Car {
     int xPos = 0;
@@ -14,6 +17,13 @@ public class UserCar extends Car {
 
     final int MoveCooldown = 4;
     int moveCooldownTimer;
+
+    public boolean dpadUp = false;
+    public boolean dpadDown = false;
+    public boolean dpadLeft = false;
+    public boolean dpadRight = false;
+
+    TouchController controller = MazeUtil.getController();
 
     //public boolean moving = false;
     public UserCar(int width, int height, Color nSkin, float delay, byte nBaseSpd, byte nPwrRate)
@@ -32,61 +42,46 @@ public class UserCar extends Car {
         return true;
     }
 
-    /*@Override
-    public void create() {
-        Gdx.input.setInputProcessor(this);
-    }*/
-
     @Override
     public void act(float delta)
     {
         super.act(delta);
         if (timer > 0) timer--;
-        //switch(moveState) {
-        //    case RIGHT :
-//
-        //        // Move right by using whatever method you want.
-        //        // Directly increasing x
-        //        // Increase x according to velocity you have defined.
-        //        // Use actions, little bit dangerous.
-        //        break;
-        //    case LEFT :
-        //        // Move left by using whatever method you want.
-        //        break;
-        //    case IDLE :
-        //        // Don't change x coordinate of your player.
-        //        break;
-        //    default :
-//
-        //        break;
-        //}
 
-        if(Gdx.input.isKeyJustPressed(Input.Keys.A) || Gdx.input.isKeyJustPressed(Input.Keys.LEFT) && moveCooldownTimer <= 0) {
+        if((Gdx.input.isKeyJustPressed(Input.Keys.A) || Gdx.input.isKeyJustPressed(Input.Keys.LEFT) ||
+                (MazeScreen2d.getInstance.gameLoaded && dpadLeft)) && moveCooldownTimer <= 0) {
             //if (Gdx.input.isKeyPressed(Input.Keys.CONTROL_LEFT))
             moveTo((byte)3);
             Gdx.app.log("tag", "Left");
             moveCooldownTimer = MoveCooldown;
+            dpadLeft = false;
         }
 
-        if(Gdx.input.isKeyJustPressed(Input.Keys.D) || Gdx.input.isKeyJustPressed(Input.Keys.RIGHT) && moveCooldownTimer <= 0) {
+        if((Gdx.input.isKeyJustPressed(Input.Keys.D) || Gdx.input.isKeyJustPressed(Input.Keys.RIGHT) ||
+                (MazeScreen2d.getInstance.gameLoaded && dpadRight)) && moveCooldownTimer <= 0) {
             //if (Gdx.input.isKeyPressed(Input.Keys.CONTROL_LEFT))
             moveTo((byte)1);
             Gdx.app.log("tag", "Right");
             moveCooldownTimer = MoveCooldown;
+            dpadRight = false;
         }
 
-        if(Gdx.input.isKeyJustPressed(Input.Keys.W) || Gdx.input.isKeyJustPressed(Input.Keys.UP) && moveCooldownTimer <= 0) {
+        if((Gdx.input.isKeyJustPressed(Input.Keys.W) || Gdx.input.isKeyJustPressed(Input.Keys.UP) ||
+                (MazeScreen2d.getInstance.gameLoaded && dpadUp)) && moveCooldownTimer <= 0) {
             //if (Gdx.input.isKeyPressed(Input.Keys.CONTROL_LEFT))
             moveTo((byte)0);
             Gdx.app.log("tag", "Up");
             moveCooldownTimer = MoveCooldown;
+            dpadUp = false;
         }
 
-        if(Gdx.input.isKeyJustPressed(Input.Keys.S) || Gdx.input.isKeyJustPressed(Input.Keys.DOWN) && moveCooldownTimer <= 0) {
+        if((Gdx.input.isKeyJustPressed(Input.Keys.S) || Gdx.input.isKeyJustPressed(Input.Keys.DOWN) ||
+                (MazeScreen2d.getInstance.gameLoaded && dpadDown)) && moveCooldownTimer <= 0) {
             //if (Gdx.input.isKeyPressed(Input.Keys.CONTROL_LEFT))
             moveTo((byte)2);
             Gdx.app.log("tag", "Down");
             moveCooldownTimer = MoveCooldown;
+            dpadDown = false;
         }
 
         if((Gdx.input.isKeyJustPressed(Input.Keys.BUTTON_X) || Gdx.input.isKeyJustPressed(Input.Keys.X)) && moveCooldownTimer <= 0) {

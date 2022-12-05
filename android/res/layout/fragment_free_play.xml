@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="20dp"
+    android:paddingTop="20dp"
+    android:paddingRight="20dp"
+    android:paddingBottom="20dp"
+    app:flow_wrapMode="none"
+    tools:context=".FreePlay">
+
+    <TextView
+        android:id="@+id/timeLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Timer (Seconds): "
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="@+id/editTime"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/editTime" />
+
+    <TextView
+        android:id="@+id/enemyLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Enemies: "
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="@+id/editEnemies"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/editEnemies" />
+
+    <TextView
+        android:id="@+id/enemyLabel2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Bombs: "
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="@+id/editBombs"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/editBombs" />
+
+    <TextView
+        android:id="@+id/enemyLabel3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Walls: "
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="@+id/editWalls"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/editWalls" />
+
+    <Button
+        android:id="@+id/start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="onStart"
+        android:text="Start"
+        android:textSize="23sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Game Mode: "
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="@+id/fpScrollView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/fpScrollView" />
+
+    <ScrollView
+        android:id="@+id/fpScrollView"
+        android:layout_width="252dp"
+        android:layout_height="50dp"
+        app:layout_constraintStart_toEndOf="@+id/textView3"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RadioGroup
+                android:id="@+id/modeSelect"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:checkedButton="@id/evadeSelect">
+
+                <RadioButton
+                    android:id="@+id/evadeSelect"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Evade" />
+
+                <RadioButton
+                    android:id="@+id/huntSelect"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Hunt" />
+
+                <RadioButton
+                    android:id="@+id/coinSelect"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Coin Collect" />
+
+                <RadioButton
+                    android:id="@+id/bombSelect"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Blow Up Everything" />
+
+                <RadioButton
+                    android:id="@+id/wallSelect"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Box in NPC" />
+            </RadioGroup>
+        </LinearLayout>
+    </ScrollView>
+
+    <EditText
+        android:id="@+id/editTime"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="90"
+        android:inputType="number"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/timeLabel"
+        app:layout_constraintTop_toBottomOf="@+id/fpScrollView" />
+
+    <EditText
+        android:id="@+id/editEnemies"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="1"
+        android:inputType="number"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/enemyLabel"
+        app:layout_constraintTop_toBottomOf="@+id/editTime" />
+
+    <EditText
+        android:id="@+id/editBombs"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="15"
+        android:inputType="number"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/enemyLabel2"
+        app:layout_constraintTop_toBottomOf="@+id/editEnemies" />
+
+    <EditText
+        android:id="@+id/editWalls"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="15"
+        android:inputType="number"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/enemyLabel3"
+        app:layout_constraintTop_toBottomOf="@+id/editBombs"
+        tools:text="15" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

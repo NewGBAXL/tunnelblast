@@ -134,10 +134,8 @@ public class ModeSelect extends Fragment
         binding.selectVs.setOnClickListener(new View.OnClickListener()
         {
             @Override
-            public void onClick(View view)
-            {
+            public void onClick(View view) {
                 changeMode(2);
-                Log.d("tag", "test");
             }
         });
 
@@ -149,15 +147,12 @@ public class ModeSelect extends Fragment
             }
         });
 
-        binding.button5.setOnClickListener(new View.OnClickListener()
+        binding.selectFreeplay.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View view) {
                 //todo: add navigation to Free Play (Eric)
                 changeMode(4);
-                NavHostFragment.findNavController(ModeSelect.this)
-                        .navigate(R.id.action_modeSelect_to_FirstFragment);
-                //placeholder and debug back button
             }
         });
 
@@ -226,10 +221,20 @@ public class ModeSelect extends Fragment
 
             startActivity(i3);
         }
+        else if (modeSelect == 2)
+        {
+            NavHostFragment.findNavController(ModeSelect.this)
+                    .navigate(R.id.action_modeSelect_to_vsSelect);
+        }
         else if (modeSelect == 3)
         {
             NavHostFragment.findNavController(ModeSelect.this)
                     .navigate(R.id.action_modeSelect_to_levelSelect);
+        }
+        else if (modeSelect == 4)
+        {
+            NavHostFragment.findNavController(ModeSelect.this)
+                    .navigate(R.id.action_modeSelect_to_freePlay);
         }
     }
 
