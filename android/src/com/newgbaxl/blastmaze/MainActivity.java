@@ -1,6 +1,10 @@
 package com.newgbaxl.blastmaze;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
+import android.media.AudioAttributes;
+import android.media.MediaPlayer;
+import android.os.AsyncTask;
 import android.os.Bundle;
 
 import com.google.android.material.snackbar.Snackbar;
@@ -93,11 +97,52 @@ public class MainActivity extends AppCompatActivity {
     }*/
 
     public void helpSelect(View view) {
-        //Displays the help menu if you click the green fab.
-        LayoutInflater layoutInflaterAndroid = LayoutInflater.from(getApplicationContext());
-        View v = layoutInflaterAndroid.inflate(R.layout.fragment_help, null);
+        String serverURL = "https://cdns-preview-7.dzcdn.net/stream/c-711c687d62e81ac98900ee80b08dd023-2.mp3";
+        new GetServerData().execute(serverURL);
+    }
 
-        AlertDialog.Builder helpDialogue = new AlertDialog.Builder(view.getContext());
-        helpDialogue.setView(v);
+    ProgressDialog progressDialog;
+    MediaPlayer mediaPlayer;
+
+    class GetServerData extends AsyncTask {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            // Showing progress dialog
+            progressDialog = new ProgressDialog(MainActivity.this);
+            progressDialog.setMessage("Fetching data");
+            progressDialog.setCancelable(false);
+            progressDialog.show();
+        }
+
+        @Override
+        protected Object doInBackground(Object[] objects) {
+            try {
+                String url = "https://cdns-preview-7.dzcdn.net/stream/c-711c687d62e81ac98900ee80b08dd023-2.mp3"; // your URL here
+                mediaPlayer = new MediaPlayer();
+                mediaPlayer.setAudioAttributes(
+                        new AudioAttributes.Builder()
+                                .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+                                .setUsage(AudioAttributes.USAGE_MEDIA)
+                                .build()
+                );
+                mediaPlayer.setDataSource(url);
+                mediaPlayer.prepare(); // might take long! (for buffering, etc)
+                mediaPlayer.start();
+            } catch (Exception e) {
+                // TODO: handle exception
+            }
+            return mediaPlayer;
+        };
+
+        @Override
+        protected void onPostExecute(Object o) {
+            super.onPostExecute(o);
+
+            // Dismiss the progress dialog
+            if (progressDialog.isShowing())
+                progressDialog.dismiss();
+        }
     }
 }
