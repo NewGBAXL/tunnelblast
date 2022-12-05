@@ -88,7 +88,8 @@
         android:layout_height="wrap_content"
         android:text="Play!"
         android:textSize="100sp"
-        tools:layout_editor_absoluteX="98dp"
+        app:layout_constraintEnd_toEndOf="@+id/playGame"
+        app:layout_constraintStart_toStartOf="@+id/playGame"
         tools:layout_editor_absoluteY="599dp" />
 
     <TextView
@@ -256,8 +257,6 @@
         android:id="@+id/playGame"
         android:layout_width="212dp"
         android:layout_height="130dp"
-        android:layout_marginStart="98dp"
-        android:layout_marginEnd="101dp"
         android:backgroundTint="#00FFFFFF"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
