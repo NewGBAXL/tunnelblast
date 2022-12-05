@@ -90,12 +90,48 @@ public class FreePlay extends Fragment {
         bombs.setHint(Integer.toString(GlobalVars.bombs));
         enemies.setHint(Integer.toString(GlobalVars.enemies));
         walls.setHint(Integer.toString(GlobalVars.walls));
+        setSelectedMode();
 
 
         binding.start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 onClickStart(view);
+            }
+        });
+
+        binding.evadeSelect.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onClickEvade(view);
+            }
+        });
+
+        binding.huntSelect.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onClickHunt(view);
+            }
+        });
+
+        binding.coinSelect.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onClickCoin(view);
+            }
+        });
+
+        binding.bombSelect.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onClickBomb(view);
+            }
+        });
+
+        binding.wallSelect.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onClickWall(view);
             }
         });
     }
