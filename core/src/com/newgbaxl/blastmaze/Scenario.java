@@ -1,6 +1,7 @@
 package com.newgbaxl.blastmaze;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.math.MathUtils;
 import com.newgbaxl.blastmaze.objects.EnemyCar;
 
 import java.util.Arrays;
@@ -11,36 +12,330 @@ public abstract class Scenario
 {
     public static Scenario[] scenarios = new Scenario[]
     {
-        new Scenario() {
-            @Override
-            public void OnStart(MazeScreen2d scene) {
-                scene.enemies.add(new EnemyCar(32,32, Color.BLACK,
-                        (float)(Math.random() * 0.6) + 0.1f, (byte)1, (byte)1,1));
-                scene.stage.addActor(scene.enemies.peekLast());
+            //Evade
+            new Scenario() {
+                @Override
+                public void OnStart(MazeScreen2d scene) {
+                    scene.enemies.add(new EnemyCar(32,32, Color.BLACK,
+                            (float)(Math.random() * 0.6) + 0.1f, (byte)1, (byte)1,1));
+                    scene.stage.addActor(scene.enemies.peekLast());
 
-                scene.user.bombs = 15;
-                scene.user.timer = 60 * 60;
+                    scene.user.bombs = 15;
+                    scene.user.blocks = 5;
+                    scene.user.timer = 60 * 60;
 
-                scene.coinCount = 4;
-            }
+                    scene.coinCount = 2;
+                }
 
-            @Override
-            public void Update(MazeScreen2d scene) {
+                @Override
+                public void Update(MazeScreen2d scene) {
 
-            }
+                }
 
-            @Override
-            public boolean CheckForWin(MazeScreen2d scene) {
-                if (scene.user.timer <= 0) return true;
-                return false;
-            }
+                @Override
+                public boolean CheckForWin(MazeScreen2d scene) {
+                    if (scene.user.timer <= 0) return true;
+                    if (scene.enemies.size() == 0 && MazeScreen2d.coinsRemaining == 0) return true;
+                    return false;
+                }
 
-            @Override
-            public int getRankResult(MazeScreen2d scene) {
+                @Override
+                public int getRankResult(MazeScreen2d scene) {
 
-                return MazeScreen2d.coinsCollected + 1;
-            }
-        },
+                    return MazeScreen2d.coinsCollected + 2;
+                }
+            },
+
+            //Hunt
+            new Scenario() {
+                @Override
+                public void OnStart(MazeScreen2d scene) {
+                    scene.enemies.add(new EnemyCar(32,32, Color.BLACK,
+                            (float)(Math.random() * 0.6) + 0.1f, (byte)1, (byte)1,1));
+                    scene.stage.addActor(scene.enemies.peekLast());
+
+                    scene.user.bombs = 20;
+                    scene.user.blocks = 10;
+                    scene.user.timer = 60 * 60;
+
+                    scene.coinCount = 2;
+                    scene.huntEnemyMode = true;
+                }
+
+                @Override
+                public void Update(MazeScreen2d scene) {
+
+                }
+
+                @Override
+                public boolean CheckForWin(MazeScreen2d scene) {
+                    if (scene.user.timer <= 0) return true;
+                    if (scene.enemies.size() == 0) return true;
+                    return false;
+                }
+
+                @Override
+                public int getRankResult(MazeScreen2d scene) {
+                    if (scene.user.timer <= 0) return 0;
+                    return (int)MathUtils.clamp(scene.user.timer / 900f + 1, 1, 4);
+                }
+            },
+
+            //Collect Coins
+            new Scenario() {
+                @Override
+                public void OnStart(MazeScreen2d scene) {
+                    scene.enemies.add(new EnemyCar(32,32, Color.BLACK,
+                            (float)(Math.random() * 0.6) + 0.1f, (byte)1, (byte)1,1));
+                    scene.enemies.get(0).position.gridY += 2;
+                    scene.stage.addActor(scene.enemies.peekLast());
+                    scene.enemies.add(new EnemyCar(32,32, Color.BLACK,
+                            (float)(Math.random() * 0.6) + 0.1f, (byte)1, (byte)1,1));
+                    scene.enemies.get(1).position.gridY += 2;
+                    scene.stage.addActor(scene.enemies.peekLast());
+
+                    scene.user.bombs = 10;
+                    scene.user.blocks = 10;
+                    scene.user.timer = 90 * 60;
+                    scene.coinCount = 4;
+                }
+
+                @Override
+                public void Update(MazeScreen2d scene) {
+
+                }
+
+                @Override
+                public boolean CheckForWin(MazeScreen2d scene) {
+                    if (scene.user.timer <= 0) return true;
+                    if (MazeScreen2d.coinsRemaining == 0) return true;
+                    return false;
+                }
+
+                @Override
+                public int getRankResult(MazeScreen2d scene) {
+                    return MazeScreen2d.coinsCollected;
+                }
+            },
+
+            //Evade
+            new Scenario() {
+                @Override
+                public void OnStart(MazeScreen2d scene) {
+                    scene.enemies.add(new EnemyCar(32,32, Color.BLACK,
+                            (float)(Math.random() * 0.6) + 0.1f, (byte)1, (byte)1,1));
+                    scene.enemies.get(0).position.gridY += 2;
+                    scene.stage.addActor(scene.enemies.peekLast());
+                    scene.enemies.add(new EnemyCar(32,32, Color.BLACK,
+                            (float)(Math.random() * 0.6) + 0.1f, (byte)1, (byte)1,1));
+                    scene.enemies.get(1).position.gridY += 2;
+                    scene.stage.addActor(scene.enemies.peekLast());
+
+                    scene.user.bombs = 10;
+                    scene.user.blocks = 10;
+                    scene.user.timer = 60 * 60;
+
+                    scene.coinCount = 4;
+                }
+
+                @Override
+                public void Update(MazeScreen2d scene) {
+
+                }
+
+                @Override
+                public boolean CheckForWin(MazeScreen2d scene) {
+                    if (scene.user.timer <= 0) return true;
+                    if (scene.enemies.size() == 0 && MazeScreen2d.coinsRemaining == 0) return true;
+                    return false;
+                }
+
+                @Override
+                public int getRankResult(MazeScreen2d scene) {
+
+                    if (MazeScreen2d.coinsCollected == 0) return 1;
+                    if (MazeScreen2d.coinsCollected == 1) return 2;
+                    if (MazeScreen2d.coinsCollected == 2) return 3;
+                    if (MazeScreen2d.coinsCollected == 3) return 3;
+                    if (MazeScreen2d.coinsCollected == 4) return 4;
+                    return 0;
+                }
+            },
+
+            //Bomb enemies
+            new Scenario() {
+                @Override
+                public void OnStart(MazeScreen2d scene) {
+                    scene.enemies.add(new EnemyCar(32,32, Color.BLACK,
+                            (float)(Math.random() * 0.6) + 0.1f, (byte)1, (byte)1,1));
+                    scene.enemies.get(0).position.gridY += 2;
+                    scene.stage.addActor(scene.enemies.peekLast());
+                    scene.enemies.add(new EnemyCar(32,32, Color.BLACK,
+                            (float)(Math.random() * 0.6) + 0.1f, (byte)1, (byte)1,1));
+                    scene.enemies.get(1).position.gridY += 2;
+                    scene.stage.addActor(scene.enemies.peekLast());
+                    scene.enemies.add(new EnemyCar(32,32, Color.BLACK,
+                            (float)(Math.random() * 0.6) + 0.1f, (byte)1, (byte)1,1));
+                    scene.enemies.get(2).position.gridX += 2;
+                    scene.stage.addActor(scene.enemies.peekLast());
+
+                    scene.user.bombs = 20;
+                    scene.user.blocks = 20;
+                    scene.user.timer = 120 * 60;
+
+                    scene.coinCount = 3;
+                }
+
+                @Override
+                public void Update(MazeScreen2d scene) {
+
+                }
+
+                @Override
+                public boolean CheckForWin(MazeScreen2d scene) {
+                    if (scene.user.timer <= 0) return true;
+                    if (scene.enemies.size() == 0 && MazeScreen2d.coinsRemaining == 0) return true;
+                    return false;
+                }
+
+                @Override
+                public int getRankResult(MazeScreen2d scene) {
+
+                    if (scene.enemies.size() == 3) return 0;
+                    if (scene.enemies.size() == 2) return 2;
+                    if (scene.enemies.size() == 1) return 3;
+                    if (scene.enemies.size() == 0) return 4;
+                    return 0;
+                }
+            },
+
+            //Hunt
+            new Scenario() {
+                @Override
+                public void OnStart(MazeScreen2d scene) {
+                    scene.enemies.add(new EnemyCar(32,32, Color.BLACK,
+                            (float)(Math.random() * 0.6) + 0.1f, (byte)1, (byte)1,1));
+                    scene.enemies.get(0).position.gridY += 2;
+                    scene.stage.addActor(scene.enemies.peekLast());
+                    scene.enemies.add(new EnemyCar(32,32, Color.BLACK,
+                            (float)(Math.random() * 0.6) + 0.1f, (byte)1, (byte)1,1));
+                    scene.enemies.get(1).position.gridY += 2;
+                    scene.stage.addActor(scene.enemies.peekLast());
+
+                    scene.user.bombs = 15;
+                    scene.user.blocks = 10;
+                    scene.user.timer = 90 * 60;
+
+                    scene.coinCount = 4;
+                    scene.huntEnemyMode = true;
+                }
+
+                @Override
+                public void Update(MazeScreen2d scene) {
+
+                }
+
+                @Override
+                public boolean CheckForWin(MazeScreen2d scene) {
+                    if (scene.user.timer <= 0) return true;
+                    if (scene.enemies.size() == 0) return true;
+                    return false;
+                }
+
+                @Override
+                public int getRankResult(MazeScreen2d scene) {
+                    if (scene.user.timer <= 0) return 0;
+                    return (int)MathUtils.clamp(scene.user.timer / 1350 + 1, 1, 4);
+                }
+            },
+
+            //Evade
+            new Scenario() {
+                @Override
+                public void OnStart(MazeScreen2d scene) {
+                    scene.enemies.add(new EnemyCar(32,32, Color.BLACK,
+                            (float)(Math.random() * 0.6) + 0.1f, (byte)1, (byte)1,1));
+                    scene.enemies.get(0).position.gridY += 2;
+                    scene.stage.addActor(scene.enemies.peekLast());
+                    scene.enemies.add(new EnemyCar(32,32, Color.BLACK,
+                            (float)(Math.random() * 0.6) + 0.1f, (byte)1, (byte)1,1));
+                    scene.enemies.get(1).position.gridY += 2;
+                    scene.stage.addActor(scene.enemies.peekLast());
+
+                    scene.user.bombs = 10;
+                    scene.user.blocks = 5;
+                    scene.user.timer = 120 * 60;
+
+                    scene.coinCount = 4;
+                }
+
+                @Override
+                public void Update(MazeScreen2d scene) {
+
+                }
+
+                @Override
+                public boolean CheckForWin(MazeScreen2d scene) {
+                    if (scene.user.timer <= 0) return true;
+                    if (scene.enemies.size() == 0 && MazeScreen2d.coinsRemaining == 0) return true;
+                    return false;
+                }
+
+                @Override
+                public int getRankResult(MazeScreen2d scene) {
+
+                    if (MazeScreen2d.coinsCollected == 0) return 1;
+                    if (MazeScreen2d.coinsCollected == 1) return 2;
+                    if (MazeScreen2d.coinsCollected == 2) return 3;
+                    if (MazeScreen2d.coinsCollected == 3) return 3;
+                    if (MazeScreen2d.coinsCollected == 4) return 4;
+                    return 0;
+                }
+            },
+
+            //Hunt
+            new Scenario() {
+                @Override
+                public void OnStart(MazeScreen2d scene) {
+                    scene.enemies.add(new EnemyCar(32,32, Color.BLACK,
+                            (float)(Math.random() * 0.6) + 0.1f, (byte)1, (byte)1,1));
+                    scene.enemies.get(0).position.gridY += 2;
+                    scene.stage.addActor(scene.enemies.peekLast());
+                    scene.enemies.add(new EnemyCar(32,32, Color.BLACK,
+                            (float)(Math.random() * 0.6) + 0.1f, (byte)1, (byte)1,1));
+                    scene.enemies.get(1).position.gridY += 2;
+                    scene.stage.addActor(scene.enemies.peekLast());
+                    scene.enemies.add(new EnemyCar(32,32, Color.BLACK,
+                            (float)(Math.random() * 0.6) + 0.1f, (byte)1, (byte)1,1));
+                    scene.enemies.get(2).position.gridX += 2;
+                    scene.stage.addActor(scene.enemies.peekLast());
+
+                    scene.user.bombs = 10;
+                    scene.user.blocks = 10;
+                    scene.user.timer = 60 * 60;
+
+                    scene.coinCount = 4;
+                    scene.huntEnemyMode = true;
+                }
+
+                @Override
+                public void Update(MazeScreen2d scene) {
+
+                }
+
+                @Override
+                public boolean CheckForWin(MazeScreen2d scene) {
+                    if (scene.user.timer <= 0) return true;
+                    if (scene.enemies.size() == 0) return true;
+                    return false;
+                }
+
+                @Override
+                public int getRankResult(MazeScreen2d scene) {
+                    if (scene.user.timer <= 0) return 0;
+                    return (int)MathUtils.clamp(scene.user.timer / 900 + 1, 1, 4);
+                }
+            },
 
         //Example scenario, feel free to create more in this array
         new Scenario() {
