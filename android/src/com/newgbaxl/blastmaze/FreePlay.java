@@ -86,27 +86,23 @@ public class FreePlay extends Fragment {
         bombs = binding.editBombs;
         enemies = binding.editEnemies;
         walls = binding.editWalls;
-        timer.setText(PreferenceManager.getDefaultSharedPreferences(getActivity()).getInt("timer", 90));
-        bombs.setText(PreferenceManager.getDefaultSharedPreferences(getActivity()).getInt("bombs", 15));
-        enemies.setText(PreferenceManager.getDefaultSharedPreferences(getActivity()).getInt("enemies", 1));
-        walls.setText(PreferenceManager.getDefaultSharedPreferences(getActivity()).getInt("walls", 15));
-        timer.setHint(PreferenceManager.getDefaultSharedPreferences(getActivity()).getInt("timer", 90));
-        bombs.setHint(PreferenceManager.getDefaultSharedPreferences(getActivity()).getInt("bombs", 15));
-        enemies.setHint(PreferenceManager.getDefaultSharedPreferences(getActivity()).getInt("enemies", 1));
-        walls.setHint(PreferenceManager.getDefaultSharedPreferences(getActivity()).getInt("walls", 15));
+        timer.setHint(GlobalVars.timer);
+        bombs.setHint(GlobalVars.bombs);
+        enemies.setHint(GlobalVars.enemies);
+        walls.setHint(GlobalVars.walls);
     }
-    private void editPref(EditText text, int def, int min, int max, String pref) {
+    private int editPref(EditText text, int def, int min, int max) {
         int val = Integer.parseInt(text.getText().toString());
         if (val < min || val > max) {
             val = def;
         }
-        PreferenceManager.getDefaultSharedPreferences(getActivity()).edit().putInt(pref,val);
+        return val;
     }
     public void onStart(View view) {
-        editPref(timer, 90, 1, 999, "timer");
-        editPref(bombs,15,0,99,"bombs");
-        editPref(enemies,1,0,10,"enemies");
-        editPref(walls,15,0,99,"walls");
+        GlobalVars.timer=editPref(timer, 90, 1, 999);
+        GlobalVars.bombs=editPref(bombs,15,0,99);
+        GlobalVars.enemies=editPref(enemies,1,0,10);
+        GlobalVars.walls=editPref(walls,15,0,99);
         NavHostFragment.findNavController(FreePlay.this).navigate(R.id.action_freePlay_to_modeSelect);
     }
 }

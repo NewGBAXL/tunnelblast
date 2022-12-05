@@ -90,6 +90,7 @@
         android:textSize="100sp"
         app:layout_constraintEnd_toEndOf="@+id/playGame"
         app:layout_constraintStart_toStartOf="@+id/playGame"
+        app:layout_constraintBottom_toBottomOf="@+id/playGame"
         tools:layout_editor_absoluteY="599dp" />
 
     <TextView
