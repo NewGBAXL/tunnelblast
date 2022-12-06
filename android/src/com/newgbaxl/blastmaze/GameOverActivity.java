@@ -37,25 +37,13 @@ public class GameOverActivity extends AppCompatActivity {
         Button button = (Button) findViewById(R.id.button);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                toGame();
-            }
-        });
-
-        Button button2 = (Button) findViewById(R.id.button2);
-        button.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
                 toMainMenu();
             }
         });
     }
 
     void toMainMenu(){
-        //called when Quit
+        //called on Go to Menu
         startActivity(new Intent(GameOverActivity.this, FirstFragment.class));
-    }
-
-    void toGame(){
-        //called when Retry
-        startActivity(new Intent(GameOverActivity.this, AndroidLauncher.class));
     }
 }

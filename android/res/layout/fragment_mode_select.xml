@@ -38,7 +38,7 @@
 
         <Button
             android:id="@+id/select_scenario"
-            android:layout_width="160dp"
+            android:layout_width="180dp"
             android:layout_height="70dp"
             android:layout_marginStart="12dp"
             android:text="Scenario"
@@ -46,9 +46,9 @@
 
         <Button
             android:id="@+id/select_vs"
-            android:layout_width="160dp"
+            android:layout_width="180dp"
             android:layout_height="70dp"
-            android:layout_marginStart="45dp"
+            android:layout_marginStart="30dp"
             android:layout_marginEnd="12dp"
             android:text="Vs"
             android:textSize="27sp" />
@@ -76,7 +76,7 @@
             android:id="@+id/select_freeplay"
             android:layout_width="180dp"
             android:layout_height="70dp"
-            android:layout_marginStart="27dp"
+            android:layout_marginStart="30dp"
             android:layout_marginEnd="12dp"
             android:text="Free Play"
             android:textSize="23sp" />
