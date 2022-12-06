@@ -145,7 +145,7 @@ public class LevelSelect extends Fragment
         medals[19] =  binding.ranklvl20;
 
         update();
-        binding.button3.setOnClickListener(new View.OnClickListener() {
+        /*binding.button3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 for (int i = 0; i < 20; ++i)
@@ -173,7 +173,7 @@ public class LevelSelect extends Fragment
                 //ranks[i] = 1;
                 update();
             }
-        });
+        });*/
 
         for (int i = 0; i < 20; ++i)
         {
