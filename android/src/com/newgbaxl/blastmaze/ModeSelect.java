@@ -8,7 +8,6 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
 import android.preference.PreferenceManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -214,7 +213,7 @@ public class ModeSelect extends Fragment
             i3.putExtra("Weapon", weaponSelect);
 
             int i = 0;
-            while (i < 20 && GlobalVars.globalRanks[i] >= 1)
+            while (i < 20 && FreeplayVars.globalRanks[i] >= 1)
                 ++i;
             --i;
             i3.putExtra("Level", i);

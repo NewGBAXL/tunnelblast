@@ -6,7 +6,6 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.navigation.fragment.NavHostFragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,10 +13,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 
-import com.newgbaxl.blastmaze.databinding.FragmentFirstBinding;
 import com.newgbaxl.blastmaze.databinding.FragmentLevelSelectBinding;
-
-import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -52,7 +48,7 @@ public class LevelSelect extends Fragment
     private String mParam2;
 
     private byte[] ranks = new byte[20];
-    private byte[] modeTypes = {0,1,3,0,4,1,0,1,4,0,3,1,0,1,4,0,5,1,0,2};
+    private byte[] modeTypes = {0,1,2,0,4,1,0,1,4,0,3,1,0,1,4,0,5,1,0,2};
 
     public LevelSelect() {
         // Required empty public constructor
@@ -153,7 +149,7 @@ public class LevelSelect extends Fragment
             @Override
             public void onClick(View view) {
                 for (int i = 0; i < 20; ++i)
-                    GlobalVars.globalRanks[i] = 0;
+                    FreeplayVars.globalRanks[i] = 0;
                     //ranks[i] = 0;
                 update();
             }
@@ -163,7 +159,7 @@ public class LevelSelect extends Fragment
             @Override
             public void onClick(View view) {
                 for (int i = 0; i < 20; ++i)
-                    GlobalVars.globalRanks[i] = 1;
+                    FreeplayVars.globalRanks[i] = 1;
                     //ranks[i] = 1;
                 update();
             }
@@ -173,7 +169,7 @@ public class LevelSelect extends Fragment
             @Override
             public void onClick(View view) {
                 for (int i = 0; i < 20; ++i)
-                    GlobalVars.globalRanks[i] = 4;
+                    FreeplayVars.globalRanks[i] = 4;
                 //ranks[i] = 1;
                 update();
             }
@@ -205,8 +201,8 @@ public class LevelSelect extends Fragment
         //5 Rank S (optional)
 
         //unlock first scenario
-        if (GlobalVars.globalRanks[0] == 0)
-            GlobalVars.globalRanks[0] = 1;
+        if (FreeplayVars.globalRanks[0] == 0)
+            FreeplayVars.globalRanks[0] = 1;
 
         /*for (int i = 0; i < 20; ++i)
         {
@@ -242,12 +238,12 @@ protected void onCreate(Bundle savedInstanceState) {
     {
         for (int i = 0; i < 20; ++i)
         {
-            buttons[i].setText((GlobalVars.globalRanks[i] != 0)?GAME_MODES[modeTypes[i]]:"LOCKED");
-            buttons[i].setBackgroundColor((GlobalVars.globalRanks[i] != 0)?Color.BLUE:getResources().getColor(R.color.silver2));
-            buttons[i].setClickable(GlobalVars.globalRanks[i] > 0);
+            buttons[i].setText((FreeplayVars.globalRanks[i] != 0)?GAME_MODES[modeTypes[i]]:"LOCKED");
+            buttons[i].setBackgroundColor((FreeplayVars.globalRanks[i] != 0)?Color.BLUE:getResources().getColor(R.color.silver2));
+            buttons[i].setClickable(FreeplayVars.globalRanks[i] > 0);
 
-            medals[i].setVisibility((GlobalVars.globalRanks[i] > 1)?View.VISIBLE:View.INVISIBLE);
-            switch (GlobalVars.globalRanks[i])
+            medals[i].setVisibility((FreeplayVars.globalRanks[i] > 1)?View.VISIBLE:View.INVISIBLE);
+            switch (FreeplayVars.globalRanks[i])
             {
                 case 2:
                     medals[i].setImageResource(R.drawable.bronze);
@@ -265,8 +261,8 @@ protected void onCreate(Bundle savedInstanceState) {
         }
 
         //unlock first scenario
-        if (GlobalVars.globalRanks[0] == 0)
-            GlobalVars.globalRanks[0] = 1;
+        if (FreeplayVars.globalRanks[0] == 0)
+            FreeplayVars.globalRanks[0] = 1;
 
         //todo:remove the colors platinum,gold,bronze; rename silver to locked
 

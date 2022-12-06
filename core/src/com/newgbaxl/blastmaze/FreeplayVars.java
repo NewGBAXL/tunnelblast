@@ -1,6 +1,6 @@
 package com.newgbaxl.blastmaze;
 
-public class GlobalVars {
+public class FreeplayVars {
     public static int globalMoney = 0;
     public static int[] globalRanks = new int[20];
     public static int timer = 90;

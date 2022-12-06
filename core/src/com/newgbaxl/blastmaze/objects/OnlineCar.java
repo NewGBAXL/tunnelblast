@@ -12,8 +12,6 @@ import com.newgbaxl.blastmaze.Coordinates;
 import com.newgbaxl.blastmaze.appwarp.WarpController;
 import com.newgbaxl.blastmaze.appwarp.WarpListener;
 import com.newgbaxl.blastmaze.multiplayer.StreamController;
-import com.shephertz.app42.gaming.multiplayer.client.WarpClient;
-import com.shephertz.app42.gaming.multiplayer.client.events.UpdateEvent;
 
 //import org.json.JSONArray;
 //import org.json.JSONException;
@@ -33,9 +31,9 @@ public class OnlineCar extends Car implements WarpListener {
 
     WarpController appwarp;
 
-    public OnlineCar(int width, int height, Color nSkin, float delay, byte nBaseSpd, byte nPwrRate)
+    public OnlineCar(int x, int y, Color nSkin)
     {
-        super(width, height, nSkin, delay, nBaseSpd, nPwrRate);
+        super(x, y, nSkin);
         nSkin = Color.GREEN;
         position = new Coordinates(Const.SPAWN_CELL_X * Const.TILE_SIZE, Const.SPAWN_CELL_Y * Const.TILE_SIZE);
         position.gridX = Const.SPAWN_CELL_X;
@@ -128,9 +126,5 @@ public class OnlineCar extends Car implements WarpListener {
         catch (Exception e){
 
         }
-    }
-
-    public void onUpdatePeersReceived(UpdateEvent event) {
-        //callBack.onGameUpdateReceived(new String(event.getUpdate()));
     }
 }

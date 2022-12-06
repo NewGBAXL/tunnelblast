@@ -6,7 +6,6 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
-import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +13,6 @@ import android.widget.EditText;
 import android.widget.RadioGroup;
 
 import com.newgbaxl.blastmaze.databinding.FragmentFreePlayBinding;
-import com.newgbaxl.blastmaze.databinding.FragmentLevelSelectBinding;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -86,10 +84,10 @@ public class FreePlay extends Fragment {
         bombs = binding.editBombs;
         enemies = binding.editEnemies;
         walls = binding.editWalls;
-        timer.setHint(Integer.toString(GlobalVars.timer));
-        bombs.setHint(Integer.toString(GlobalVars.bombs));
-        enemies.setHint(Integer.toString(GlobalVars.enemies));
-        walls.setHint(Integer.toString(GlobalVars.walls));
+        timer.setHint(Integer.toString(FreeplayVars.timer));
+        bombs.setHint(Integer.toString(FreeplayVars.bombs));
+        enemies.setHint(Integer.toString(FreeplayVars.enemies));
+        walls.setHint(Integer.toString(FreeplayVars.walls));
     }
     private int editPref(EditText text, int def, int min, int max) {
         int val = Integer.parseInt(text.getText().toString());
@@ -99,10 +97,10 @@ public class FreePlay extends Fragment {
         return val;
     }
     public void onStart(View view) {
-        GlobalVars.timer=editPref(timer, 90, 1, 999);
-        GlobalVars.bombs=editPref(bombs,15,0,99);
-        GlobalVars.enemies=editPref(enemies,1,0,10);
-        GlobalVars.walls=editPref(walls,15,0,99);
+        FreeplayVars.timer=editPref(timer, 90, 1, 999);
+        FreeplayVars.bombs=editPref(bombs,15,0,99);
+        FreeplayVars.enemies=editPref(enemies,1,0,10);
+        FreeplayVars.walls=editPref(walls,15,0,99);
         NavHostFragment.findNavController(FreePlay.this).navigate(R.id.action_freePlay_to_modeSelect);
     }
 }

@@ -1,8 +1,6 @@
 package com.newgbaxl.blastmaze;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.navigation.fragment.NavHostFragment;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -24,17 +22,17 @@ public class GameOverActivity extends AppCompatActivity {
         //Proof of concept stuff since I don't know exactly what you want
         if (MazeScreen2d.result > 0){
             ((TextView)findViewById(R.id.gameOverText)).setText("You Win");
-            if (MazeScreen2d.currentLvlID < 19 && GlobalVars.globalRanks[MazeScreen2d.currentLvlID + 1] == 0)
-                GlobalVars.globalRanks[MazeScreen2d.currentLvlID + 1] = 1;
+            if (MazeScreen2d.currentLvlID < 19 && FreeplayVars.globalRanks[MazeScreen2d.currentLvlID + 1] == 0)
+                FreeplayVars.globalRanks[MazeScreen2d.currentLvlID + 1] = 1;
         }
         if (MazeScreen2d.result == 0) ((TextView)findViewById(R.id.gameOverText)).setText("You Died");
 
         ((TextView)findViewById(R.id.moneyView)).setText("You received " + money); //and add money sprite
-        GlobalVars.globalMoney += money;
+        FreeplayVars.globalMoney += money;
 
         if (MazeScreen2d.currentLvlID < 20 && MazeScreen2d.currentLvlID >= 0)
-            GlobalVars.globalRanks[MazeScreen2d.currentLvlID] =
-                    Math.max(GlobalVars.globalRanks[MazeScreen2d.currentLvlID], MazeScreen2d.result);
+            FreeplayVars.globalRanks[MazeScreen2d.currentLvlID] =
+                    Math.max(FreeplayVars.globalRanks[MazeScreen2d.currentLvlID], MazeScreen2d.result);
 
         Button button = (Button) findViewById(R.id.button);
         button.setOnClickListener(new View.OnClickListener() {
