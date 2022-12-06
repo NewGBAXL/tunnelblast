@@ -2,6 +2,7 @@ package com.newgbaxl.blastmaze;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.SharedPreferences;
 import android.media.AudioAttributes;
 import android.media.MediaPlayer;
 import android.net.Uri;
@@ -13,6 +14,7 @@ import com.google.android.material.snackbar.Snackbar;
 import androidx.appcompat.widget.Toolbar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -47,6 +49,8 @@ public class MainActivity extends AppCompatActivity {
         //setContentView(R.layout.activity_main);
         setContentView(binding.getRoot());
 
+        GlobalVars.globalMoney = PreferenceManager.getDefaultSharedPreferences(MainActivity.this).getInt("CurrencyAmnt",0);
+
         mediaPlayer = new MediaPlayer();
         binding.fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,6 +82,12 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    protected void onDestroy() {
+        PreferenceManager.getDefaultSharedPreferences(MainActivity.this).edit().putInt("currencyAmnt",GlobalVars.globalMoney).apply();
+        super.onDestroy();
+    }
+
     /*public void startGameActivity(){
         AndroidLauncher app = (AndroidLauncher) getApplication();
         app.startGame(state);
@@ -92,6 +102,7 @@ public class MainActivity extends AppCompatActivity {
             mediaPlayer.stop();
         }
     }
+
 
     class GetServerData extends AsyncTask {
 
