@@ -18,21 +18,12 @@ public class UserCar extends Car {
     final int MoveCooldown = 4;
     int moveCooldownTimer;
 
-    public boolean dpadUp = false;
-    public boolean dpadDown = false;
-    public boolean dpadLeft = false;
-    public boolean dpadRight = false;
-
     TouchController controller = MazeUtil.getController();
 
     //public boolean moving = false;
-    public UserCar(int width, int height, Color nSkin, float delay, byte nBaseSpd, byte nPwrRate)
+    public UserCar(Color nSkin)
     {
-        super(width, height, nSkin, delay, nBaseSpd, nPwrRate);
-        nSkin = Color.GREEN;
-        position = new Coordinates(Const.SPAWN_CELL_X * Const.TILE_SIZE, Const.SPAWN_CELL_Y * Const.TILE_SIZE);
-        position.gridX = Const.SPAWN_CELL_X;
-        position.gridY = Const.SPAWN_CELL_Y;
+        super(Const.SPAWN_CELL_X, Const.SPAWN_CELL_Y, nSkin);
     }
 
     //@Override
@@ -49,42 +40,43 @@ public class UserCar extends Car {
         if (timer > 0) timer--;
 
         if((Gdx.input.isKeyJustPressed(Input.Keys.A) || Gdx.input.isKeyJustPressed(Input.Keys.LEFT) ||
-                (MazeScreen2d.getInstance.gameLoaded && dpadLeft)) && moveCooldownTimer <= 0) {
+                (MazeScreen2d.getInstance.gameLoaded && game.controller.isLeftPressed())) && moveCooldownTimer <= 0) {
             //if (Gdx.input.isKeyPressed(Input.Keys.CONTROL_LEFT))
             moveTo((byte)3);
             Gdx.app.log("tag", "Left");
             moveCooldownTimer = MoveCooldown;
-            dpadLeft = false;
+            game.controller.ClearBuffers();
         }
 
         if((Gdx.input.isKeyJustPressed(Input.Keys.D) || Gdx.input.isKeyJustPressed(Input.Keys.RIGHT) ||
-                (MazeScreen2d.getInstance.gameLoaded && dpadRight)) && moveCooldownTimer <= 0) {
+                (MazeScreen2d.getInstance.gameLoaded && game.controller.isRightPressed())) && moveCooldownTimer <= 0) {
             //if (Gdx.input.isKeyPressed(Input.Keys.CONTROL_LEFT))
             moveTo((byte)1);
             Gdx.app.log("tag", "Right");
             moveCooldownTimer = MoveCooldown;
-            dpadRight = false;
+            game.controller.ClearBuffers();
         }
 
         if((Gdx.input.isKeyJustPressed(Input.Keys.W) || Gdx.input.isKeyJustPressed(Input.Keys.UP) ||
-                (MazeScreen2d.getInstance.gameLoaded && dpadUp)) && moveCooldownTimer <= 0) {
+                (MazeScreen2d.getInstance.gameLoaded && game.controller.isUpPressed())) && moveCooldownTimer <= 0) {
             //if (Gdx.input.isKeyPressed(Input.Keys.CONTROL_LEFT))
             moveTo((byte)0);
             Gdx.app.log("tag", "Up");
             moveCooldownTimer = MoveCooldown;
-            dpadUp = false;
+            game.controller.ClearBuffers();
         }
 
         if((Gdx.input.isKeyJustPressed(Input.Keys.S) || Gdx.input.isKeyJustPressed(Input.Keys.DOWN) ||
-                (MazeScreen2d.getInstance.gameLoaded && dpadDown)) && moveCooldownTimer <= 0) {
+                (MazeScreen2d.getInstance.gameLoaded && game.controller.isDownPressed())) && moveCooldownTimer <= 0) {
             //if (Gdx.input.isKeyPressed(Input.Keys.CONTROL_LEFT))
             moveTo((byte)2);
             Gdx.app.log("tag", "Down");
             moveCooldownTimer = MoveCooldown;
-            dpadDown = false;
+            game.controller.ClearBuffers();
         }
 
-        if((Gdx.input.isKeyJustPressed(Input.Keys.BUTTON_X) || Gdx.input.isKeyJustPressed(Input.Keys.X)) && moveCooldownTimer <= 0) {
+        if((Gdx.input.isKeyJustPressed(Input.Keys.BUTTON_X) || Gdx.input.isKeyJustPressed(Input.Keys.X) ||
+                (MazeScreen2d.getInstance.gameLoaded && game.controller.isBombPressed())) && moveCooldownTimer <= 0) {
 
             //Kill adjacent enemies
             if (bombs > 0) {
@@ -106,30 +98,39 @@ public class UserCar extends Car {
 
             Gdx.app.log("tag", "Button X");
             moveCooldownTimer = MoveCooldown;
+            game.controller.ClearBuffers();
         }
 
-        if(Gdx.input.isKeyJustPressed(Input.Keys.BUTTON_Z) || Gdx.input.isKeyJustPressed(Input.Keys.I) && moveCooldownTimer <= 0) {
+        if(Gdx.input.isKeyJustPressed(Input.Keys.BUTTON_Z) || Gdx.input.isKeyJustPressed(Input.Keys.I) ||
+                (MazeScreen2d.getInstance.gameLoaded && game.controller.isBuildUpPressed()) && moveCooldownTimer <= 0) {
             build((byte)0);
             Gdx.app.log("tag", "Button X");
             moveCooldownTimer = MoveCooldown;
+            game.controller.ClearBuffers();
         }
 
-        if(Gdx.input.isKeyJustPressed(Input.Keys.L) && moveCooldownTimer <= 0) {
+        if(Gdx.input.isKeyJustPressed(Input.Keys.L) ||
+                (MazeScreen2d.getInstance.gameLoaded && game.controller.isBuildRightPressed()) && moveCooldownTimer <= 0) {
             build((byte)1);
             Gdx.app.log("tag", "Button X");
             moveCooldownTimer = MoveCooldown;
+            game.controller.ClearBuffers();
         }
 
-        if(Gdx.input.isKeyJustPressed(Input.Keys.K) && moveCooldownTimer <= 0) {
+        if(Gdx.input.isKeyJustPressed(Input.Keys.K) ||
+                (MazeScreen2d.getInstance.gameLoaded && game.controller.isBuildDownPressed()) && moveCooldownTimer <= 0) {
             build((byte)2);
             Gdx.app.log("tag", "Button X");
             moveCooldownTimer = MoveCooldown;
+            game.controller.ClearBuffers();
         }
 
-        if(Gdx.input.isKeyJustPressed(Input.Keys.J) && moveCooldownTimer <= 0) {
+        if(Gdx.input.isKeyJustPressed(Input.Keys.J) ||
+                (MazeScreen2d.getInstance.gameLoaded && game.controller.isBuildLeftPressed()) && moveCooldownTimer <= 0) {
             build((byte)3);
             Gdx.app.log("tag", "Button X");
             moveCooldownTimer = MoveCooldown;
+            game.controller.ClearBuffers();
         }
 
         if (moveCooldownTimer > 0) moveCooldownTimer--;

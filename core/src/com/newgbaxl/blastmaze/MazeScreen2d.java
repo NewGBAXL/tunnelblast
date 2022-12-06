@@ -105,8 +105,7 @@ public class MazeScreen2d implements Screen {
 		int startingCars = 2;
 		for (int i = 0; i < startingCars; ++i)
 		{
-			enemies.add(new EnemyCar(32,32, getRandomColor(),
-					(float)(Math.random() * 0.6) + 0.1f, (byte)1, (byte)1,1));
+			enemies.add(new EnemyCar(10, 5 + 2 * i, Color.RED));
 
 			stage.addActor(enemies.peekLast());
 		}
@@ -122,8 +121,7 @@ public class MazeScreen2d implements Screen {
 		int startingCars = 2;
 		for (int i = 0; i < startingCars; ++i)
 		{
-			enemies.add(new EnemyCar(32,32, getRandomColor(),
-					(float)(Math.random() * 0.6) + 0.1f, (byte)1, (byte)1,1));
+			enemies.add(new EnemyCar(10, 5 + 2 * i, Color.RED));
 
 			stage.addActor(enemies.peekLast());
 		}
@@ -138,11 +136,9 @@ public class MazeScreen2d implements Screen {
 		SetupScreen();
 
 		//todo: apply car skin and special to the user car
-		user = new UserCar(32,32, getRandomColor(),
-				(float)(Math.random() * 0.6) + 0.1f, (byte)1, (byte)1);
+		user = new UserCar(Color.GREEN);
 		if (vsMode)
-			player2 = new OnlineCar(32,32,getRandomColor(),
-					(float) (Math.random() * 0.6) + 0.1f, (byte)1, (byte)1);
+			player2 = new OnlineCar(Const.SPAWN_CELL_X, Const.SPAWN_CELL_Y, Color.BLUE);
 		
 		PlaceCoins();
 	}
@@ -202,8 +198,7 @@ public class MazeScreen2d implements Screen {
 		batch = new SpriteBatch();
 		UISpritebatch = new SpriteBatch();
 
-		user = new UserCar(32,32, getRandomColor(),
-				(float)(Math.random() * 0.6) + 0.1f, (byte)1, (byte)1);
+		user = new UserCar(Color.GREEN);
 		stage.addActor(user);
 
 
@@ -307,15 +302,10 @@ public class MazeScreen2d implements Screen {
 		font.draw(UISpritebatch, String.format(Locale.getDefault(), "%02d", user.power), 1000, hudRow1Y, hudSectionWidth, Align.right, false);//hudRightX, hudRow2Y, hudSectionWidth, Align.right, false);
 		font.draw(UISpritebatch, String.format(Locale.getDefault(), "%6.2f", timerDisplay), 1300, hudRow1Y, hudSectionWidth, Align.left, false);//hudRightX, hudRow2Y, hudSectionWidth, Align.right, false);
 
-		user.dpadUp = controller.isUpPressed();
-		user.dpadDown = controller.isDownPressed();
-		user.dpadLeft = controller.isLeftPressed();
-		user.dpadRight = controller.isRightPressed();
-
-		font.draw(UISpritebatch, String.format(Locale.getDefault(), "Up: %b", controller.isUpPressed()), 200, hudRow1Y, hudSectionWidth, Align.right, false);
-		font.draw(UISpritebatch, String.format(Locale.getDefault(), "Down: %b", controller.isDownPressed()), 600, hudRow1Y, hudSectionWidth, Align.right, false);
-		font.draw(UISpritebatch, String.format(Locale.getDefault(), "Left: %b", controller.isLeftPressed()), 1000, hudRow1Y, hudSectionWidth, Align.right, false);
-		font.draw(UISpritebatch, String.format(Locale.getDefault(), "Right: %b", controller.isRightPressed()), 1300, hudRow1Y, hudSectionWidth, Align.left, false);
+		//font.draw(UISpritebatch, String.format(Locale.getDefault(), "Up: %b", controller.isUpPressed()), 200, hudRow1Y, hudSectionWidth, Align.right, false);
+		//font.draw(UISpritebatch, String.format(Locale.getDefault(), "Down: %b", controller.isDownPressed()), 600, hudRow1Y, hudSectionWidth, Align.right, false);
+		//font.draw(UISpritebatch, String.format(Locale.getDefault(), "Left: %b", controller.isLeftPressed()), 1000, hudRow1Y, hudSectionWidth, Align.right, false);
+		//font.draw(UISpritebatch, String.format(Locale.getDefault(), "Right: %b", controller.isRightPressed()), 1300, hudRow1Y, hudSectionWidth, Align.left, false);
 
 		font.draw(UISpritebatch, "FPS", 50, 480, hudSectionWidth, Align.right, false);
 		font.draw(UISpritebatch, String.valueOf(Gdx.graphics.getFramesPerSecond()), 110, 480);
@@ -369,36 +359,6 @@ public class MazeScreen2d implements Screen {
 				batch.draw(mazeFloor, x * Const.TILE_SIZE - 8, y * Const.TILE_SIZE - 8, 0, 0, Const.TILE_SIZE, Const.TILE_SIZE, 1f, 1f, 0, 0, 0, 64, 64, false, false);
 			}}
 		batch.end();
-
-		if (Gdx.input.isKeyJustPressed(Input.Keys.R)) GenerateMaze();
-
-		Gdx.input.setOnscreenKeyboardVisible(false);
-
-		stage.act(delta);
-		if (currentScenario != null) currentScenario.Update(this);
-		if (currentScenario != null && currentScenario.CheckForWin(this))
-		{
-			//todo: Logic for when you win
-			result = currentScenario.getRankResult(this);
-			quitGame();
-		}
-		stage.getViewport().apply();
-		stage.draw();
-
-		//stage.getCamera().position.x = 100;
-
-
-		//mazeRenderer.setView(cam);
-		//mazeRenderer.render();
-
-		//mapViewport.apply();
-		//mapRenderer.setView((OrthographicCamera)mapViewport.getCamera());
-		//mapRenderer.render();
-
-		//batch.begin();
-		//user.draw(batch, 1);
-		//batch.end();
-
 		//Draw walls
 		batch.begin();
 		batch.setProjectionMatrix(cam.combined);
@@ -420,6 +380,22 @@ public class MazeScreen2d implements Screen {
 			}
 		}
 		batch.end();
+
+		if (Gdx.input.isKeyJustPressed(Input.Keys.R)) GenerateMaze();
+
+		Gdx.input.setOnscreenKeyboardVisible(false);
+
+		controller.Update();
+		stage.act(delta);
+		if (currentScenario != null) currentScenario.Update(this);
+		if (currentScenario != null && currentScenario.CheckForWin(this))
+		{
+			//todo: Logic for when you win
+			result = currentScenario.getRankResult(this);
+			quitGame();
+		}
+		stage.getViewport().apply();
+		stage.draw();
 
 		cam.translate(-cam.position.x, -cam.position.y);
 		updateAndRenderHUD();

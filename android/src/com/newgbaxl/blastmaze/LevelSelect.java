@@ -6,7 +6,6 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.navigation.fragment.NavHostFragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,10 +13,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 
-import com.newgbaxl.blastmaze.databinding.FragmentFirstBinding;
 import com.newgbaxl.blastmaze.databinding.FragmentLevelSelectBinding;
-
-import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -52,7 +48,7 @@ public class LevelSelect extends Fragment
     private String mParam2;
 
     private byte[] ranks = new byte[20];
-    private byte[] modeTypes = {0,1,3,0,4,1,0,1,4,0,3,1,0,1,4,0,5,1,0,2};
+    private byte[] modeTypes = {0,1,2,0,4,1,0,1,4,0,3,1,0,1,4,0,5,1,0,2};
 
     public LevelSelect() {
         // Required empty public constructor
