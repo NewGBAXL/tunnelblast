@@ -3,6 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.newgbaxl.blastmaze">
 
+    <uses-permission android:name="android.permission.INTERNET"/>
+
     <uses-feature
         android:glEsVersion="0x00020000"
         android:required="true" />
