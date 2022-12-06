@@ -213,6 +213,9 @@ public class ModeSelect extends Fragment
             i3.putExtra("Car", carSelect);
             i3.putExtra("Weapon", weaponSelect);
 
+            if (GlobalVars.globalRanks[0] == 0)
+                GlobalVars.globalRanks[0]=1;
+
             int i = 0;
             while (i < 20 && GlobalVars.globalRanks[i] >= 1)
                 ++i;
