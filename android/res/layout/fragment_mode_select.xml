@@ -82,28 +82,25 @@
             android:textSize="23sp" />
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/textView9"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Play!"
-        android:textSize="100sp"
-        app:layout_constraintEnd_toEndOf="@+id/playGame"
-        app:layout_constraintStart_toStartOf="@+id/playGame"
-        app:layout_constraintBottom_toBottomOf="@+id/playGame"
-        tools:layout_editor_absoluteY="599dp" />
-
-    <TextView
-        android:id="@+id/textView10"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="31dp"
-        android:text="[Blast Maze]"
-        android:textSize="65sp"
+    <ImageView
+        android:id="@+id/imageView6"
+        android:layout_width="271dp"
+        android:layout_height="135dp"
+        android:layout_marginStart="70dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="70dp"
+        android:src="@drawable/placeholder_logo"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView9"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/play"
+        tools:layout_editor_absoluteX="56dp"
+        tools:layout_editor_absoluteY="629dp" />
 
     <LinearLayout
         android:id="@+id/linearLayout"
@@ -262,6 +259,7 @@
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
