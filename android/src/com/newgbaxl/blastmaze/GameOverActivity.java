@@ -43,12 +43,7 @@ public class GameOverActivity extends AppCompatActivity {
     }
 
     void toMainMenu(){
-        //called when Quit
+        //called on Go to Menu
         startActivity(new Intent(GameOverActivity.this, FirstFragment.class));
-    }
-
-    void toGame(){
-        //called when Retry
-        startActivity(new Intent(GameOverActivity.this, AndroidLauncher.class));
     }
 }
