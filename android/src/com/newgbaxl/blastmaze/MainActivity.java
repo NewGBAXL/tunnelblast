@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.media.AudioAttributes;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
@@ -33,6 +34,9 @@ public class MainActivity extends AppCompatActivity {
     private AppBarConfiguration appBarConfiguration;
     private ActivityMainBinding binding;
     Bundle state;
+    ProgressDialog progressDialog;
+    MediaPlayer mediaPlayer;
+    boolean hasPlayed = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +52,8 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
         appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build();
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
+
+        mediaPlayer = new MediaPlayer();
 
         /*binding.fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -97,12 +103,13 @@ public class MainActivity extends AppCompatActivity {
     }*/
 
     public void helpSelect(View view) {
-        String serverURL = "https://cdns-preview-7.dzcdn.net/stream/c-711c687d62e81ac98900ee80b08dd023-2.mp3";
-        new GetServerData().execute(serverURL);
+        if (!mediaPlayer.isPlaying()) {
+            String serverURL = "https://cdns-preview-7.dzcdn.net/stream/c-711c687d62e81ac98900ee80b08dd023-2.mp3";
+            new GetServerData().execute("http://www.virginmegastore.me/Library/Music/CD_001214/Tracks/Track1.mp3");
+        } else {
+            mediaPlayer.stop();
+        }
     }
-
-    ProgressDialog progressDialog;
-    MediaPlayer mediaPlayer;
 
     class GetServerData extends AsyncTask {
 
@@ -119,19 +126,23 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected Object doInBackground(Object[] objects) {
             try {
-                String url = "https://cdns-preview-7.dzcdn.net/stream/c-711c687d62e81ac98900ee80b08dd023-2.mp3"; // your URL here
-                mediaPlayer = new MediaPlayer();
+                String url = "https://p.scdn.co/mp3-preview/5580849e2f5390bfac8ec79236b5806db127b625?cid=f6a40776580943a7bc5173125a1e8832"; // your URL here
+                //Uri uri = Uri.parse("spotify:track:4WNcduiCmDNfmTEz7JvmLv");
                 mediaPlayer.setAudioAttributes(
                         new AudioAttributes.Builder()
                                 .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
                                 .setUsage(AudioAttributes.USAGE_MEDIA)
                                 .build()
                 );
-                mediaPlayer.setDataSource(url);
+                if(!hasPlayed) {
+                    hasPlayed = true;
+                    mediaPlayer.setDataSource(url);
+                }
                 mediaPlayer.prepare(); // might take long! (for buffering, etc)
                 mediaPlayer.start();
+                mediaPlayer.setLooping(true);
             } catch (Exception e) {
-                // TODO: handle exception
+                e.printStackTrace();
             }
             return mediaPlayer;
         };
@@ -145,4 +156,6 @@ public class MainActivity extends AppCompatActivity {
                 progressDialog.dismiss();
         }
     }
+
+
 }

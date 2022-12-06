@@ -1,6 +1,10 @@
 package com.newgbaxl.blastmaze;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.media.AudioAttributes;
+import android.media.MediaPlayer;
+import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -43,6 +47,8 @@ public class ModeSelect extends Fragment
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    MediaPlayer mediaPlayer;
 
     public ModeSelect()
     {
