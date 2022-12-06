@@ -2,8 +2,6 @@ package com.newgbaxl.blastmaze;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.media.AudioAttributes;
 import android.media.MediaPlayer;
 import android.net.Uri;
@@ -15,7 +13,6 @@ import com.google.android.material.snackbar.Snackbar;
 import androidx.appcompat.widget.Toolbar;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -57,15 +54,6 @@ public class MainActivity extends AppCompatActivity {
                 helpSelect(view);
             }
         });
-
-        GlobalVars.globalMoney = PreferenceManager.getDefaultSharedPreferences(this).getInt("Coins", 0);
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-
-        PreferenceManager.getDefaultSharedPreferences(this).edit().putInt("Coins", GlobalVars.globalMoney).apply();
     }
 
     @Override

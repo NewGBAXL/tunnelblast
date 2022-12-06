@@ -175,7 +175,7 @@ public class TouchController {
             //}
         });
 
-        Image rightBuildImg = new Image(new Texture("TouchRight.png"));
+        Image rightBuildImg = new Image(new Texture("TouchLeft.png"));
         rightBuildImg.setSize(110, 110);
         rightBuildImg.addListener(new InputListener() {
 
@@ -191,7 +191,7 @@ public class TouchController {
             //}
         });
 
-        Image upBuildImg = new Image(new Texture("TouchUp.png"));
+        Image upBuildImg = new Image(new Texture("TouchLeft.png"));
         upBuildImg.setSize(110, 110);
         upBuildImg.addListener(new InputListener() {
 
@@ -207,7 +207,7 @@ public class TouchController {
             //}
         });
 
-        Image downBuildImg = new Image(new Texture("TouchDown.png"));
+        Image downBuildImg = new Image(new Texture("TouchLeft.png"));
         downBuildImg.setSize(110, 110);
         downBuildImg.addListener(new InputListener() {
 
@@ -223,7 +223,7 @@ public class TouchController {
             //}
         });
 
-        Image bombImg = new Image(new Texture("TouchUp.png"));
+        Image bombImg = new Image(new Texture("TouchLeft.png"));
         bombImg.setSize(110, 110);
         bombImg.addListener(new InputListener() {
 
