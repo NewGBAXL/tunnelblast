@@ -28,8 +28,35 @@ public class AndroidLauncher extends AndroidApplication
 		int special = getIntent().getIntExtra("Weapon", 0);
 		int scenario = getIntent().getIntExtra("Level", -1);
 		int vsMode = getIntent().getIntExtra("VsMode", 0);
+		int enemies = getIntent().getIntExtra("Enemies",-1);
+		int bombs = getIntent().getIntExtra("Bombs",-1);
+		int walls = getIntent().getIntExtra("Walls",-1);
+		int timer = getIntent().getIntExtra("Timer",-1);
+		int mode = getIntent().getIntExtra("Mode",1);
 
-		if (carSkin == NULL || carSkin == -1)
+		if (bombs != -1) {
+			initialize(new MazeGame(carSkin, special, new Scenario() {
+				@Override
+				public void OnStart(MazeScreen2d scene) {
+
+				}
+
+				@Override
+				public void Update(MazeScreen2d scene) {
+
+				}
+
+				@Override
+				public boolean CheckForWin(MazeScreen2d scene) {
+					return false;
+				}
+
+				@Override
+				public int getRankResult(MazeScreen2d scene) {
+					return 0;
+				}
+			}, vsMode));
+		} else if (carSkin == NULL || carSkin == -1)
 		{
 			//if no pushed params (not sure exactly how this works)
 			initialize(new MazeGame(-1, special, scenario, vsMode), config);
