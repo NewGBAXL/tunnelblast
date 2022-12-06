@@ -149,7 +149,7 @@ public class LevelSelect extends Fragment
             @Override
             public void onClick(View view) {
                 for (int i = 0; i < 20; ++i)
-                    FreeplayVars.globalRanks[i] = 0;
+                    GlobalVars.globalRanks[i] = 0;
                     //ranks[i] = 0;
                 update();
             }
@@ -159,7 +159,7 @@ public class LevelSelect extends Fragment
             @Override
             public void onClick(View view) {
                 for (int i = 0; i < 20; ++i)
-                    FreeplayVars.globalRanks[i] = 1;
+                    GlobalVars.globalRanks[i] = 1;
                     //ranks[i] = 1;
                 update();
             }
@@ -169,7 +169,7 @@ public class LevelSelect extends Fragment
             @Override
             public void onClick(View view) {
                 for (int i = 0; i < 20; ++i)
-                    FreeplayVars.globalRanks[i] = 4;
+                    GlobalVars.globalRanks[i] = 4;
                 //ranks[i] = 1;
                 update();
             }
@@ -201,8 +201,8 @@ public class LevelSelect extends Fragment
         //5 Rank S (optional)
 
         //unlock first scenario
-        if (FreeplayVars.globalRanks[0] == 0)
-            FreeplayVars.globalRanks[0] = 1;
+        if (GlobalVars.globalRanks[0] == 0)
+            GlobalVars.globalRanks[0] = 1;
 
         /*for (int i = 0; i < 20; ++i)
         {
@@ -238,12 +238,12 @@ protected void onCreate(Bundle savedInstanceState) {
     {
         for (int i = 0; i < 20; ++i)
         {
-            buttons[i].setText((FreeplayVars.globalRanks[i] != 0)?GAME_MODES[modeTypes[i]]:"LOCKED");
-            buttons[i].setBackgroundColor((FreeplayVars.globalRanks[i] != 0)?Color.BLUE:getResources().getColor(R.color.silver2));
-            buttons[i].setClickable(FreeplayVars.globalRanks[i] > 0);
+            buttons[i].setText((GlobalVars.globalRanks[i] != 0)?GAME_MODES[modeTypes[i]]:"LOCKED");
+            buttons[i].setBackgroundColor((GlobalVars.globalRanks[i] != 0)?Color.BLUE:getResources().getColor(R.color.silver2));
+            buttons[i].setClickable(GlobalVars.globalRanks[i] > 0);
 
-            medals[i].setVisibility((FreeplayVars.globalRanks[i] > 1)?View.VISIBLE:View.INVISIBLE);
-            switch (FreeplayVars.globalRanks[i])
+            medals[i].setVisibility((GlobalVars.globalRanks[i] > 1)?View.VISIBLE:View.INVISIBLE);
+            switch (GlobalVars.globalRanks[i])
             {
                 case 2:
                     medals[i].setImageResource(R.drawable.bronze);
@@ -261,8 +261,8 @@ protected void onCreate(Bundle savedInstanceState) {
         }
 
         //unlock first scenario
-        if (FreeplayVars.globalRanks[0] == 0)
-            FreeplayVars.globalRanks[0] = 1;
+        if (GlobalVars.globalRanks[0] == 0)
+            GlobalVars.globalRanks[0] = 1;
 
         //todo:remove the colors platinum,gold,bronze; rename silver to locked
 

@@ -1,6 +1,6 @@
 package com.newgbaxl.blastmaze;
 
-import static com.newgbaxl.blastmaze.FreeplayVars.globalMoney;
+import static com.newgbaxl.blastmaze.GlobalVars.globalMoney;
 
 import android.os.Bundle;
 

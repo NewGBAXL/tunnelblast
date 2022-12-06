@@ -1,10 +1,7 @@
 package com.newgbaxl.blastmaze;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
-import android.media.AudioAttributes;
 import android.media.MediaPlayer;
-import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -222,7 +219,7 @@ public class ModeSelect extends Fragment
                 GlobalVars.globalRanks[0]=1;
 
             int i = 0;
-            while (i < 20 && FreeplayVars.globalRanks[i] >= 1)
+            while (i < 20 && GlobalVars.globalRanks[i] >= 1)
                 ++i;
             --i;
             i3.putExtra("Level", i);
