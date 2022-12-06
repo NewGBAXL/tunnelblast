@@ -16,9 +16,8 @@ public abstract class Scenario
             new Scenario() {
                 @Override
                 public void OnStart(MazeScreen2d scene) {
-                    scene.enemies.add(new EnemyCar(32,32, Color.BLACK,
-                            (float)(Math.random() * 0.6) + 0.1f, (byte)1, (byte)1,1));
-                    scene.stage.addActor(scene.enemies.peekLast());
+                    scene.enemies.add(new EnemyCar(10, 6, Color.RED));
+                    for (int i = 0; i < scene.enemies.size(); i++) scene.stage.addActor(scene.enemies.get(i));
 
                     scene.user.bombs = 15;
                     scene.user.blocks = 5;
@@ -50,9 +49,9 @@ public abstract class Scenario
             new Scenario() {
                 @Override
                 public void OnStart(MazeScreen2d scene) {
-                    scene.enemies.add(new EnemyCar(32,32, Color.BLACK,
-                            (float)(Math.random() * 0.6) + 0.1f, (byte)1, (byte)1,1));
-                    scene.stage.addActor(scene.enemies.peekLast());
+                    scene.enemies.add(new EnemyCar(10, 4, Color.RED));
+                    scene.enemies.add(new EnemyCar(10, 8, Color.RED));
+                    for (int i = 0; i < scene.enemies.size(); i++) scene.stage.addActor(scene.enemies.get(i));
 
                     scene.user.bombs = 20;
                     scene.user.blocks = 10;
@@ -85,14 +84,9 @@ public abstract class Scenario
             new Scenario() {
                 @Override
                 public void OnStart(MazeScreen2d scene) {
-                    scene.enemies.add(new EnemyCar(32,32, Color.BLACK,
-                            (float)(Math.random() * 0.6) + 0.1f, (byte)1, (byte)1,1));
-                    scene.enemies.get(0).position.gridY += 2;
-                    scene.stage.addActor(scene.enemies.peekLast());
-                    scene.enemies.add(new EnemyCar(32,32, Color.BLACK,
-                            (float)(Math.random() * 0.6) + 0.1f, (byte)1, (byte)1,1));
-                    scene.enemies.get(1).position.gridY += 2;
-                    scene.stage.addActor(scene.enemies.peekLast());
+                    scene.enemies.add(new EnemyCar(10, 4, Color.RED));
+                    scene.enemies.add(new EnemyCar(10, 8, Color.RED));
+                    for (int i = 0; i < scene.enemies.size(); i++) scene.stage.addActor(scene.enemies.get(i));
 
                     scene.user.bombs = 10;
                     scene.user.blocks = 10;
@@ -122,14 +116,9 @@ public abstract class Scenario
             new Scenario() {
                 @Override
                 public void OnStart(MazeScreen2d scene) {
-                    scene.enemies.add(new EnemyCar(32,32, Color.BLACK,
-                            (float)(Math.random() * 0.6) + 0.1f, (byte)1, (byte)1,1));
-                    scene.enemies.get(0).position.gridY += 2;
-                    scene.stage.addActor(scene.enemies.peekLast());
-                    scene.enemies.add(new EnemyCar(32,32, Color.BLACK,
-                            (float)(Math.random() * 0.6) + 0.1f, (byte)1, (byte)1,1));
-                    scene.enemies.get(1).position.gridY += 2;
-                    scene.stage.addActor(scene.enemies.peekLast());
+                    scene.enemies.add(new EnemyCar(10, 4, Color.RED));
+                    scene.enemies.add(new EnemyCar(10, 8, Color.RED));
+                    for (int i = 0; i < scene.enemies.size(); i++) scene.stage.addActor(scene.enemies.get(i));
 
                     scene.user.bombs = 10;
                     scene.user.blocks = 10;
@@ -166,18 +155,10 @@ public abstract class Scenario
             new Scenario() {
                 @Override
                 public void OnStart(MazeScreen2d scene) {
-                    scene.enemies.add(new EnemyCar(32,32, Color.BLACK,
-                            (float)(Math.random() * 0.6) + 0.1f, (byte)1, (byte)1,1));
-                    scene.enemies.get(0).position.gridY += 2;
-                    scene.stage.addActor(scene.enemies.peekLast());
-                    scene.enemies.add(new EnemyCar(32,32, Color.BLACK,
-                            (float)(Math.random() * 0.6) + 0.1f, (byte)1, (byte)1,1));
-                    scene.enemies.get(1).position.gridY += 2;
-                    scene.stage.addActor(scene.enemies.peekLast());
-                    scene.enemies.add(new EnemyCar(32,32, Color.BLACK,
-                            (float)(Math.random() * 0.6) + 0.1f, (byte)1, (byte)1,1));
-                    scene.enemies.get(2).position.gridX += 2;
-                    scene.stage.addActor(scene.enemies.peekLast());
+                    scene.enemies.add(new EnemyCar(9, 3, Color.RED));
+                    scene.enemies.add(new EnemyCar(12, 6, Color.RED));
+                    scene.enemies.add(new EnemyCar(9, 9, Color.RED));
+                    for (int i = 0; i < scene.enemies.size(); i++) scene.stage.addActor(scene.enemies.get(i));
 
                     scene.user.bombs = 20;
                     scene.user.blocks = 20;
@@ -213,14 +194,10 @@ public abstract class Scenario
             new Scenario() {
                 @Override
                 public void OnStart(MazeScreen2d scene) {
-                    scene.enemies.add(new EnemyCar(32,32, Color.BLACK,
-                            (float)(Math.random() * 0.6) + 0.1f, (byte)1, (byte)1,1));
-                    scene.enemies.get(0).position.gridY += 2;
-                    scene.stage.addActor(scene.enemies.peekLast());
-                    scene.enemies.add(new EnemyCar(32,32, Color.BLACK,
-                            (float)(Math.random() * 0.6) + 0.1f, (byte)1, (byte)1,1));
-                    scene.enemies.get(1).position.gridY += 2;
-                    scene.stage.addActor(scene.enemies.peekLast());
+                    scene.enemies.add(new EnemyCar(9, 3, Color.RED));
+                    scene.enemies.add(new EnemyCar(12, 6, Color.RED));
+                    scene.enemies.add(new EnemyCar(9, 9, Color.RED));
+                    for (int i = 0; i < scene.enemies.size(); i++) scene.stage.addActor(scene.enemies.get(i));
 
                     scene.user.bombs = 15;
                     scene.user.blocks = 10;
@@ -253,14 +230,10 @@ public abstract class Scenario
             new Scenario() {
                 @Override
                 public void OnStart(MazeScreen2d scene) {
-                    scene.enemies.add(new EnemyCar(32,32, Color.BLACK,
-                            (float)(Math.random() * 0.6) + 0.1f, (byte)1, (byte)1,1));
-                    scene.enemies.get(0).position.gridY += 2;
-                    scene.stage.addActor(scene.enemies.peekLast());
-                    scene.enemies.add(new EnemyCar(32,32, Color.BLACK,
-                            (float)(Math.random() * 0.6) + 0.1f, (byte)1, (byte)1,1));
-                    scene.enemies.get(1).position.gridY += 2;
-                    scene.stage.addActor(scene.enemies.peekLast());
+                    scene.enemies.add(new EnemyCar(9, 3, Color.RED));
+                    scene.enemies.add(new EnemyCar(12, 6, Color.RED));
+                    scene.enemies.add(new EnemyCar(9, 9, Color.RED));
+                    for (int i = 0; i < scene.enemies.size(); i++) scene.stage.addActor(scene.enemies.get(i));
 
                     scene.user.bombs = 10;
                     scene.user.blocks = 5;
@@ -297,18 +270,10 @@ public abstract class Scenario
             new Scenario() {
                 @Override
                 public void OnStart(MazeScreen2d scene) {
-                    scene.enemies.add(new EnemyCar(32,32, Color.BLACK,
-                            (float)(Math.random() * 0.6) + 0.1f, (byte)1, (byte)1,1));
-                    scene.enemies.get(0).position.gridY += 2;
-                    scene.stage.addActor(scene.enemies.peekLast());
-                    scene.enemies.add(new EnemyCar(32,32, Color.BLACK,
-                            (float)(Math.random() * 0.6) + 0.1f, (byte)1, (byte)1,1));
-                    scene.enemies.get(1).position.gridY += 2;
-                    scene.stage.addActor(scene.enemies.peekLast());
-                    scene.enemies.add(new EnemyCar(32,32, Color.BLACK,
-                            (float)(Math.random() * 0.6) + 0.1f, (byte)1, (byte)1,1));
-                    scene.enemies.get(2).position.gridX += 2;
-                    scene.stage.addActor(scene.enemies.peekLast());
+                    scene.enemies.add(new EnemyCar(9, 3, Color.RED));
+                    scene.enemies.add(new EnemyCar(12, 6, Color.RED));
+                    scene.enemies.add(new EnemyCar(9, 9, Color.RED));
+                    for (int i = 0; i < scene.enemies.size(); i++) scene.stage.addActor(scene.enemies.get(i));
 
                     scene.user.bombs = 10;
                     scene.user.blocks = 10;
@@ -341,14 +306,9 @@ public abstract class Scenario
         new Scenario() {
         @Override
         public void OnStart(MazeScreen2d scene) {
-            //Add 2 enemy cars to the scene
-            scene.enemies = new LinkedList<>();
-            for (int i = 1; i < 2; ++i)
-            {
-                scene.enemies.add(new EnemyCar(32,32, Color.BLACK,
-                    (float)(Math.random() * 0.6) + 0.1f, (byte)1, (byte)1,1));
-                    scene.stage.addActor(scene.enemies.peekLast());
-            }
+            scene.enemies.add(new EnemyCar(10, 4, Color.RED));
+            scene.enemies.add(new EnemyCar(10, 8, Color.RED));
+            for (int i = 0; i < scene.enemies.size(); i++) scene.stage.addActor(scene.enemies.get(i));
 
             scene.user.timer = 300 * 60;
         }

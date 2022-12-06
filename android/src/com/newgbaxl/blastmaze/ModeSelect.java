@@ -1,10 +1,7 @@
 package com.newgbaxl.blastmaze;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
-import android.media.AudioAttributes;
 import android.media.MediaPlayer;
-import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -12,7 +9,6 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
 import android.preference.PreferenceManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;

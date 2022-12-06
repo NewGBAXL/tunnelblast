@@ -16,8 +16,8 @@ public class Car extends CarActorAbs
     public int bombs = 50;
     public int blocks = 50;
     private Color skin;
-    byte baseSpd; //planned feature (oil slick)
-    byte pwrRate; //pwr regeneration rate
+    //byte baseSpd; //planned feature (oil slick)
+    //byte pwrRate; //pwr regeneration rate
     byte spd;
     public int power;
     public float timer;
@@ -30,15 +30,16 @@ public class Car extends CarActorAbs
     }
     PlayerMoveState moveState;
 
-    public Car(int width, int height, Color nSkin, float delay, byte nBaseSpd, byte nPwrRate)
+    public Car(int x, int y, Color nSkin)
     {
-        super(width, height, nSkin, delay);
+        super(nSkin);
+        color = nSkin;
         power = 10;
         timer = 10;
         skin = nSkin;
-        //position = new Coordinates(x, y);
-        baseSpd = nBaseSpd;
-        pwrRate = nPwrRate;
+        position = new Coordinates(x * Const.TILE_SIZE, y * Const.TILE_SIZE);
+        position.gridX = x;
+        position.gridY = y;
         bombs = 10;
         //sprite = new Texture("car");
         //color = ?? //is color separate from skin?
