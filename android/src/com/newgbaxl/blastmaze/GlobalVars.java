@@ -7,6 +7,7 @@ public class GlobalVars {
     public static int bombs = 15;
     public static int walls = 15;
     public static int enemies = 1;
+    public static int mode = 0;
     public static boolean[] unlockedCars; //unnecessary?
     public static int equippedCar = 0; //unnecessary?
     public static int equippedWeapon = 0; //unnecessary?
