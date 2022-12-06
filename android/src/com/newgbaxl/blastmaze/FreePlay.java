@@ -1,5 +1,6 @@
 package com.newgbaxl.blastmaze;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -150,7 +151,13 @@ public class FreePlay extends Fragment {
         GlobalVars.bombs=editPref(bombs,GlobalVars.bombs,0,99);
         GlobalVars.enemies=editPref(enemies,GlobalVars.enemies,0,10);
         GlobalVars.walls=editPref(walls,GlobalVars.walls,0,99);
-        NavHostFragment.findNavController(FreePlay.this).navigate(R.id.action_freePlay_to_modeSelect);
+
+        //every time these vars are updated with UI change file variables
+        Intent i3 = new Intent(getActivity(), AndroidLauncher.class);
+        //i3.putExtra("Timer", varfirst);
+        //i3.putExtra("Bombs", variable2);
+        //..
+        startActivity(i3);
     }
 
     public void onClickEvade(View view) {
