@@ -53,6 +53,9 @@ public class MazeScreen2d implements Screen {
 	public static int coinsCollected = 0;
 	public static int coinsRemaining = 0;
 
+	Color carskinarray[] = {Color.GREEN, Color.ORANGE, Color.RED, Color.SCARLET,
+			Color.GOLD, Color.SKY, Color.BLACK, Color.LIGHT_GRAY, Color.PURPLE};
+
 	private SpriteBatch batch;
 	private SpriteBatch UISpritebatch;
 
@@ -136,7 +139,9 @@ public class MazeScreen2d implements Screen {
 		SetupScreen();
 
 		//todo: apply car skin and special to the user car
-		user = new UserCar(Color.GREEN);
+
+		user = new UserCar(carskinarray[carSkin]);
+
 		if (vsMode)
 			player2 = new OnlineCar(Const.SPAWN_CELL_X, Const.SPAWN_CELL_Y, Color.BLUE);
 		
