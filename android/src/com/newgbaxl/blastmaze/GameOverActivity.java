@@ -27,7 +27,7 @@ public class GameOverActivity extends AppCompatActivity {
         }
         if (MazeScreen2d.result == 0) ((TextView)findViewById(R.id.gameOverText)).setText("You Died");
 
-        ((TextView)findViewById(R.id.moneyView)).setText("You received " + money); //and add money sprite
+        ((TextView)findViewById(R.id.moneyView)).setText("You received " + money + " coins"); //and add money sprite
         GlobalVars.globalMoney += money;
 
         if (MazeScreen2d.currentLvlID < 20 && MazeScreen2d.currentLvlID >= 0)
