@@ -101,13 +101,6 @@ public class Settings extends Fragment {
             }
         });
 
-        ActivityMainBinding.inflate(getLayoutInflater()).fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //NavHostFragment.findNavController(Settings.this).navigate(R.id.action_settings_to_help);
-            }
-        });
-
         binding.setting1Left.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
