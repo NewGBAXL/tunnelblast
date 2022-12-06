@@ -157,7 +157,8 @@ public class FreePlay extends Fragment {
         i3.putExtra("Timer", GlobalVars.timer);
         i3.putExtra("Bombs", GlobalVars.timer);
         i3.putExtra("Walls", GlobalVars.walls);
-        i3.putExtra("Enemies",GlobalVars.enemies);
+        i3.putExtra("Enemies", GlobalVars.enemies);
+        i3.putExtra("Mode",GlobalVars.mode);
         startActivity(i3);
     }
 
