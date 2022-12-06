@@ -157,6 +157,19 @@ public class MazeScreen2d implements Screen {
 		PlaceCoins();
 	}
 
+	public MazeScreen2d(int carSkin, int special, Scenario scenario, boolean vsMode)
+	{
+		super();
+		SetupScreen();
+
+		if (scenario != null)
+		{
+			currentScenario = scenario;
+		}
+		if (currentScenario != null) currentScenario.OnStart(this);
+		PlaceCoins();
+	}
+
 	private void SetupScreen()
 	{
 		result = -1;
