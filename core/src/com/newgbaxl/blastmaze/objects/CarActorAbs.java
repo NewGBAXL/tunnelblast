@@ -26,10 +26,10 @@ public class CarActorAbs extends Actor
     //public Drawable sprite;
     public Texture sprite;
 
-    public CarActorAbs(int width, int height, Color color, float delay) {
+    public CarActorAbs(Color color) {
         super();
-        this.setWidth(width);
-        this.setHeight(height);
+        this.setWidth(32);
+        this.setHeight(32);
         this.setVisible(true);
         this.setPosition(0, 0);
         this.color = color;
@@ -51,7 +51,7 @@ public class CarActorAbs extends Actor
         renderer.translate(position.X, position.Y, 0);
 
         renderer.begin(ShapeType.Filled);
-        renderer.setColor(Color.BLACK);
+        renderer.setColor(color);
         renderer.ellipse(0, 0, getWidth(), getHeight());
         renderer.end();
 

@@ -2,6 +2,7 @@ package com.newgbaxl.blastmaze.objects;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.newgbaxl.blastmaze.Const;
 import com.newgbaxl.blastmaze.Coordinates;
@@ -25,12 +26,8 @@ public class EnemyCar extends Car {
     static Random rand = new Random();
 
     //public boolean moving = false;
-    public EnemyCar(int width, int height, Color nSkin, float delay, byte nBaseSpd, byte nPwrRate, int nMoveSpd) {
-        super(width, height, nSkin, delay, nBaseSpd, nPwrRate);
-        nSkin = Color.GREEN;
-        position = new Coordinates(10 * Const.TILE_SIZE, 6 * Const.TILE_SIZE);
-        position.gridX = 10;
-        position.gridY = 6;
+    public EnemyCar(int x, int y, Color nSkin) {
+        super(x, y, nSkin);
     }
 
     public void act(float delta) {
@@ -46,8 +43,13 @@ public class EnemyCar extends Car {
             Gdx.app.log("tag", "Move NPC");
         }
 
-        if (position.gridX == MazeUtil.getPlayerPosition().gridX && position.gridY == MazeUtil.getPlayerPosition().gridY)
-            game.quitGame();
+        if (position.gridX == MazeUtil.getPlayerPosition().gridX && position.gridY == MazeUtil.getPlayerPosition().gridY) {
+            if (game.huntEnemyMode) {
+                game.enemies.remove(this);
+                game.stage.getActors().removeValue(this, true);
+            }
+            else game.quitGame();
+        }
     }
 
     public byte calculateAction(){

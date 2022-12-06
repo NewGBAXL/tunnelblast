@@ -22,16 +22,19 @@ import com.newgbaxl.blastmaze.MazeUtil;
 public class TouchController {
     Viewport viewport;
     Stage stage;
-    boolean upPressed = false;
-    boolean downPressed = false;
-    boolean leftPressed = false;
-    boolean rightPressed = false;
 
-    boolean bombPressed = false;
-    boolean buildUpPressed = false;
-    boolean buildDownPressed = false;
-    boolean buildLeftPressed = false;
-    boolean buildRightPressed = false;
+    final int inputBuffer = 3;
+
+    int upPressed = 0;
+    int downPressed = 0;
+    int leftPressed = 0;
+    int rightPressed = 0;
+
+    int bombPressed = 0;
+    int buildUpPressed = 0;
+    int buildDownPressed = 0;
+    int buildLeftPressed = 0;
+    int buildRightPressed = 0;
 
     OrthographicCamera cam;
 
@@ -86,7 +89,10 @@ public class TouchController {
         Table table = new Table();
         table.left().bottom();
         Table table2 = new Table();
-        table2.right().bottom();
+        table2.bottom().right();
+        table2.setPosition(1300, 0);
+        table.setColor(1, 1, 1, 0.5f);
+        table2.setColor(1, 1, 1, 0.5f);
 
 
         Image upImg = new Image(new Texture("TouchUp.png"));
@@ -95,14 +101,14 @@ public class TouchController {
 
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                upPressed = true;
+                upPressed = inputBuffer;
                 return true;
             }
 
-            @Override
-            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                upPressed = false;
-            }
+            //@Override
+            //public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+            //    upPressed = false;
+            //}
         });
 
         Image downImg = new Image(new Texture("TouchDown.png"));
@@ -111,14 +117,14 @@ public class TouchController {
 
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                downPressed = true;
+                downPressed = inputBuffer;
                 return true;
             }
 
-            @Override
-            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                downPressed = false;
-            }
+            //@Override
+            //public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+            //    downPressed = false;
+            //}
         });
 
         Image rightImg = new Image(new Texture("TouchRight.png"));
@@ -127,14 +133,14 @@ public class TouchController {
 
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                rightPressed = true;
+                rightPressed = inputBuffer;
                 return true;
             }
 
-            @Override
-            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                rightPressed = false;
-            }
+            //@Override
+            //public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+            //    rightPressed = false;
+            //}
         });
 
         Image leftImg = new Image(new Texture("TouchLeft.png"));
@@ -143,14 +149,14 @@ public class TouchController {
 
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                leftPressed = true;
+                leftPressed = inputBuffer;
                 return true;
             }
 
-            @Override
-            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                leftPressed = false;
-            }
+            //@Override
+            //public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+            //    leftPressed = false;
+            //}
         });
 
         Image leftBuildImg = new Image(new Texture("TouchLeft.png"));
@@ -159,14 +165,14 @@ public class TouchController {
 
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                buildLeftPressed = true;
+                buildLeftPressed = inputBuffer;
                 return true;
             }
 
-            @Override
-            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                buildLeftPressed = false;
-            }
+            //@Override
+            //public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+            //    buildLeftPressed = false;
+            //}
         });
 
         Image rightBuildImg = new Image(new Texture("TouchLeft.png"));
@@ -175,14 +181,14 @@ public class TouchController {
 
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                buildRightPressed = true;
+                buildRightPressed = inputBuffer;
                 return true;
             }
 
-            @Override
-            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                buildRightPressed = false;
-            }
+            //@Override
+            //public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+            //    buildRightPressed = false;
+            //}
         });
 
         Image upBuildImg = new Image(new Texture("TouchLeft.png"));
@@ -191,14 +197,14 @@ public class TouchController {
 
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                buildUpPressed = true;
+                buildUpPressed = inputBuffer;
                 return true;
             }
 
-            @Override
-            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                buildUpPressed = false;
-            }
+            //@Override
+            //public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+            //    buildUpPressed = false;
+            //}
         });
 
         Image downBuildImg = new Image(new Texture("TouchLeft.png"));
@@ -207,14 +213,14 @@ public class TouchController {
 
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                buildDownPressed = true;
+                buildDownPressed = inputBuffer;
                 return true;
             }
 
-            @Override
-            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                buildDownPressed = false;
-            }
+            //@Override
+            //public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+            //    buildDownPressed = false;
+            //}
         });
 
         Image bombImg = new Image(new Texture("TouchLeft.png"));
@@ -223,14 +229,14 @@ public class TouchController {
 
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                bombPressed = true;
+                    bombPressed = inputBuffer;
                 return true;
             }
 
-            @Override
-            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                bombPressed = false;
-            }
+            //@Override
+            //public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+            //    bombPressed = false;
+            //}
         });
 
         table.add();
@@ -267,43 +273,69 @@ public class TouchController {
     }
 
     public boolean isUpPressed() {
-        return upPressed;
+        return upPressed > 0;
     }
 
     public boolean isDownPressed() {
-        return downPressed;
+        return downPressed > 0;
     }
 
     public boolean isLeftPressed() {
-        return leftPressed;
+        return leftPressed > 0;
     }
 
     public boolean isRightPressed() {
-        return rightPressed;
+        return rightPressed > 0;
     }
 
     public boolean isBuildUpPressed() {
-        return buildUpPressed;
+        return buildUpPressed > 0;
     }
 
     public boolean isBuildDownPressed() {
-        return buildDownPressed;
+        return buildDownPressed > 0;
     }
 
     public boolean isBuildLeftPressed() {
-        return buildLeftPressed;
+        return buildLeftPressed > 0;
     }
 
     public boolean isBuildRightPressed() {
-        return buildRightPressed;
+        return buildRightPressed > 0;
     }
 
     public boolean isBombPressed() {
-        return bombPressed;
+        return bombPressed > 0;
     }
 
     public void resize(int width, int height){
         viewport.update(width, height);
+    }
+
+    public void Update()
+    {
+        if (upPressed > 0) upPressed--;
+        if (downPressed > 0) downPressed--;
+        if (leftPressed > 0) leftPressed--;
+        if (rightPressed > 0) rightPressed--;
+        if (bombPressed > 0) bombPressed--;
+        if (buildUpPressed > 0) buildUpPressed--;
+        if (buildDownPressed > 0) buildDownPressed--;
+        if (buildLeftPressed > 0) buildLeftPressed--;
+        if (buildRightPressed > 0) buildRightPressed--;
+    }
+
+    public void ClearBuffers()
+    {
+        if (upPressed > 0) upPressed = 0;
+        if (downPressed > 0) downPressed = 0;
+        if (leftPressed > 0) leftPressed = 0;
+        if (rightPressed > 0) rightPressed = 0;
+        if (bombPressed > 0) bombPressed = 0;
+        if (buildUpPressed > 0) buildUpPressed = 0;
+        if (buildDownPressed > 0) buildDownPressed = 0;
+        if (buildLeftPressed > 0) buildLeftPressed = 0;
+        if (buildRightPressed > 0) buildRightPressed = 0;
     }
 }
 
