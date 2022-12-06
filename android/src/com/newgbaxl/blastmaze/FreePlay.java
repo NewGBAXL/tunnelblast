@@ -154,9 +154,10 @@ public class FreePlay extends Fragment {
 
         //every time these vars are updated with UI change file variables
         Intent i3 = new Intent(getActivity(), AndroidLauncher.class);
-        //i3.putExtra("Timer", varfirst);
-        //i3.putExtra("Bombs", variable2);
-        //..
+        i3.putExtra("Timer", GlobalVars.timer);
+        i3.putExtra("Bombs", GlobalVars.timer);
+        i3.putExtra("Walls", GlobalVars.walls);
+        i3.putExtra("Enemies",GlobalVars.enemies);
         startActivity(i3);
     }
 
