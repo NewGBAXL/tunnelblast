@@ -98,9 +98,13 @@
         android:id="@+id/imageView9"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="57dp"
+        android:layout_marginTop="26dp"
+        android:layout_marginEnd="57dp"
         android:src="@drawable/play"
-        tools:layout_editor_absoluteX="56dp"
-        tools:layout_editor_absoluteY="629dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/b3_right" />
 
     <LinearLayout
         android:id="@+id/linearLayout"
