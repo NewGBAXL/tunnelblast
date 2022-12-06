@@ -11,7 +11,9 @@ import android.widget.Button;
 
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
+import com.badlogic.gdx.graphics.Color;
 import com.newgbaxl.blastmaze.MazeGame;
+import com.newgbaxl.blastmaze.objects.EnemyCar;
 
 public class AndroidLauncher extends AndroidApplication
 {
@@ -38,7 +40,17 @@ public class AndroidLauncher extends AndroidApplication
 			initialize(new MazeGame(carSkin, special, new Scenario() {
 				@Override
 				public void OnStart(MazeScreen2d scene) {
+					for (int i = 0; i < enemies; i++)
+					{
+						int y = 5 + enemies / 2 + i;
+						int x = 10 + enemies / 4 + Math.abs(5 - i);
+						scene.enemies.add(new EnemyCar(x, y, Color.RED));
+					}
+					for (int i = 0; i < scene.enemies.size(); i++) scene.stage.addActor(scene.enemies.get(i));
 
+					scene.user.bombs = bombs;
+					scene.user.blocks = walls;
+					scene.user.timer = timer * 60;
 				}
 
 				@Override
